@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Discord-Join-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord">
   </a>
   <a href="https://github.com/not2pixel/DuoHacker/releases">
-    <img src="https://img.shields.io/badge/Version-2026.07.09-green?style=for-the-badge" alt="Latest Version">
+    <img src="https://img.shields.io/badge/Version-2026.07.27-green?style=for-the-badge" alt="Latest Version">
   </a>
   <a href="https://www.duolingo.com">
     <img src="https://img.shields.io/badge/Platform-Duolingo%20Web-blue?style=for-the-badge&logo=duolingo" alt="Duolingo Web">
@@ -37,7 +37,7 @@
 
 | | |
 |---|---|
-| **Latest Version** | 2026.07.09 *(Working as of Augest 2026)* |
+| **Latest Version** | 2026.07.27 *(Working as of Augest 2026)* |
 | **Platform** | Duolingo Web |
 | **Requires** | Tampermonkey |
 | **Community** | [Discord](https://discord.gg/VjxjT47UFv) — support, news, and announcements |
