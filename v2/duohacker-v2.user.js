@@ -52,7 +52,7 @@
 // @name:ur             Duolingo DuoHacker
 
 // @namespace           https://github.com/DuoHacker/DuoHacker
-// @version             2026.07.09
+// @version             2026.07.27
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 // @description:vi      Công cụ hack Duolingo #1 - Farm XP, Gems, Streaks và mở khóa Duolingo Max miễn phí.
 // @description:zh-CN   最强 Duolingo 辅助工具 - 自动刷 XP、宝石、连胜，免费解锁 Duolingo Max。
@@ -86,7 +86,7 @@
 // @description:he      ההאק הטוב ביותר ל-Duolingo - צבור XP, אבנים יקרות, רצפים ופתח את Duolingo Max בחינם.
 // @description:ms      Hack Duolingo terbaik - Farm XP, Permata, Streak dan buka kunci Duolingo Max secara percuma.
 // @description:fil     Ang pinakamahusay na Duolingo hack - Mag-farm ng XP, Gems, Streaks at i-unlock ang Duolingo Max nang libre.
-// @description:el      Το καλύτερο hack ���ια το Duolingo - Κάντε farm XP, Πετράδια, Σειρές και ξεκλειδώστε το Duolingo Max δωρεάν.
+// @description:el      Το καλύτερο hack για το Duolingo - Κάντε farm XP, Πετράδια, Σειρές και ξεκλειδώστε το Duolingo Max δωρεάν.
 // @description:hr      Najbolji Duolingo hack - Farmajte XP, Dragulje, Nizove i otključajte Duolingo Max besplatno.
 // @description:sk      Najlepší hack na Duolingo - Farmujte XP, Drahokamy, Série a odomknite Duolingo Max zadarmo.
 // @description:bg      Най-добрият хак за Duolingo - Фармете XP, Скъпоценни камъни, Серии и отключете Duolingo Max безплатно.
@@ -116,6 +116,7 @@
 // @grant               GM_xmlhttpRequest
 // @grant               GM_addStyle
 // @connect             duolingo.com
+// @connect             ssr-avatars.duolingo.com
 // @connect             stories.duolingo.com
 // @connect             goals-api.duolingo.com
 // @connect             duolingo-leaderboards-prod.duolingo.com
@@ -137,7 +138,7 @@
 // @copyright           2026, DuoHacker (https://github.com/DuoHacker)
 // @license             BY-NC-ND 4.0
 // @downloadURL https://update.greasyfork.org/scripts/561041/Duolingo%20DuoHacker.user.js
-// @updateURL   https://update.greasyfork.org/scripts/561041/Duolingo%20DuoHacker.meta.js
+// @updateURL https://update.greasyfork.org/scripts/561041/Duolingo%20DuoHacker.meta.js
 // ==/UserScript==
 
 (function() {
@@ -159,7 +160,7 @@
             // ── Top bar ──
             hide: 'Hide',
             show: 'Show',
-            switch_v1: 'Switch to V1',
+            switch_v1: 'Switch to Solver',
             switch_v2: 'Switch to V2',
 
             // ── Connection status ──
@@ -177,7 +178,7 @@
 
             // ── Page 2 (extra features) ──
             back: 'Back',
-            farm_practice: 'Farm Practice',
+            farm_practice: 'How many practice lesson you would like to solve?',
             farm_practice_sub: '0 = unlimited practice sessions',
             shop_items: 'Shop Items',
             auto_league: 'Auto League #1',
@@ -272,6 +273,98 @@
             lb_demoted: '⬇ Demoted',
             lb_safe: '🟡 Safe',
             lb_ended: 'Contest ended',
+
+            // ── Leaderboard separators ──
+            lb_rank_up: 'Rank Up',
+            lb_rank_down: 'Rank Down',
+
+            // ── Monthly quest status ──
+            mq_completed: 'COMPLETED',
+
+            // ── Changelog badge ──
+            changelog_current: 'CURRENT',
+
+            // ── Account manager labels ──
+            acc_active: 'Active',
+            acc_login_btn: 'LOG IN',
+
+            // ── Connection error subtexts ──
+            conn_not_logged_in: 'Not logged in',
+            conn_invalid_token: 'Invalid token',
+            conn_failed_retry: 'Failed — retrying',
+
+            // ── Streak live counter suffixes ──
+            streak_day: 'day',
+            streak_days: 'days',
+
+            // ── Notification titles ──
+            notif_xp_done_title: 'XP Farm Done!',
+            notif_xp_stopped_title: 'XP Farm Stopped',
+            notif_gem_done_title: 'Gem Farm Done!',
+            notif_gem_farm_title: 'Gem Farm',
+            notif_streak_done_title: 'Streak Farm Done!',
+            notif_streak_farm_title: 'Streak Farm',
+            notif_streak_stopped_title: 'Streak Farm Stopped',
+            notif_practice_done_title: 'Farm Practice Done!',
+            notif_practice_title: 'Farm Practice',
+            notif_daily_done_title: 'Daily Quests Done!',
+            notif_all_done_title: 'All Done!',
+            notif_mq_title: 'Monthly Quests',
+            notif_mq_partial_title: 'Partial',
+            notif_super_title: 'Super Activated!',
+            notif_shop_title: 'Shop',
+            notif_error_title: 'Error',
+            notif_failed_title: 'Failed',
+            notif_stopped_title: 'Stopped',
+            notif_busy_title: 'Busy',
+            notif_not_connected_title: 'Not connected',
+            notif_not_loaded_title: 'Not loaded',
+            notif_nothing_to_do_title: 'Nothing to do',
+            notif_v1xp_title: 'V1 XP',
+            notif_acc_saved_title: 'Account Saved',
+            notif_acc_removed_title: 'Removed',
+            notif_acc_already_title: 'Already saved',
+            notif_acc_not_found_title: 'Not found',
+
+            // ── Notification bodies ──
+            notif_xp_done_body: (xp, loops) => `Farmed ${xp} XP in ${loops} loops.`,
+            notif_xp_done_inf_body: (xp) => `+${xp} XP gained.`,
+            notif_xp_stopped_body: (xp) => `+${xp} XP gained.`,
+            notif_gem_done_body: (gems) => `+${gems} gems gained.`,
+            notif_gem_no_rewards: 'No rewards available. Retrying…',
+            notif_streak_done_body: (days) => `Restored ${days} streak days.`,
+            notif_streak_no_days: 'No days could be saved. Please try again.',
+            notif_streak_done_inf_body: (days, unit) => `+${days} ${unit} gained.`,
+            notif_streak_stopped_body: (days) => `Processed ${days} days.`,
+            notif_practice_done_body: (n) => `Completed ${n} practice(s).`,
+            notif_practice_next_body: (n, total) => `Done ${n}${total > 0 ? ' / ' + total : ''} — loading next...`,
+            notif_practice_nav: 'Navigating to practice...',
+            notif_practice_busy: 'Practice farm already running.',
+            notif_daily_done_body: (n) => `Completed ${n} metric(s).`,
+            notif_all_done_body: 'All daily quests completed.',
+            notif_daily_error: 'Could not load quest data.',
+            notif_daily_fail: 'Quest completion failed.',
+            notif_mq_all_body: (n) => `All ${n} quest(s) claimed!`,
+            notif_mq_partial_body: (ok, total) => `${ok}/${total} quests claimed.`,
+            notif_mq_fail: 'No quests could be claimed.',
+            notif_mq_not_loaded: 'Open Monthly Quests first.',
+            notif_mq_nothing: 'No unclaimed quests found.',
+            notif_super_body: 'Free Super Duolingo activated!',
+            notif_super_fail: 'Activation failed. You may already have Super.',
+            notif_shop_got: (name) => `Got ${name}!`,
+            notif_shop_fail: 'Failed to get item.',
+            notif_v1xp_errors: 'Too many errors, stopping.',
+            notif_v1xp_done_body: (xp) => `Farmed ${xp} XP.`,
+            notif_v1gem_done_body: (gems) => `+${gems} gems gained.`,
+            notif_v1streak_done_body: (days) => `Farmed ${days} streak days.`,
+            notif_stopped_body: 'Farm stopped.',
+            notif_busy_v1: 'Stop current V1 farm first.',
+            notif_not_connected_body: 'Please wait.',
+            notif_not_connected_conn: 'Please wait for connection.',
+            notif_acc_saved_body: (name) => `Saved account: ${name}`,
+            notif_acc_removed_body: 'Account removed from list.',
+            notif_acc_already_body: 'This account is already in the list.',
+            notif_acc_not_found_body: 'Account not found.',
         },
         vi: {
             // ── Language selector ──
@@ -282,7 +375,7 @@
             // ── Top bar ──
             hide: 'Ẩn',
             show: 'Hiện',
-            switch_v1: 'Đổi thành V1',
+            switch_v1: 'Đổi thành Solver',
             switch_v2: 'Đổi thành V2',
 
             // ── Connection status ──
@@ -300,7 +393,7 @@
 
             // ── Page 2 (extra features) ──
             back: 'Quay lại',
-            farm_practice: 'Cày bài ôn tập',
+            farm_practice: 'Số bài Practice bạn muốn giải?',
             farm_practice_sub: '0 = vô hạn luồng cày',
             shop_items: 'Shop vật phẩm',
             auto_league: 'Tự động cày bảng xếp hạng',
@@ -395,14 +488,109 @@
             lb_demoted: '⬇ Xuống hạng',
             lb_safe: '🟡 An toàn',
             lb_ended: 'Giải đấu đã kết thúc',
+
+            // ── Leaderboard separators ──
+            lb_rank_up: 'Thăng hạng',
+            lb_rank_down: 'Xuống hạng',
+
+            // ── Monthly quest status ──
+            mq_completed: 'HOÀN THÀNH',
+
+            // ── Changelog badge ──
+            changelog_current: 'HIỆN TẠI',
+
+            // ── Account manager labels ──
+            acc_active: 'Đang dùng',
+            acc_login_btn: 'ĐĂNG NHẬP',
+
+            // ── Connection error subtexts ──
+            conn_not_logged_in: 'Chưa đăng nhập',
+            conn_invalid_token: 'Token không hợp lệ',
+            conn_failed_retry: 'Lỗi — đang thử lại',
+
+            // ── Streak live counter suffixes ──
+            streak_day: 'ngày',
+            streak_days: 'ngày',
+
+            // ── Notification titles ──
+            notif_xp_done_title: 'Farm XP xong!',
+            notif_xp_stopped_title: 'Đã dừng farm XP',
+            notif_gem_done_title: 'Farm Gem xong!',
+            notif_gem_farm_title: 'Farm Gem',
+            notif_streak_done_title: 'Farm Streak xong!',
+            notif_streak_farm_title: 'Farm Streak',
+            notif_streak_stopped_title: 'Đã dừng farm Streak',
+            notif_practice_done_title: 'Farm Practice xong!',
+            notif_practice_title: 'Farm Practice',
+            notif_daily_done_title: 'Nhiệm vụ ngày xong!',
+            notif_all_done_title: 'Xong hết!',
+            notif_mq_title: 'Nhiệm vụ tháng',
+            notif_mq_partial_title: 'Một phần',
+            notif_super_title: 'Kích hoạt Super!',
+            notif_shop_title: 'Shop',
+            notif_error_title: 'Lỗi',
+            notif_failed_title: 'Thất bại',
+            notif_stopped_title: 'Đã dừng',
+            notif_busy_title: 'Đang bận',
+            notif_not_connected_title: 'Chưa kết nối',
+            notif_not_loaded_title: 'Chưa tải',
+            notif_nothing_to_do_title: 'Không có gì',
+            notif_v1xp_title: 'V1 XP',
+            notif_acc_saved_title: 'Đã lưu tài khoản',
+            notif_acc_removed_title: 'Đã xóa',
+            notif_acc_already_title: 'Đã có rồi',
+            notif_acc_not_found_title: 'Không tìm thấy',
+
+            // ── Notification bodies ──
+            notif_xp_done_body: (xp, loops) => `Đã farm ${xp} XP trong ${loops} vòng.`,
+            notif_xp_done_inf_body: (xp) => `+${xp} XP đã nhận.`,
+            notif_xp_stopped_body: (xp) => `+${xp} XP đã nhận.`,
+            notif_gem_done_body: (gems) => `+${gems} gem đã nhận.`,
+            notif_gem_no_rewards: 'Không có phần thưởng. Đang thử lại…',
+            notif_streak_done_body: (days) => `Đã khôi phục ${days} ngày streak.`,
+            notif_streak_no_days: 'Không thể lưu ngày nào. Vui lòng thử lại.',
+            notif_streak_done_inf_body: (days, unit) => `+${days} ${unit} đã nhận.`,
+            notif_streak_stopped_body: (days) => `Đã xử lý ${days} ngày.`,
+            notif_practice_done_body: (n) => `Đã hoàn thành ${n} bài practice.`,
+            notif_practice_next_body: (n, total) => `Xong ${n}${total > 0 ? ' / ' + total : ''} — đang tải tiếp...`,
+            notif_practice_nav: 'Đang điều hướng đến practice...',
+            notif_practice_busy: 'Farm practice đang chạy rồi.',
+            notif_daily_done_body: (n) => `Đã hoàn thành ${n} chỉ tiêu.`,
+            notif_all_done_body: 'Đã hoàn thành tất cả nhiệm vụ ngày.',
+            notif_daily_error: 'Không thể tải dữ liệu nhiệm vụ.',
+            notif_daily_fail: 'Hoàn thành nhiệm vụ thất bại.',
+            notif_mq_all_body: (n) => `Đã nhận ${n} nhiệm vụ!`,
+            notif_mq_partial_body: (ok, total) => `${ok}/${total} nhiệm vụ đã nhận.`,
+            notif_mq_fail: 'Không thể nhận nhiệm vụ nào.',
+            notif_mq_not_loaded: 'Mở trang Nhiệm vụ tháng trước.',
+            notif_mq_nothing: 'Không có nhiệm vụ nào chưa nhận.',
+            notif_super_body: 'Đã kích hoạt Super Duolingo miễn phí!',
+            notif_super_fail: 'Kích hoạt thất bại. Có thể bạn đã có Super rồi.',
+            notif_shop_got: (name) => `Đã nhận ${name}!`,
+            notif_shop_fail: 'Không lấy được vật phẩm.',
+            notif_v1xp_errors: 'Quá nhiều lỗi, đang dừng.',
+            notif_v1xp_done_body: (xp) => `Đã farm ${xp} XP.`,
+            notif_v1gem_done_body: (gems) => `+${gems} gem đã nhận.`,
+            notif_v1streak_done_body: (days) => `Đã farm ${days} ngày streak.`,
+            notif_stopped_body: 'Đã dừng farm.',
+            notif_busy_v1: 'Dừng farm V1 hiện tại trước.',
+            notif_not_connected_body: 'Vui lòng chờ.',
+            notif_not_connected_conn: 'Vui lòng chờ kết nối.',
+            notif_acc_saved_body: (name) => `Đã lưu tài khoản: ${name}`,
+            notif_acc_removed_body: 'Đã xóa tài khoản khỏi danh sách.',
+            notif_acc_already_body: 'Tài khoản này đã được lưu rồi.',
+            notif_acc_not_found_body: 'Không tìm thấy tài khoản.',
         }
     };
 
-    function _t(key) {
+    function _t(key, ...args) {
         const d = _LANGS[_lang] || _LANGS.en;
         const v = d[key];
+        const en = _LANGS.en[key];
         // fallback to EN if VI value empty
-        return (v !== undefined && v !== '') ? v : (_LANGS.en[key] || key);
+        const val = (v !== undefined && v !== '') ? v : (en !== undefined ? en : key);
+        // Support function values for parameterised strings
+        return typeof val === 'function' ? val(...args) : val;
     }
 
     function _setLang(l) {
@@ -415,7 +603,7 @@
     function _applyLang() {
         // Static text nodes mapped by element id → translation key
         const _ID_MAP = {
-            'DH_Hide_Txt': () => document.getElementById('DH_Ico_Hidden')?.style.display === 'none' ? 'hide' : 'show',
+            'DH_Hide_Txt': () => document.getElementById('DH_Hide_Ico')?.textContent === '􀋮' ? 'show' : 'hide',
             'DH_Conn_Txt': () => _currentConnState === 'connected' && _isOutdated ? 'outdated' : (_currentConnState || 'connecting'),
             // Page 1
             'DH_Donate_Btn_Lbl': 'donate',
@@ -425,7 +613,7 @@
             'DH_ExtraFeatures_Lbl': 'extra_features',
             // Page 2
             'DH_Back_Txt': 'back',
-            'DH_Practice_Title': 'farm_practice',
+            'DH_Practice_Question': 'farm_practice',
             'DH_Practice_Sub': 'farm_practice_sub',
             'DH_Shop_Lbl': 'shop_items',
             'DH_League_Title': 'auto_league',
@@ -468,7 +656,7 @@
             'DH_V1_XP_Title': 'xp_farming',
             'DH_V1_Gem_Title': 'farm_gems',
             'DH_V1_Streak_Title': 'streak_farming',
-            'DH_V1_Settings_Lbl': 'settings',
+            'DH_V1_Settings_Lbl': 'extra_features',
             'DH_V1_Settings_Back_Txt': 'back',
             // Switch buttons
             'DH_SwitchV1_Lbl': 'switch_v1',
@@ -497,6 +685,7 @@
             // Page 11 (leaderboard)
             'DH_LB_Back_Txt': 'back',
             // Page 12 (reaction picker)
+            'DH_React_Back_Txt': 'back',
             'DH_React_Title': 'choose_reaction',
             'DH_LB_Title': 'leaderboard',
             'DH_React_Title': 'choose_reaction',
@@ -1007,6 +1196,23 @@
 .DH_Input_Btn:hover  { filter:brightness(0.88); transform:scale(1.04); }
 .DH_Input_Btn:active { filter:brightness(0.82); transform:scale(0.96); }
 .DH_Input_Btn:disabled { opacity:0.38; pointer-events:none; }
+.DH_Mode_Btn {
+    display:flex; height:48px; width:48px; padding:0; box-sizing:border-box;
+    justify-content:center; align-items:center; flex-shrink:0;
+    border-radius:8px; border:none; cursor:pointer;
+    user-select:none; -webkit-user-select:none;
+    outline:2px solid rgba(0,0,0,0.20); outline-offset:-2px;
+    background:rgb(var(--DH-blue));
+    transition:filter 0.4s cubic-bezier(0.16,1,0.32,1),transform 0.4s cubic-bezier(0.16,1,0.32,1);
+}
+.DH_Mode_Btn:hover  { filter:brightness(0.88); transform:scale(1.04); }
+.DH_Mode_Btn:active { filter:brightness(0.82); transform:scale(0.96); }
+.DH_Mode_Icon {
+    display:flex; align-items:center; justify-content:center;
+    color:#FFF;
+    font-size:18px; font-weight:700; line-height:normal;
+    transition:opacity 0.3s, transform 0.3s;
+}
 .DH_Btn_Label {
     font-size:15px; font-weight:800; letter-spacing:0.2px;
     transition:opacity 0.4s, filter 0.4s, color 0.4s;
@@ -1084,23 +1290,43 @@
 .DH_Page.active { display:flex; flex-direction:column; gap:8px; align-self:stretch; align-items:center; }
 
 .DH_Notif_Main {
-    display:flex; justify-content:center; align-items:center;
-    width:300px; position:fixed; left:calc(50% - 150px);
-    z-index:2147483647; bottom:16px; border-radius:16px;
-    transition:0.8s cubic-bezier(0.16,1,0.32,1); pointer-events:none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition: 0.8s cubic-bezier(0.16, 1, 0.32, 1);
+    width: 300px;
+    position: fixed;
+    left: calc(50% - (300px / 2));
+    z-index: 2147483647;
+    bottom: 16px;
+    border-radius: var(--DH-corner-r-l);
+    corner-shape: var(--DH-corner-s);
+    pointer-events: none;
 }
 .DH_Notif_Box {
-    display:flex; width:300px; padding:14px 16px;
-    flex-direction:column; gap:3px;
-    border-radius:16px;
-    outline:2px solid rgb(var(--color-eel,117,117,117),0.10); outline-offset:-2px;
-    background:rgb(var(--color-snow),0.90);
-    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-    box-shadow:0 8px 32px rgba(0,0,0,0.12);
-    transition:0.8s cubic-bezier(0.16,1,0.32,1); filter:blur(16px); opacity:0;
-    pointer-events:auto;
+    display: flex;
+    width: 300px;
+    padding: 16px;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+
+    border-radius: var(--DH-corner-r-l);
+    corner-shape: var(--DH-corner-s);
+    outline: 2px solid rgb(var(--color-eel), 0.10);
+    outline-offset: -2px;
+    background: rgb(var(--color-snow), 0.90);
+    backdrop-filter: blur(16px);
+
+    transition: 0.8s cubic-bezier(0.16, 1, 0.32, 1);
+    filter: blur(16px);
+    opacity: 0;
+    pointer-events: auto;
+    position: fixed;
 }
-.DH_Notif_Box.show { filter:blur(0px); opacity:1; }
 
 .DH_Shop_Grid { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; align-self:stretch; }
 .DH_Shop_Card {
@@ -1496,9 +1722,48 @@
     color: rgb(var(--DH-blue));
 }
 
-
+@supports (corner-shape: superellipse(1)) {
+    .DH_Main_Box,
+    .DH_Notif_Box,
+    .DH_Btn,
+    .DH_Input_Wrap,
+    .DH_Input_Btn,
+    .DH_Mode_Btn,
+    .DH_Sm_Btn,
+    .DH_Shop_Card,
+    .DH_Shop_Btn,
+    .DH_Credit_Card,
+    .DH_Credit_Thumb,
+    .DH_Search,
+    .DH_Btn_Ico,
+    .DH_Acc_Card,
+    .DH_Acc_Btn,
+    .DH_Quest_Item,
+    .DH_Quest_Get_Btn,
+    .DH_React_Btn,
+    .DH_LB_Row,
+    .DH_LB_Header,
+    .DH_License_Scroll,
+    .DH_LangSelector_Btn,
+    .DH_LangMenu,
+    .DH_LangOption {
+        corner-shape: var(--DH-corner-s);
+    }
+}
 
 `);
+
+    if (CSS.supports('corner-shape', 'superellipse(1.32)')) {
+        const _dhCornerEl = document.createElement('style');
+        _dhCornerEl.textContent = `:root {
+    --DH-corner-r-s:  6px;
+    --DH-corner-r-m:  10px;
+    --DH-corner-r-ml: 16px;
+    --DH-corner-r-l:  20px;
+    --DH-corner-r-xl: 26px;
+}`;
+        document.head.appendChild(_dhCornerEl);
+    }
 
     // Mount UI only after DOM is ready
     function _dhMountUI() {
@@ -1580,49 +1845,25 @@
             </button>
         </div>
     </div>
-<div class="DH_Notif_Main" id="DH_Notif_Main">
-    <div class="DH_Notif_Box" id="DH_Notif_Box">
-        <div class="DH_HStack_4" style="align-items:center;">
-            <p class="DH_T1 DH_NoSel" id="DH_Notif_Icon" style="font-size:18px;flex-shrink:0;"></p>
-            <p class="DH_T1 DH_NoSel" id="DH_Notif_Title" style="flex:1 0 0;"></p>
-        </div>
-        <p class="DH_T2 DH_NoSel" id="DH_Notif_Body" style="align-self:stretch;overflow-wrap:break-word;"></p>
-    </div>
-</div>
+<div class="DH_Notif_Main" id="DH_Notif_Main"></div>
 
 <div class="DH_Main" id="DH_Main">
 
     <div class="DH_HStack_8" style="align-self:flex-end;">
 <div class="DH_Btn DH_Btn_Blue_Ghost DH_NoSel" id="DH_SwitchV1_Btn"
      style="flex:none; display:none; order:-1;">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 1l4 4-4 4" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M3 11V9a4 4 0 0 1 4-4h14" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M7 23l-4-4 4-4" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M21 13v2a4 4 0 0 1-4 4H3" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <p class="DH_T1 DH_NoSel" id="DH_SwitchV1_Ico" style="color:rgb(var(--DH-blue));font-size:18px;line-height:1;">􀱏</p>
     <p class="DH_T1 DH_NoSel" id="DH_SwitchV1_Lbl" style="color:rgb(var(--DH-blue));font-size:13px;">Switch to V1</p>
 </div>
 
 <div class="DH_Btn DH_Btn_Blue_Ghost DH_NoSel" id="DH_SwitchV2_Btn"
      style="flex:none; display:none; order:-1;">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M17 1l4 4-4 4" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M3 11V9a4 4 0 0 1 4-4h14" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M7 23l-4-4 4-4" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M21 13v2a4 4 0 0 1-4 4H3" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+    <p class="DH_T1 DH_NoSel" id="DH_SwitchV2_Ico" style="color:rgb(var(--DH-blue));font-size:18px;line-height:1;">􀂑</p>
     <p class="DH_T1 DH_NoSel" id="DH_SwitchV2_Lbl" style="color:rgb(var(--DH-blue));font-size:13px;">Switch to V2</p>
 </div>
         <div class="DH_Btn DH_NoSel" id="DH_Hide_Btn"
              style="flex:none; outline:2px solid rgba(0,0,0,0.20); outline-offset:-2px; background:rgb(var(--DH-blue)); backdrop-filter:blur(16px);">
-            <svg id="DH_Ico_Visible" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 0C5 0 1.73 2.5 0 6c1.73 3.5 5 6 9 6s7.27-2.5 9-6c-1.73-3.5-5-6-9-6zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6.4a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z" fill="#FFF"/>
-                <path d="M1 1l16 10" stroke="#FFF" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <svg id="DH_Ico_Hidden" width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
-                <path d="M9 0C5 0 1.73 2.5 0 6c1.73 3.5 5 6 9 6s7.27-2.5 9-6c-1.73-3.5-5-6-9-6zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-6.4a2.4 2.4 0 1 0 0 4.8 2.4 2.4 0 0 0 0-4.8z" fill="rgb(var(--DH-blue))"/>
-            </svg>
+            <p class="DH_T1 DH_NoSel" id="DH_Hide_Ico" style="color:#fff;font-size:18px;line-height:1;">􀋰</p>
             <p class="DH_T1 DH_NoSel" id="DH_Hide_Txt" style="color:#fff;">Hide</p>
         </div>
     </div>
@@ -1634,7 +1875,7 @@
             <!-- Row 1: Connection btn + Settings icon -->
             <div class="DH_HStack_8">
                 <div class="DH_Btn DH_Btn_Eel DH_NoSel" id="DH_Conn_Btn" style="padding:10px 0 10px 10px; transition:background 0.8s cubic-bezier(0.16,1,0.32,1), outline 0.8s cubic-bezier(0.16,1,0.32,1), filter 0.4s cubic-bezier(0.16,1,0.32,1), transform 0.4s cubic-bezier(0.16,1,0.32,1);">
-                    <span id="DH_Conn_Ico" style="display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg class="DH_Spin_Ico" width="16" height="16" viewBox="0 0 297 297" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M294.853 178.121c-1.814-1.671-4.404-2.203-6.729-1.382l-25.97 9.168c17.558-70.878-24.569-143.07-94.69-161.569-34.475-9.094-70.423-4.215-101.225 13.737C35.438 56.028 13.475 84.901 4.397 119.377c-8.083 30.698-4.951 63.329 8.819 91.883 13.616 28.234 36.767 50.846 65.186 63.669 3.256 1.47 6.737 2.203 10.214 2.203 3.647 0 7.293-.807 10.672-2.418 6.59-3.141 11.435-8.99 13.293-16.047 3.086-11.721-2.756-23.89-13.893-28.937-37.335-16.923-56.844-58.027-46.387-97.737 5.7-21.65 19.508-39.794 38.878-51.089 19.372-11.295 41.963-14.378 63.611-8.675 44.273 11.659 70.99 56.813 60.113 101.108l-17.584-20.48c-1.612-1.878-4.135-2.705-6.544-2.152-2.412.555-4.318 2.401-4.948 4.794l-11.478 43.588c-.566 2.153-.02 4.447 1.457 6.112l40.428 45.603c1.785 2.012 4.604 2.752 7.144 1.882l57.644-19.78c2.106-.723 3.711-2.45 4.279-4.603l11.479-43.587c.635-2.412-.106-4.949-1.92-6.62z" fill="currentColor"/></svg></span>
+                    <span id="DH_Conn_Ico" style="display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="DH_Spin_Ico" style="font-size:18px;line-height:1;">􀓞</span></span>
                     <p class="DH_T1 DH_NoSel" id="DH_Conn_Txt" style="color:rgb(var(--color-eel,117,117,117),0.70);">Connecting</p>
                 </div>
                 <div class="DH_Btn DH_Btn_Icon DH_NoSel" id="DH_TopSettings_Btn" style="outline:2px solid rgba(var(--DH-blue),0.20);outline-offset:-2px;background:linear-gradient(0deg,rgba(var(--DH-blue),0.10),rgba(var(--DH-blue),0.10)),rgb(var(--color-snow),0.80);backdrop-filter:blur(16px);" title="Settings">
@@ -1693,9 +1934,9 @@
                    <div class="DH_VStack_8">
                 <p class="DH_T1 DH_NoSel" id="DH_XP_Question" style="align-self:stretch;">How much XP would you like to gain?</p>
                 <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
-                        <p class="DH_T1 DH_NoSel" style="color:rgba(var(--DH-blue),0.38);font-size:13px;flex-shrink:0;">#</p>
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_XP_Input" placeholder="0" min="30" max="500000">
+                    <button class="DH_Mode_Btn DH_NoSel" id="DH_XP_Mode_Btn" title="Switch to Time Mode"><span class="DH_Mode_Icon" id="DH_XP_Mode_Icon">#</span></button>
+                    <div class="DH_Input_Wrap" id="DH_XP_Input_Wrap">
+                        <input type="number" class="DH_Input" id="DH_XP_Input" placeholder="0" min="30" max="500000">
                     </div>
                     <button class="DH_Input_Btn DH_NoSel" id="DH_XP_Btn" disabled>
                         <span class="DH_Btn_Label" id="DH_XP_Lbl" style="color:#fff;">GET</span>
@@ -1708,14 +1949,14 @@
             <div class="DH_VStack_8" id="DH_Gem_Section">
                 <p class="DH_T1 DH_NoSel" id="DH_Gem_Run_Label" style="align-self:stretch;">Click "RUN" to Farm Gems</p>
                 <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
+                    <button class="DH_Mode_Btn DH_NoSel" id="DH_Gem_Mode_Btn" title="Switch to Infinite Mode"><span class="DH_Mode_Icon" id="DH_Gem_Mode_Icon">#</span></button>
+                    <div class="DH_Input_Wrap" id="DH_Gem_Input_Wrap" style="position:relative;overflow:hidden;">
                         <svg class="DH_Shimmer" width="120" height="48" viewBox="0 0 120 48" fill="none">
                             <path opacity="0.4" d="M72 0H96L72 48H48L72 0Z" fill="rgb(var(--DH-blue))"/>
                             <path opacity="0.4" d="M24 0H60L36 48H0L24 0Z" fill="rgb(var(--DH-blue))"/>
                             <path opacity="0.4" d="M108 0H120L96 48H84L108 0Z" fill="rgb(var(--DH-blue))"/>
                         </svg>
-                        <p class="DH_T1 DH_NoSel" style="color:rgba(var(--DH-blue),0.38);font-size:14px;flex-shrink:0;">#</p>
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_Gem_Input" placeholder="0" readonly style="pointer-events:none;">
+                        <input type="number" class="DH_Input" id="DH_Gem_Input" placeholder="0" readonly style="pointer-events:none;">
                     </div>
                     <button class="DH_Input_Btn DH_NoSel" id="DH_Gem_Btn" disabled>
                         <span class="DH_Btn_Label" id="DH_Gem_Lbl" style="color:#fff;">RUN</span>
@@ -1726,9 +1967,9 @@
             <div class="DH_VStack_8">
                 <p class="DH_T1 DH_NoSel" id="DH_Streak_Question" style="align-self:stretch;">How many Streak days to restore?</p>
                 <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
-                        <p class="DH_T1 DH_NoSel" style="color:rgba(var(--DH-blue),0.38);font-size:14px;flex-shrink:0;">#</p>
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_Streak_Input" placeholder="0" min="1" max="3650">
+                    <button class="DH_Mode_Btn DH_NoSel" id="DH_Streak_Mode_Btn" title="Switch to Time Mode"><span class="DH_Mode_Icon" id="DH_Streak_Mode_Icon">#</span></button>
+                    <div class="DH_Input_Wrap" id="DH_Streak_Input_Wrap">
+                        <input type="number" class="DH_Input" id="DH_Streak_Input" placeholder="0" min="1" max="3650">
                     </div>
                     <button class="DH_Input_Btn DH_NoSel" id="DH_Streak_Btn" disabled>
                         <span class="DH_Btn_Label" id="DH_Streak_Lbl" style="color:#fff;">RUN</span>
@@ -1750,7 +1991,7 @@
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">duohacker.io.vn</p>
-                <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">v2026.07.09</p>
+                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.07.27</p>
             </div>
         </div>
 
@@ -1760,25 +2001,6 @@
                 <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="rgb(var(--color-wolf,60,60,67))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <p class="DH_T1" id="DH_Back_Txt">Back</p>
             </div>
-
-            <div class="DH_HStack_Auto" style="align-self:stretch;">
-                <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;">
-                    <p class="DH_T1 DH_NoSel" id="DH_Practice_Title">Farm Practice</p>
-                    <p class="DH_T2 DH_NoSel" id="DH_Practice_Sub" style="font-size:11px;">0 = unlimited practice sessions</p>
-                </div>
-                <button class="DH_Sm_Btn DH_NoSel" id="DH_Practice_Btn" disabled>
-                    <span class="DH_Sm_Btn_Label" id="DH_Practice_Lbl" style="color:#fff;">RUN</span>
-                </button>
-            </div>
-            <!-- Practice input inline below button -->
-            <div style="display:flex;align-items:center;gap:8px;align-self:stretch;">
-                <div class="DH_Input_Wrap" style="flex:1;">
-                    <p class="DH_T1 DH_NoSel" style="color:rgba(var(--DH-blue),0.38);font-size:14px;flex-shrink:0;">#</p>
-                    <input type="number" class="DH_Input DH_NoSel" id="DH_Practice_Input" placeholder="0" min="0" max="9999">
-                </div>
-            </div>
-
-            <div class="DH_Divider"></div>
 
             <!-- Shop Items nav -->
             <div class="DH_Btn DH_Btn_Blue_Ghost DH_NoSel"
@@ -1861,7 +2083,7 @@
                 <div class="DH_HStack_8">
                     <div class="DH_Input_Wrap">
                         <p class="DH_T1 DH_NoSel" style="color:rgba(var(--DH-blue),0.50);font-size:13px;flex-shrink:0;">ms</p>
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_Delay_Input" placeholder="500" min="0" max="10000">
+                        <input type="number" class="DH_Input" id="DH_Delay_Input" placeholder="500" min="0" max="10000">
                     </div>
                     <button class="DH_Input_Btn DH_NoSel" id="DH_Delay_Btn">
                         <span class="DH_Btn_Label" id="DH_Delay_Lbl" style="color:#fff;">SAVE</span>
@@ -1987,7 +2209,7 @@
                 <p class="DH_T1" id="DH_Shop_Back_Txt">Back</p>
             </div>
 
-            <input type="text" class="DH_Search DH_NoSel" id="DH_Shop_Search" placeholder="Search items...">
+            <input type="text" class="DH_Search" id="DH_Shop_Search" placeholder="Search items...">
 
             <!-- Shop scrollable container -->
             <div class="DH_Scroll_Inner" id="DH_Shop_Container" style="max-height:300px;">
@@ -2053,6 +2275,33 @@
         <!-- PAGE V1: V1 Mode — simple farm with live counters, no extra features -->
         <div class="DH_Page" id="DH_Page_V1">
 
+            <!-- Row 1: Connection btn + Settings icon -->
+            <div class="DH_HStack_8">
+                <div class="DH_Btn DH_Btn_Eel DH_NoSel" id="DH_V1_Conn_Btn" style="padding:10px 0 10px 10px; transition:background 0.8s cubic-bezier(0.16,1,0.32,1), outline 0.8s cubic-bezier(0.16,1,0.32,1), filter 0.4s cubic-bezier(0.16,1,0.32,1), transform 0.4s cubic-bezier(0.16,1,0.32,1);">
+                    <span id="DH_V1_Conn_Ico" style="display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span class="DH_Spin_Ico" style="font-size:18px;line-height:1;">􀓞</span></span>
+                    <p class="DH_T1 DH_NoSel" id="DH_V1_Conn_Txt" style="color:rgb(var(--color-eel,117,117,117),0.70);">Connecting</p>
+                </div>
+                <div class="DH_Btn DH_Btn_Icon DH_NoSel" id="DH_V1_TopSettings_Btn" style="outline:2px solid rgba(var(--DH-blue),0.20);outline-offset:-2px;background:linear-gradient(0deg,rgba(var(--DH-blue),0.10),rgba(var(--DH-blue),0.10)),rgb(var(--color-snow),0.80);backdrop-filter:blur(16px);" title="Settings">
+                    <svg width="18" height="18" viewBox="0 0 36 36" fill="none"><path d="M18.1,11c-3.9,0-7,3.1-7,7s3.1,7,7,7c3.9,0,7-3.1,7-7S22,11,18.1,11z M18.1,23c-2.8,0-5-2.2-5-5s2.2-5,5-5c2.8,0,5,2.2,5,5S20.9,23,18.1,23z" fill="rgb(var(--DH-blue))" stroke="rgb(var(--DH-blue))" stroke-width="1.2" stroke-linejoin="round" paint-order="stroke fill"/><path d="M32.8,14.7L30,13.8l-0.6-1.5l1.4-2.6c0.3-0.6,0.2-1.4-0.3-1.9l-2.4-2.4c-0.5-0.5-1.3-0.6-1.9-0.3l-2.6,1.4l-1.5-0.6l-0.9-2.8C21,2.5,20.4,2,19.7,2h-3.4c-0.7,0-1.3,0.5-1.4,1.2L14,6c-0.6,0.1-1.1,0.3-1.6,0.6L9.8,5.2C9.2,4.9,8.4,5,7.9,5.5L5.5,7.9C5,8.4,4.9,9.2,5.2,9.8l1.3,2.5c-0.2,0.5-0.4,1.1-0.6,1.6l-2.8,0.9C2.5,15,2,15.6,2,16.3v3.4c0,0.7,0.5,1.3,1.2,1.5L6,22.1l0.6,1.5l-1.4,2.6c-0.3,0.6-0.2,1.4,0.3,1.9l2.4,2.4c0.5,0.5,1.3,0.6,1.9,0.3l2.6-1.4l1.5,0.6l0.9,2.9c0.2,0.6,0.8,1.1,1.5,1.1h3.4c0.7,0,1.3-0.5,1.5-1.1l0.9-2.9l1.5-0.6l2.6,1.4c0.6,0.3,1.4,0.2,1.9-0.3l2.4-2.4c0.5-0.5,0.6-1.3,0.3-1.9l-1.4-2.6l0.6-1.5l2.9-0.9c0.6-0.2,1.1-0.8,1.1-1.5v-3.4C34,15.6,33.5,14.9,32.8,14.7z M32,19.4l-3.6,1.1L28.3,21c-0.3,0.7-0.6,1.4-0.9,2.1l-0.3,0.5l1.8,3.3l-2,2l-3.3-1.8l-0.5,0.3c-0.7,0.4-1.4,0.7-2.1,0.9l-0.5,0.1L19.4,32h-2.8l-1.1-3.6L15,28.3c-0.7-0.3-1.4-0.6-2.1-0.9l-0.5-0.3l-3.3,1.8l-2-2l1.8-3.3l-0.3-0.5c-0.4-0.7-0.7-1.4-0.9-2.1l-0.1-0.5L4,19.4v-2.8l3.4-1l0.2-0.5c0.2-0.8,0.5-1.5,0.9-2.2l0.3-0.5L7.1,9.1l2-2l3.2,1.8l0.5-0.3c0.7-0.4,1.4-0.7,2.2-0.9l0.5-0.2L16.6,4h2.8l1.1,3.5L21,7.7c0.7,0.2,1.4,0.5,2.1,0.9l0.5,0.3l3.3-1.8l2,2l-1.8,3.3l0.3,0.5c0.4,0.7,0.7,1.4,0.9,2.1l0.1,0.5l3.6,1.1V19.4z" fill="rgb(var(--DH-blue))" stroke="rgb(var(--DH-blue))" stroke-width="1.2" stroke-linejoin="round" paint-order="stroke fill"/></svg>
+                </div>
+            </div>
+            <!-- Row 2: Donate + YouTube + Discord + GitHub -->
+            <div class="DH_HStack_8">
+                <div class="DH_Btn DH_NoSel" id="DH_V1_Donate_Btn" style="padding:10px 0 10px 10px;outline:2px solid rgba(0,0,0,0.20);outline-offset:-2px;background:url(https://duohacker.io.vn/wallpaper.png) lightgray 50% / cover no-repeat;">
+                    <svg width="19" height="17" viewBox="0 0 24 22" fill="#FFF"><path d="M12 21.593c-.425-.394-8.993-7.755-8.993-12.419C3.007 4.984 6.077 2 9.535 2c1.997 0 3.714.862 4.465 2.099C14.75 2.862 16.467 2 18.465 2 21.922 2 25 4.984 25 9.174c0 4.664-8.571 12.025-8.993 12.419L12 21.593z" transform="translate(-1 -1)"/></svg>
+                    <p class="DH_T1 DH_NoSel" style="color:#FFF;font-size:15px;font-weight:700;">Donate</p>
+                </div>
+                <div class="DH_Btn DH_Btn_Icon DH_NoSel" id="DH_V1_YouTube_Btn" style="background:#FF0000;outline:2px solid rgba(0,0,0,.18);outline-offset:-2px;">
+                    <svg width="18" height="13" viewBox="0 0 22 16" fill="#FFF"><path fill-rule="evenodd" clip-rule="evenodd" d="M19.2043 1.0885C20.1084 1.33051 20.8189 2.041 21.0609 2.9451C21.4982 4.58216 21.5 7.99976 21.5 7.99976C21.5 7.99976 21.5 11.4174 21.0609 13.0544C20.8189 13.9585 20.1084 14.669 19.2043 14.911C17.5673 15.3501 11 15.3501 11 15.3501C11 15.3501 4.43274 15.3501 2.79568 14.911C1.89159 14.669 1.1811 13.9585 0.939084 13.0544C0.5 11.4174 0.5 7.99976 0.5 7.99976C0.5 7.99976 0.5 4.58216 0.939084 2.9451C1.1811 2.041 1.89159 1.33051 2.79568 1.0885C4.43274 0.649414 11 0.649414 11 0.649414C11 0.649414 17.5673 0.649414 19.2043 1.0885ZM14.3541 8.00005L8.89834 11.1497V4.85038L14.3541 8.00005Z"/></svg>
+                </div>
+                <div class="DH_Btn DH_Btn_Icon DH_NoSel" id="DH_V1_Discord_Btn" style="background:rgb(88,101,242);outline:2px solid rgba(0,0,0,.18);outline-offset:-2px;">
+                    <svg width="18" height="14" viewBox="0 0 22 16" fill="#FFF"><path d="M18.289 1.34C16.9296.714 15.4761.259 13.9565 0c-.1866.332-.4046.779-.5549 1.134-1.6154-.239-3.2159-.239-4.8016 0C8.4497.779 8.2267.332 8.0384 0 6.5172.259 5.062.716 3.7027 1.343.9608 5.421.2175 9.398.5892 13.318c1.8185 1.337 3.5809 2.149 5.3136 2.68.4278-.579.8093-1.195 1.138-1.845-.6259-.234-1.2255-.523-1.7921-.858.1503-.11.2973-.225.4393-.307 3.4554 1.591 7.2098 1.591 10.624 0 .1437.118.2907.233.4393.342-.6262.337-1.2274.626-1.8534.86.3287.648.7086 1.265 1.138 1.845 1.7343-.531 3.4983-1.343 5.3168-2.681.4361-4.545-.7449-8.484-3.121-11.978ZM7.5115 10.908c-1.0373 0-1.8879-.954-1.8879-2.114 0-1.161.8325-2.115 1.8879-2.115 1.0555 0 1.9061.954 1.8879 2.115.0016 1.16-.8325 2.114-1.8879 2.114Zm6.9769 0c-1.0373 0-1.8879-.954-1.8879-2.114 0-1.161.8324-2.115 1.8879-2.115 1.0554 0 1.9061.954 1.8879 2.115 0 1.16-.8325 2.114-1.8879 2.114Z"/></svg>
+                </div>
+                <div class="DH_Btn DH_Btn_Icon DH_NoSel" id="DH_V1_GitHub_Btn" style="background:#24292e;outline:2px solid rgba(255,255,255,.18);outline-offset:-2px;">
+                    <svg width="18" height="18" viewBox="0 0 22 22" fill="#FFF"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.009.5C5.198.5.5 5.313.5 11.266c0 4.759 3.01 8.788 7.186 10.214.522.107.713-.232.713-.517 0-.25-.017-1.105-.017-1.997-2.923.642-3.532-1.283-3.532-1.283-.47-1.248-1.166-1.568-1.166-1.568-.957-.659.07-.659.07-.659 1.062.071 1.619 1.105 1.619 1.105.94 1.64 2.453 1.176 3.062.891.087-.695.366-1.176.661-1.444-2.332-.25-4.785-1.176-4.785-5.312 0-1.176.418-2.139 1.08-2.887-.106-.267-.461-1.373.105-2.852 0 0 .888-.285 2.899 1.09a9.847 9.847 0 0 1 2.636-.356c.888 0 1.793.125 2.628.356 2.01-1.375 2.898-1.09 2.898-1.09.566 1.479.21 2.585.105 2.852.662.748 1.08 1.711 1.08 2.887 0 4.136-2.453 5.045-4.803 5.312.383.338.714.98.714 2.004 0 1.444-.018 2.606-.018 2.963 0 .285.192.624.714.48C18.49 20.054 21.5 16.025 21.5 11.266 21.517 5.313 16.802.5 11.009.5Z"/></svg>
+                </div>
+            </div>
+
             <div class="DH_Divider"></div>
 
             <!-- User row (reused from V2 data) -->
@@ -2079,64 +2328,25 @@
 
             <div class="DH_Divider" id="DH_V1_User_Divider" style="display:none;"></div>
 
-            <!-- XP Farm -->
+            <!-- Farm Practice -->
             <div class="DH_VStack_8" style="align-self:stretch;">
-                <p class="DH_T1 DH_NoSel" id="DH_V1_XP_Title" style="align-self:stretch;">XP Farming</p>
+                <p class="DH_T1 DH_NoSel" id="DH_Practice_Question" style="align-self:stretch;font-weight:700;">How many practice lesson you would like to solve?</p>
                 <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
-                        <img class="DH_Stat_Ico" src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" style="flex-shrink:0;">
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_V1_XP_Input" placeholder="0" readonly style="pointer-events:none;">
+                    <div class="DH_Input_Wrap" id="DH_Practice_Input_Wrap">
+                        <input type="number" class="DH_Input" id="DH_Practice_Input" placeholder="0" min="0" max="9999">
                     </div>
-                    <button class="DH_Input_Btn DH_NoSel" id="DH_V1_XP_Btn" disabled>
-                        <span class="DH_Btn_Label" id="DH_V1_XP_Lbl" style="color:#fff;">RUN</span>
+                    <button class="DH_Input_Btn DH_NoSel" id="DH_Practice_Btn" disabled>
+                        <span class="DH_Btn_Label" id="DH_Practice_Lbl" style="color:#fff;">RUN</span>
                     </button>
                 </div>
-                <div class="DH_Prog_Wrap" id="DH_V1_XP_Prog"><div class="DH_Prog_Fill" id="DH_V1_XP_Fill"></div></div>
-            </div>
 
-            <!-- Gems Farm -->
-            <div class="DH_VStack_8" id="DH_V1_Gem_Section" style="align-self:stretch;">
-                <p class="DH_T1 DH_NoSel" id="DH_V1_Gem_Title" style="align-self:stretch;">Farm Gems</p>
-                <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
-                        <img class="DH_Stat_Ico" src="https://d35aaqx5ub95lt.cloudfront.net/images/gems/45c14e05be9c1af1d7d0b54c6eed7eee.svg" style="flex-shrink:0;">
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_V1_Gem_Input" placeholder="0" readonly style="pointer-events:none;">
-                    </div>
-                    <button class="DH_Input_Btn DH_NoSel" id="DH_V1_Gem_Btn" disabled>
-                        <span class="DH_Btn_Label" id="DH_V1_Gem_Lbl" style="color:#fff;">RUN</span>
-                    </button>
-                </div>
-                <div class="DH_Prog_Wrap" id="DH_V1_Gem_Prog"><div class="DH_Prog_Fill" id="DH_V1_Gem_Fill"></div></div>
-            </div>
-
-            <!-- Streak Farm -->
-            <div class="DH_VStack_8" style="align-self:stretch;">
-                <p class="DH_T1 DH_NoSel" id="DH_V1_Streak_Title" style="align-self:stretch;">Streak Farming</p>
-                <div class="DH_HStack_8">
-                    <div class="DH_Input_Wrap">
-                        <img class="DH_Stat_Ico" src="https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg" style="flex-shrink:0;">
-                        <input type="number" class="DH_Input DH_NoSel" id="DH_V1_Streak_Input" placeholder="0" readonly style="pointer-events:none;">
-                    </div>
-                    <button class="DH_Input_Btn DH_NoSel" id="DH_V1_Streak_Btn" disabled>
-                        <span class="DH_Btn_Label" id="DH_V1_Streak_Lbl" style="color:#fff;">RUN</span>
-                    </button>
-                </div>
-                <div class="DH_Prog_Wrap" id="DH_V1_Streak_Prog"><div class="DH_Prog_Fill" id="DH_V1_Streak_Fill"></div></div>
             </div>
 
             <div class="DH_Divider"></div>
 
-            <!-- Settings (same as V2 settings page) -->
+            <!-- Extra Features nav (solver page) -->
             <div class="DH_Btn DH_Btn_Blue_Ghost DH_NoSel" id="DH_V1_Settings_Btn" style="align-self:stretch; justify-content:space-between; padding:10px 12px;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <div class="DH_Btn_Ico">
-                        <svg width="16" height="16" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M18.1,11c-3.9,0-7,3.1-7,7s3.1,7,7,7c3.9,0,7-3.1,7-7S22,11,18.1,11z M18.1,23c-2.8,0-5-2.2-5-5s2.2-5,5-5c2.8,0,5,2.2,5,5S20.9,23,18.1,23z" fill="rgb(var(--DH-blue))" stroke="rgb(var(--DH-blue))" stroke-width="1.2" stroke-linejoin="round" paint-order="stroke fill"/>
-                            <path d="M32.8,14.7L30,13.8l-0.6-1.5l1.4-2.6c0.3-0.6,0.2-1.4-0.3-1.9l-2.4-2.4c-0.5-0.5-1.3-0.6-1.9-0.3l-2.6,1.4l-1.5-0.6l-0.9-2.8C21,2.5,20.4,2,19.7,2h-3.4c-0.7,0-1.3,0.5-1.4,1.2L14,6c-0.6,0.1-1.1,0.3-1.6,0.6L9.8,5.2C9.2,4.9,8.4,5,7.9,5.5L5.5,7.9C5,8.4,4.9,9.2,5.2,9.8l1.3,2.5c-0.2,0.5-0.4,1.1-0.6,1.6l-2.8,0.9C2.5,15,2,15.6,2,16.3v3.4c0,0.7,0.5,1.3,1.2,1.5L6,22.1l0.6,1.5l-1.4,2.6c-0.3,0.6-0.2,1.4,0.3,1.9l2.4,2.4c0.5,0.5,1.3,0.6,1.9,0.3l2.6-1.4l1.5,0.6l0.9,2.9c0.2,0.6,0.8,1.1,1.5,1.1h3.4c0.7,0,1.3-0.5,1.5-1.1l0.9-2.9l1.5-0.6l2.6,1.4c0.6,0.3,1.4,0.2,1.9-0.3l2.4-2.4c0.5-0.5,0.6-1.3,0.3-1.9l-1.4-2.6l0.6-1.5l2.9-0.9c0.6-0.2,1.1-0.8,1.1-1.5v-3.4C34,15.6,33.5,14.9,32.8,14.7z M32,19.4l-3.6,1.1L28.3,21c-0.3,0.7-0.6,1.4-0.9,2.1l-0.3,0.5l1.8,3.3l-2,2l-3.3-1.8l-0.5,0.3c-0.7,0.4-1.4,0.7-2.1,0.9l-0.5,0.1L19.4,32h-2.8l-1.1-3.6L15,28.3c-0.7-0.3-1.4-0.6-2.1-0.9l-0.5-0.3l-3.3,1.8l-2-2l1.8-3.3l-0.3-0.5c-0.4-0.7-0.7-1.4-0.9-2.1l-0.1-0.5L4,19.4v-2.8l3.4-1l0.2-0.5c0.2-0.8,0.5-1.5,0.9-2.2l0.3-0.5L7.1,9.1l2-2l3.2,1.8l0.5-0.3c0.7-0.4,1.4-0.7,2.2-0.9l0.5-0.2L16.6,4h2.8l1.1,3.5L21,7.7c0.7,0.2,1.4,0.5,2.1,0.9l0.5,0.3l3.3-1.8l2,2l-1.8,3.3l0.3,0.5c0.4,0.7,0.7,1.4,0.9,2.1l0.1,0.5l3.6,1.1V19.4z" fill="rgb(var(--DH-blue))" stroke="rgb(var(--DH-blue))" stroke-width="1.2" stroke-linejoin="round" paint-order="stroke fill"/>
-                        </svg>
-                    </div>
-                    <p class="DH_T1 DH_NoSel" id="DH_V1_Settings_Lbl" style="color:rgb(var(--DH-blue));">Settings</p>
-                </div>
+                <p class="DH_T1 DH_NoSel" id="DH_V1_Settings_Lbl" style="color:rgb(var(--DH-blue));">Extra Features</p>
                 <svg width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1l6 5.5L1 12" stroke="rgb(var(--DH-blue))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -2144,7 +2354,7 @@
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">duohacker.io.vn</p>
-                <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">V1 Mode</p>
+                <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">Solver</p>
             </div>
         </div>
 
@@ -2182,7 +2392,7 @@
         <div class="DH_Page" id="DH_Page_12">
             <div class="DH_HStack_4 DH_NoSel" id="DH_React_Back_Btn" style="align-self:flex-start;cursor:pointer;opacity:0.55;">
                 <svg width="8" height="14" viewBox="0 0 9 16" fill="none"><path d="M8 1L2 8l6 7" stroke="rgb(var(--color-wolf,60,60,67))" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <p class="DH_T1">Back</p>
+                <p class="DH_T1" id="DH_React_Back_Txt">Back</p>
             </div>
             <p class="DH_T1 DH_NoSel" id="DH_React_Title" style="font-weight:700;">Choose Reaction</p>
             <div class="DH_Scroll_Inner" id="DH_React_Container" style="max-height:300px;"></div>
@@ -2259,16 +2469,25 @@
             document.getElementById('DH_V1_UXP').textContent = (_user.totalXp || 0).toLocaleString();
             document.getElementById('DH_V1_UGems').textContent = (_user.gems || 0).toLocaleString();
             document.getElementById('DH_V1_UStreak').textContent = (_user.streak || 0).toLocaleString();
-            if (_user.picture) {
+            const av = document.getElementById('DH_V1_Avatar');
+            // If blob avatar already loaded from leaderboard, mirror it instead of overwriting with lower-quality picture
+            if (_panelAvatarLoaded) {
+                const v2Img = document.getElementById('DH_Avatar') && document.getElementById('DH_Avatar').querySelector('img');
+                if (v2Img && av) {
+                    av.innerHTML = '';
+                    const img = document.createElement('img');
+                    img.src = v2Img.src;
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
+                    img.draggable = false;
+                    av.appendChild(img);
+                }
+            } else if (_user.picture) {
                 let hq = _user.picture.replace(/\/(medium|large|small)$/, '/xlarge');
                 if (!hq.endsWith('/xlarge') && hq.includes('duolingo.com/ssr-avatars')) hq += '/xlarge';
-                const av = document.getElementById('DH_V1_Avatar');
                 const img = document.createElement('img');
                 img.src = hq;
                 img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
-                img.onerror = function() {
-                    av.innerHTML = '👤';
-                };
+                img.onerror = function() { av.innerHTML = '👤'; };
                 av.innerHTML = '';
                 av.appendChild(img);
             }
@@ -2530,7 +2749,7 @@
             const nProm    = (num_promoted || [])[tier] || 0;
             const nDem     = (num_demoted  || [])[tier] || 0;
             const total    = rankings.length;
-            // _sub is the authenticated user's Duolingo ID ��� always prefer it
+            // _sub is the authenticated user's Duolingo ID always prefer it
             const myId     = String(_sub ?? myUserId ?? '');
 
             // League header
@@ -2578,7 +2797,7 @@
                 aw.className = 'DH_LB_AvatarWrap' + (inP ? ' prom' : inD ? ' dem' : '');
                 // Reaction icon overlay (top-right of avatar)
                 // Show for isMe always (clickable to change), for others only if they have a reaction
-                const hasReact = u.reaction && u.reaction !== 'NONE';
+                const hasReact = u.reaction && u.reaction !== 'NONE' && !!_REACTION_ICONS[u.reaction];
                 if (isMe || hasReact) {
                     const ri = document.createElement('img');
                     ri.className = 'DH_LB_Reaction' + (isMe ? ' me' : '');
@@ -2696,7 +2915,7 @@
             ic.alt = '';
             const tx = document.createElement('span');
             tx.className = 'DH_LB_SepTxt ' + type;
-            tx.textContent = type === 'prom' ? 'Rank Up' : 'Rank Down';
+            tx.textContent = type === 'prom' ? _t('lb_rank_up') : _t('lb_rank_down');
             const l2 = document.createElement('div');
             l2.className = 'DH_LB_SepLine ' + type;
             sep.appendChild(l1);
@@ -3816,10 +4035,6 @@
         }
 
         function _setBtnProgress(btnId, pct) {
-            const btn = document.getElementById(btnId);
-            if (!btn) return;
-            const lbl = btn.querySelector('.DH_Btn_Label') || btn.querySelector('.DH_Sm_Btn_Label');
-            if (lbl) lbl.textContent = pct + '%';
             const fill = document.getElementById(btnId.replace('_Btn', '_Fill'));
             if (fill) fill.style.width = pct + '%';
         }
@@ -3828,7 +4043,7 @@
             const btn = document.getElementById(btnId);
             if (!btn) return;
             btn.disabled = false;
-            _setBtnState(btnId, _C_RED, '0%');
+            _setBtnState(btnId, _C_RED, _t('btn_stop'));
             const prog = document.getElementById(btnId.replace('_Btn', '_Prog'));
             if (prog) prog.classList.add('on');
         }
@@ -3842,16 +4057,15 @@
         }
 
         const _GF_SCRIPT_URL = 'https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-        const _CURRENT_VER = '2026.07.09';
+        const _CURRENT_VER = '2026.07.27';
 
-        /* ── Changelog Popup ─��� */
+        /* ── Changelog Popup -*/
         const _CHANGELOG = [{
-            version: '2026.07.09',
+            version: '2026.07.27',
             changes: [
-                'Added "Leaderboard" feature',
-                'Fixed "Claim Monthly Quest" feature',
-                'Improved "Skip Stories Challange" feature',
-                'Improved "Lesson Shortner" feature',
+                'Fixed Gem Farming',
+                'Improved XP Verify',
+                'Improved Auto League',
             ]
         }, ];
 
@@ -3899,12 +4113,23 @@
                 nb.title = label;
                 nb.onclick = () => window.open(_GF_SCRIPT_URL, '_blank');
                 document.getElementById('DH_User_Row').style.display = 'flex';
+                // Mirror outdated state to Solver page conn button
+                const _v1b = document.getElementById('DH_V1_Conn_Btn');
+                const _v1i = document.getElementById('DH_V1_Conn_Ico');
+                const _v1t = document.getElementById('DH_V1_Conn_Txt');
+                if (_v1b) {
+                    _v1b.style.background = `linear-gradient(0deg,rgba(var(--DH-orange),0.10),rgba(var(--DH-orange),0.10)),rgb(var(--color-snow),0.90)`;
+                    _v1b.style.outline = `2px solid rgba(var(--DH-orange),0.30)`;
+                    _v1b.style.outlineOffset = '-2px';
+                }
+                if (_v1i) { _v1i.innerHTML = ni.innerHTML; _v1i.style.color = `rgb(var(--DH-orange))`; _v1i.style.display = 'flex'; _v1i.style.alignItems = 'center'; _v1i.style.justifyContent = 'center'; }
+                if (_v1t) { _v1t.textContent = _t('outdated'); _v1t.style.color = `rgb(var(--DH-orange))`; }
                 return;
             }
 
-            const _SVG_CONNECTING = `<svg class="DH_Spin_Ico" width="16" height="16" viewBox="0 0 297 297" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M294.853 178.121c-1.814-1.671-4.404-2.203-6.729-1.382l-25.97 9.168c17.558-70.878-24.569-143.07-94.69-161.569-34.475-9.094-70.423-4.215-101.225 13.737C35.438 56.028 13.475 84.901 4.397 119.377c-8.083 30.698-4.951 63.329 8.819 91.883 13.616 28.234 36.767 50.846 65.186 63.669 3.256 1.47 6.737 2.203 10.214 2.203 3.647 0 7.293-.807 10.672-2.418 6.59-3.141 11.435-8.99 13.293-16.047 3.086-11.721-2.756-23.89-13.893-28.937-37.335-16.923-56.844-58.027-46.387-97.737 5.7-21.65 19.508-39.794 38.878-51.089 19.372-11.295 41.963-14.378 63.611-8.675 44.273 11.659 70.99 56.813 60.113 101.108l-17.584-20.48c-1.612-1.878-4.135-2.705-6.544-2.152-2.412.555-4.318 2.401-4.948 4.794l-11.478 43.588c-.566 2.153-.02 4.447 1.457 6.112l40.428 45.603c1.785 2.012 4.604 2.752 7.144 1.882l57.644-19.78c2.106-.723 3.711-2.45 4.279-4.603l11.479-43.587c.635-2.412-.106-4.949-1.92-6.62z" fill="currentColor"/></svg>`;
-            const _SVG_CONNECTED = `<svg width="16" height="16" viewBox="0 0 921 921" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M648.5 794.6c-23.5 44.5-51.2 79.5-82.1 104.2-6.8 5.5-13.7 10.3-20.8 14.7 98.5-18.4 186-68.1 251.7-138.4-6.1-3.7-12.5-7.3-19.1-10.8-29.8-15.8-63.1-29.1-99.1-39.6-8.9 24.8-19.1 48.2-30.6 69.9zm-170.5-134.6c62.4 1.2 122.7 8.8 178.3 22.3C674.9 620.5 685.4 550.8 686.8 478H478V660zm0 242.5c22.8-3.5 45.1-13.9 66.6-31 27.2-21.7 51.7-53.1 73-93.3 10.3-19.4 19.5-40.4 27.6-62.6C593.1 703.2 536.6 696.2 478 695v207.5zM231 229.6c-37.8-11.2-73-25.2-104.5-41.9-9-4.8-17.7-9.7-26-14.9C40.8 247.4 3.8 340.9 0 443h199.2C200.7 367.2 211.6 294.5 231 229.6zm589.5-56.8c-8.3 5.1-16.9 10.1-26 14.9-31.5 16.7-66.7 30.7-104.5 41.9 19.4 64.9 30.3 137.6 31.8 213.4H921C917.2 340.9 880.2 247.4 820.5 172.8zM376.4 871.5c21.4 17.1 43.8 27.5 66.6 31V695c-58.6 1.2-115.1 8.2-167.2 20.6 8.1 22.2 17.3 43.1 27.6 62.6 21.3 40.2 45.9 71.6 73 93.3zM443 660V478H234.2c1.5 72.8 12 142.5 30.5 204.3C320.3 668.9 380.6 661.2 443 660zm-208.8-217H443V261c-62.4-1.2-122.7-8.8-178.3-22.3C246.2 300.5 235.6 370.2 234.2 443zm487.6 35c-1.5 75.8-12.4 148.5-31.8 213.4 37.8 11.2 73 25.2 104.5 41.9 9 4.8 17.7 9.7 26 14.9C880.2 673.6 917.2 580 921 478H721.8zM478 443h208.8c-1.5-72.8-12-142.5-30.5-204.3C600.7 252.2 540.4 259.8 478 261v182zm0-424.5V226c58.6-1.2 115.1-8.2 167.2-20.6-8.1-22.2-17.3-43.1-27.6-62.6-21.3-40.2-45.8-71.6-73-93.3C523.1 32.4 500.8 22 478 18.5zM123.7 145.9c6.1 3.7 12.5 7.3 19.1 10.8 29.8 15.8 63.1 29.1 99.1 39.6 8.9-24.8 19.1-48.2 30.6-69.9 23.5-44.5 51.2-79.5 82.1-104.2 6.8-5.5 13.7-10.3 20.8-14.7C276.9 25.9 189.4 75.6 123.7 145.9zM443 18.5c-22.8 3.5-45.1 13.9-66.6 31-27.2 21.7-51.7 53.1-73 93.3-10.3 19.4-19.5 40.4-27.6 62.6C327.9 217.8 384.4 224.8 443 226V18.5zm-316.6 714.8c31.5-16.7 66.7-30.7 104.5-41.9C211.5 626.5 200.6 553.8 199.1 478H0c3.8 102.1 40.8 195.6 100.5 270.2 8.2-5.1 16.8-10.1 25.9-14.9zm-2.7 41.8C189.4 845.1 276.9 894.8 375.4 913.2c-7-4.3-13.9-9.2-20.8-14.7C323.7 874.1 296 839 272.5 794.6c-11.5-21.7-21.7-45.1-30.6-69.9-35.9 10.6-69.2 23.9-99.1 39.6-6.6 3.5-13 7.1-19.1 10.8zm525.1-651.7c11.5 21.7 21.7 45.1 30.6 69.9 35.9-10.6 69.2-23.9 99.1-39.6 6.6-3.5 13-7.1 19.1-10.8C731.6 75.6 644.1 25.9 545.6 7.5c7 4.3 13.9 9.2 20.8 14.7 30.9 24.7 58.6 59.7 82.1 104.2z"/></svg>`;
-            const _SVG_ERROR = `<svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M21.171 15.398l-5.912-9.854c-.776-1.293-1.963-2.033-3.259-2.033s-2.483.74-3.259 2.031l-5.912 9.856c-.786 1.309-.872 2.705-.235 3.83.636 1.126 1.878 1.772 3.406 1.772h12c1.528 0 2.77-.646 3.406-1.771.637-1.125.551-2.521-.235-3.831zm-9.171 2.151c-.854 0-1.55-.695-1.55-1.549 0-.855.695-1.551 1.55-1.551s1.55.696 1.55 1.551c0 .854-.696 1.549-1.55 1.549zm1.633-7.424c-.011.031-1.401 3.468-1.401 3.468-.038.094-.13.156-.231.156s-.193-.062-.231-.156l-1.391-3.438c-.09-.233-.129-.443-.129-.655 0-.965.785-1.75 1.75-1.75s1.75.785 1.75 1.75c0 .212-.039.422-.117.625z"/></svg>`;
+            const _SVG_CONNECTING = `<span class="DH_Spin_Ico" style="font-size:18px;line-height:1;">􀓞</span>`;
+            const _SVG_CONNECTED = `<span style="font-size:18px;line-height:1;">􀤆</span>`;
+            const _SVG_ERROR = `<span style="font-size:18px;line-height:1;">􀇿</span>`;
             const S = {
                 connecting: {
                     bg: `rgb(var(--color-eel,117,117,117),0.10)`,
@@ -3938,6 +4163,13 @@
             ico.style.display = 'flex';
             ico.style.alignItems = 'center';
             ico.style.justifyContent = 'center';
+            // Mirror to Solver page conn button
+            const _v1b = document.getElementById('DH_V1_Conn_Btn');
+            const _v1i = document.getElementById('DH_V1_Conn_Ico');
+            const _v1t = document.getElementById('DH_V1_Conn_Txt');
+            if (_v1b) { _v1b.style.background = S.bg; _v1b.style.outline = `2px solid ${S.outline}`; _v1b.style.outlineOffset = '-2px'; }
+            if (_v1i) { _v1i.innerHTML = S.svg; _v1i.style.color = S.tc; _v1i.style.display = 'flex'; _v1i.style.alignItems = 'center'; _v1i.style.justifyContent = 'center'; }
+            if (_v1t) { _v1t.textContent = S.t; _v1t.style.color = S.tc; }
             if (state === 'connected') {
                 document.getElementById('DH_User_Row').style.display = 'flex';
                 // Pre-fetch leaderboard in background → instant open + early avatar update
@@ -3996,47 +4228,71 @@
             const main = document.getElementById('DH_Main');
             const box = document.getElementById('DH_Main_Box');
             const h = box.offsetHeight;
-            const icoVisible = document.getElementById('DH_Ico_Visible');
-            const icoHidden = document.getElementById('DH_Ico_Hidden');
+            const hideIco = document.getElementById('DH_Hide_Ico');
             const hideTxt = document.getElementById('DH_Hide_Txt');
             const hideBtn = document.getElementById('DH_Hide_Btn');
-            main.style.transition = '0.8s cubic-bezier(0.16,1,0.32,1)';
-            box.style.transition = '0.8s cubic-bezier(0.16,1,0.32,1)';
             const switchV1Btn = document.getElementById('DH_SwitchV1_Btn');
             const switchV2Btn = document.getElementById('DH_SwitchV2_Btn');
+            const EASE = '0.8s cubic-bezier(0.16,1,0.32,1)';
+            main.style.transition = EASE;
+            box.style.transition = `opacity ${EASE}, filter ${EASE}, transform ${EASE}`;
             if (val) {
-                if (switchV1Btn) switchV1Btn.style.display = 'none';
-                if (switchV2Btn) switchV2Btn.style.display = 'none';
+                if (switchV1Btn) {
+                    switchV1Btn.style.transition = `opacity 0.4s cubic-bezier(0.16,1,0.32,1), filter 0.4s cubic-bezier(0.16,1,0.32,1)`;
+                    switchV1Btn.style.opacity = '0';
+                    switchV1Btn.style.filter = 'blur(8px)';
+                    setTimeout(() => { switchV1Btn.style.display = 'none'; switchV1Btn.style.opacity = ''; switchV1Btn.style.filter = ''; switchV1Btn.style.transition = ''; }, 400);
+                }
+                if (switchV2Btn) {
+                    switchV2Btn.style.transition = `opacity 0.4s cubic-bezier(0.16,1,0.32,1), filter 0.4s cubic-bezier(0.16,1,0.32,1)`;
+                    switchV2Btn.style.opacity = '0';
+                    switchV2Btn.style.filter = 'blur(8px)';
+                    setTimeout(() => { switchV2Btn.style.display = 'none'; switchV2Btn.style.opacity = ''; switchV2Btn.style.filter = ''; switchV2Btn.style.transition = ''; }, 400);
+                }
                 hideBtn.style.background = `linear-gradient(0deg,rgba(var(--DH-blue),0.10),rgba(var(--DH-blue),0.10)),rgb(var(--color-snow),0.80)`;
                 hideBtn.style.outline = `2px solid rgba(var(--DH-blue),0.20)`;
-                if (icoVisible) icoVisible.style.display = 'none';
-                if (icoHidden) {
-                    icoHidden.style.display = '';
-                    icoHidden.querySelector('path').setAttribute('fill', 'rgb(var(--DH-blue))');
-                }
+                if (hideIco) { hideIco.textContent = '􀋮'; hideIco.style.color = 'rgb(var(--DH-blue))'; }
                 hideTxt.textContent = _t('show');
                 hideTxt.style.color = 'rgb(var(--DH-blue))';
                 main.style.bottom = `-${h-8}px`;
                 box.style.filter = 'blur(8px)';
                 box.style.opacity = '0';
+                box.style.transform = 'scale(0.96)';
             } else {
-                if (switchV1Btn) switchV1Btn.style.display = (!_v1Mode) ? '' : 'none';
-                if (switchV2Btn) switchV2Btn.style.display = (_v1Mode) ? '' : 'none';
+                if (switchV1Btn && !_v1Mode) {
+                    switchV1Btn.style.display = '';
+                    switchV1Btn.style.opacity = '0';
+                    switchV1Btn.style.filter = 'blur(8px)';
+                    switchV1Btn.style.transition = `opacity 0.5s cubic-bezier(0.16,1,0.32,1), filter 0.5s cubic-bezier(0.16,1,0.32,1)`;
+                    void switchV1Btn.offsetWidth;
+                    switchV1Btn.style.opacity = '';
+                    switchV1Btn.style.filter = '';
+                    setTimeout(() => { switchV1Btn.style.transition = ''; }, 500);
+                }
+                if (switchV2Btn && _v1Mode) {
+                    switchV2Btn.style.display = '';
+                    switchV2Btn.style.opacity = '0';
+                    switchV2Btn.style.filter = 'blur(8px)';
+                    switchV2Btn.style.transition = `opacity 0.5s cubic-bezier(0.16,1,0.32,1), filter 0.5s cubic-bezier(0.16,1,0.32,1)`;
+                    void switchV2Btn.offsetWidth;
+                    switchV2Btn.style.opacity = '';
+                    switchV2Btn.style.filter = '';
+                    setTimeout(() => { switchV2Btn.style.transition = ''; }, 500);
+                }
                 hideBtn.style.background = `rgb(var(--DH-blue))`;
                 hideBtn.style.outline = `2px solid rgba(0,0,0,0.20)`;
-                if (icoHidden) icoHidden.style.display = 'none';
-                if (icoVisible) {
-                    icoVisible.style.display = '';
-                }
+                if (hideIco) { hideIco.textContent = '􀋰'; hideIco.style.color = '#fff'; }
                 hideTxt.textContent = _t('hide');
                 hideTxt.style.color = '#fff';
                 main.style.bottom = '16px';
                 box.style.filter = '';
                 box.style.opacity = '';
+                box.style.transform = 'scale(1)';
             }
             setTimeout(() => {
                 main.style.transition = '';
                 box.style.transition = '';
+                box.style.transform = '';
                 _animBusy = false;
             }, 800);
         }
@@ -4055,6 +4311,7 @@
                 return;
             }
             const oldH = box.offsetHeight;
+            const oldW = box.offsetWidth;
             fromEl.style.display = 'none';
             toEl.classList.add('active');
             toEl.style.opacity = '0';
@@ -4075,9 +4332,11 @@
                 box.style.width = '';
             }
             const newH = box.offsetHeight;
+            const newW = box.offsetWidth;
             toEl.classList.remove('active');
             toEl.style.opacity = '';
             fromEl.style.display = '';
+            box.style.width = oldW + 'px';
             box.style.height = oldH + 'px';
             box.style.transition = 'height 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
             fromEl.style.transition = 'opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), filter 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -4086,6 +4345,7 @@
             fromEl.style.transform = 'scale(0.96)';
             requestAnimationFrame(() => {
                 box.style.height = newH + 'px';
+                box.style.width = newW + 'px';
             });
             setTimeout(() => {
                 fromEl.classList.remove('active');
@@ -4102,22 +4362,20 @@
                 _pageHistory.push(to);
                 _curPage = to;
                 if (to === 2) {
-
                     const lgB = document.getElementById('DH_League_Btn');
                     const qB = document.getElementById('DH_Quest_Btn');
                     if (_user && lgB) lgB.disabled = false;
                     if (_user && qB) qB.disabled = false;
                 }
                 if (to === 11) {
-                    // Already pre-rendered from cache; now fetch fresh data in background
                     _fetchLeaderboard().then(lb => { _lbCache = lb; _renderLeaderboard(lb); });
                 } else if (to === 4) {
                     const delI = document.getElementById('DH_Delay_Input');
                     if (delI) delI.value = _delay;
                 }
-                // Đã preload rồi nên không cần load lại khi chuyển page
                 setTimeout(() => {
                     box.style.height = '';
+                    box.style.width = '';
                     box.style.transition = '';
                     toEl.style.cssText = '';
                     _pageBusy = false;
@@ -4133,16 +4391,185 @@
             _goPage(prev);
         }
 
-        let _nTimer;
+        let _notifCount = 0;
+        let _currentNotif = [];
+        let _notifsHovered = false;
+
+        const _notifMain = document.querySelector('.DH_Notif_Main');
+        _notifMain.addEventListener('mouseenter', () => { _notifsHovered = true; });
+        _notifMain.addEventListener('mouseleave', () => { _notifsHovered = false; });
+
+        const _notifHTML = `<div class="DH_Notif_Box">
+    <div class="DH_HStack_4" style="align-items: center;">
+        <p class="DH_T1 DH_NoSel DH_Notif_Icon_1"></p>
+        <p class="DH_T1 DH_NoSel DH_Notif_Text_1" style="flex: 1 0 0;"></p>
+        <p class="DH_T1 DH_NoSel DH_Notif_Close" style="align-self: stretch; cursor: pointer; transition: filter 0.4s cubic-bezier(0.16, 1, 0.32, 1), transform 0.4s cubic-bezier(0.16, 1, 0.32, 1);">􀆄</p>
+    </div>
+    <p class="DH_T2 DH_NoSel DH_Notif_Text_2" style="color: rgb(var(--color-wolf), 0.4); align-self: stretch; overflow-wrap: break-word;"></p>
+</div>`;
 
         function _notif(icon, title, body, dur = 5) {
-            const box = document.getElementById('DH_Notif_Box');
-            document.getElementById('DH_Notif_Icon').textContent = icon;
-            document.getElementById('DH_Notif_Title').textContent = title;
-            document.getElementById('DH_Notif_Body').textContent = body;
-            box.classList.add('show');
-            clearTimeout(_nTimer);
-            _nTimer = setTimeout(() => box.classList.remove('show'), dur * 1000);
+            _notifCount++;
+            let notifID = _notifCount;
+            _currentNotif.push(notifID);
+
+            let element = new DOMParser().parseFromString(_notifHTML, 'text/html').body.firstChild;
+            element.id = 'DH_Notif_Box_' + notifID;
+            _notifMain.appendChild(element);
+
+            let iconEl = element.querySelector('.DH_Notif_Icon_1');
+            if (icon === '') {
+                iconEl.style.display = 'none';
+            } else if (icon === 'checkmark') {
+                iconEl.style.color = 'rgb(var(--DLP-green))';
+                iconEl.textContent = '􀁣';
+            } else if (icon === 'warning') {
+                iconEl.style.color = 'rgb(var(--DLP-orange))';
+                iconEl.textContent = '􀁟';
+            } else if (icon === 'error') {
+                iconEl.style.color = 'rgb(var(--DLP-pink))';
+                iconEl.textContent = '􀇿';
+            } else if (typeof icon === 'object') {
+                iconEl.style.color = icon.color;
+                iconEl.textContent = icon.icon;
+            } else {
+                iconEl.textContent = icon;
+            }
+
+            element.querySelector('.DH_Notif_Text_1').innerHTML = title;
+            let bodyEl = element.querySelector('.DH_Notif_Text_2');
+            if (body && body !== '') {
+                bodyEl.innerHTML = body;
+            } else {
+                bodyEl.style.display = 'none';
+            }
+
+            let notification = document.querySelector('#DH_Notif_Box_' + notifID);
+            let notificationHeight = notification.offsetHeight;
+            notification.style.bottom = '-' + notificationHeight + 'px';
+
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    notification.style.bottom = '16px';
+                    notification.style.filter = 'blur(0px)';
+                    notification.style.opacity = '1';
+                });
+            }, 50);
+
+            let isBusyDisappearing = false;
+
+            let timerData = null;
+            if (dur !== 0) {
+                timerData = {
+                    remaining: dur * 1000,
+                    lastTimestamp: Date.now(),
+                    timeoutHandle: null,
+                    paused: false,
+                };
+                timerData.timeoutHandle = setTimeout(internalDisappear, timerData.remaining);
+            }
+
+            let repeatInterval = setInterval(() => {
+                if (document.body.offsetWidth <= 963) {
+                    requestAnimationFrame(() => {
+                        _notifMain.style.width = '300px';
+                        _notifMain.style.position = 'fixed';
+                        _notifMain.style.left = '16px';
+                    });
+                } else {
+                    requestAnimationFrame(() => {
+                        _notifMain.style.width = '';
+                        _notifMain.style.position = '';
+                        _notifMain.style.left = '';
+                    });
+                }
+
+                if (isBusyDisappearing) return;
+
+                if (timerData) {
+                    if (_notifsHovered && !timerData.paused) {
+                        clearTimeout(timerData.timeoutHandle);
+                        let elapsed = Date.now() - timerData.lastTimestamp;
+                        timerData.remaining -= elapsed;
+                        timerData.paused = true;
+                    }
+                    if (!_notifsHovered && timerData.paused) {
+                        timerData.paused = false;
+                        timerData.lastTimestamp = Date.now();
+                        timerData.timeoutHandle = setTimeout(internalDisappear, timerData.remaining);
+                    }
+                }
+
+                if (_notifsHovered) {
+                    let allIDs = _currentNotif.slice();
+                    let bottoms = {};
+                    let currentBottom = 16;
+                    for (let i = allIDs.length - 1; i >= 0; i--) {
+                        let notifEl = document.querySelector('#DH_Notif_Box_' + allIDs[i]);
+                        if (!notifEl) continue;
+                        notifEl.style.width = '';
+                        notifEl.style.height = '';
+                        notifEl.style.transform = '';
+                        bottoms[allIDs[i]] = currentBottom;
+                        currentBottom += notifEl.offsetHeight + 8;
+                    }
+                    notification.style.bottom = bottoms[notifID] + 'px';
+
+                    let totalHeight = 0;
+                    for (let i = 0; i < allIDs.length; i++) {
+                        let notifEl = document.querySelector('#DH_Notif_Box_' + allIDs[i]);
+                        if (notifEl) totalHeight += notifEl.offsetHeight;
+                    }
+                    if (allIDs.length > 1) totalHeight += (allIDs.length - 1) * 8;
+                    _notifMain.style.height = totalHeight + 'px';
+                } else {
+                    _notifMain.style.height = '';
+                    notification.style.bottom = '16px';
+                    if (_currentNotif[_currentNotif.length - 1] !== notifID) {
+                        notification.style.height = notificationHeight + 'px';
+                        requestAnimationFrame(() => {
+                            let latestNotif = document.querySelector(
+                                '#DH_Notif_Box_' + String(_currentNotif[_currentNotif.length - 1])
+                            );
+                            if (latestNotif) {
+                                notification.style.height = latestNotif.offsetHeight + 'px';
+                            }
+                            notification.style.width = '284px';
+                            notification.style.transform = 'translateY(-8px)';
+                        });
+                    } else {
+                        requestAnimationFrame(() => {
+                            notification.style.height = notificationHeight + 'px';
+                            notification.style.width = '';
+                            notification.style.transform = '';
+                        });
+                    }
+                }
+            }, 20);
+
+            function internalDisappear() {
+                if (timerData && timerData.timeoutHandle) clearTimeout(timerData.timeoutHandle);
+                if (isBusyDisappearing) return;
+                isBusyDisappearing = true;
+                _currentNotif.splice(_currentNotif.indexOf(notifID), 1);
+
+                requestAnimationFrame(() => {
+                    notification.style.bottom = '-' + notificationHeight + 'px';
+                    notification.style.filter = 'blur(16px)';
+                    notification.style.opacity = '0';
+                });
+                clearInterval(repeatInterval);
+                setTimeout(() => {
+                    notification.remove();
+                    if (_currentNotif.length === 0) {
+                        _notifMain.style.height = '';
+                    }
+                }, 800);
+            }
+
+            notification.querySelector('.DH_Notif_Close').addEventListener('click', internalDisappear);
+
+            return { close: internalDisappear };
         }
 
         async function _connect() {
@@ -4150,12 +4577,12 @@
             _setConn('connecting');
             _jwt = _getJwt();
             if (!_jwt) {
-                _setConn('error', 'Not logged in');
+                _setConn('error', _t('conn_not_logged_in'));
                 return;
             }
             const dec = _decodeJwt(_jwt);
             if (!dec) {
-                _setConn('error', 'Invalid token');
+                _setConn('error', _t('conn_invalid_token'));
                 return;
             }
             _sub = dec.sub;
@@ -4172,7 +4599,7 @@
                     _applyHideProfileToggle();
                 });
                 _v1FetchSkillId();
-                ['DH_XP_Btn', 'DH_Gem_Btn', 'DH_Streak_Btn', 'DH_League_Btn', 'DH_Quest_Btn', 'DH_Practice_Btn', 'DH_V1_XP_Btn', 'DH_V1_Gem_Btn', 'DH_V1_Streak_Btn'].forEach(id => {
+                ['DH_XP_Btn', 'DH_Gem_Btn', 'DH_Streak_Btn', 'DH_League_Btn', 'DH_Quest_Btn', 'DH_Practice_Btn'].forEach(id => {
                     const b = document.getElementById(id);
                     if (b) b.disabled = false;
                 });
@@ -4192,7 +4619,7 @@
                     _fetchLeaderboard().then(lb => { _lbCache = lb; }).catch(() => {});
                 }, 500);
             } catch (e) {
-                _setConn('error', 'Failed — retrying');
+                _setConn('error', _t('conn_failed_retry'));
                 setTimeout(_connect, 8000);
             }
         }
@@ -4234,43 +4661,134 @@
         }
 
         async function _farmXP(txp) {
-            const MIN = 30,
-                MAX = 499;
-            let loops = Math.floor(txp / MAX),
-                rem = txp % MAX;
-            if (rem > 0 && rem < MIN && loops > 0) {
-                loops--;
-                rem += MAX;
-            }
-            const total = loops + (rem >= MIN ? 1 : 0);
-            let cur = 0,
-                earned = 0;
+            const MIN = 30, MAX = 499;
+            const _isInfXP = txp >= 99999;
+            let cur = 0, earned = 0, consecutiveFailures = 0;
+            const xpBefore = _user?.totalXp || 0;
             _setBtnRunning('DH_XP_Btn');
-            for (let i = 0; i < loops; i++) {
-                if (!_running) break;
-                const ok = await _storyXP(469);
-                if (ok) {
-                    earned += MAX;
-                    cur++;
-                    if (_user) { _user.totalXp = (_user.totalXp || 0) + MAX; _renderUser(_user); }
+            function _xpLive() {
+                const inp = document.getElementById('DH_XP_Input');
+                const wrap = document.getElementById('DH_XP_Input_Wrap');
+                if (inp) {
+                    inp.type = 'text';
+                    inp.readOnly = true;
+                    inp.style.pointerEvents = 'none';
+                    inp.value = earned > 0 ? '+' + earned.toLocaleString() + ' XP' : '...';
                 }
-                _setBtnProgress('DH_XP_Btn', Math.floor((cur / total) * 100));
-                await _sleep(_delay);
+                if (wrap) wrap.style.opacity = '1';
             }
-            if (rem >= MIN && _running) {
-                const ok = await _storyXP(Math.min(rem - MIN, 469));
-                if (ok) {
-                    earned += rem;
-                    cur++;
-                    if (_user) { _user.totalXp = (_user.totalXp || 0) + rem; _renderUser(_user); }
+            function _xpLiveReset() {
+                const inp = document.getElementById('DH_XP_Input');
+                const wrap = document.getElementById('DH_XP_Input_Wrap');
+                if (inp) { inp.type = 'number'; inp.readOnly = false; inp.style.pointerEvents = ''; inp.value = ''; }
+                if (wrap) wrap.style.opacity = '';
+            }
+
+            // Outer loop: after inner loop finishes, server-verify actual XP.
+            // If server confirmed < target (server sometimes awards less than awardedXp field suggests),
+            // update earned to server value and re-enter inner loop to farm the remaining gap.
+            outer:
+            while (_running) {
+                // Inner loop: farm based on local earned estimate
+                while (_running) {
+                    if (!_isInfXP && earned >= txp) break;
+
+                    const remaining = _isInfXP ? Infinity : txp - earned;
+                    if (!_isInfXP && remaining < MIN) break;
+
+                    let nextAmount;
+                    if (_isInfXP || remaining >= MAX) {
+                        nextAmount = MAX;
+                        if (!_isInfXP) {
+                            const r = remaining % MAX;
+                            if (r > 0 && r < MIN) nextAmount = MAX - (MIN - r);
+                        }
+                    } else {
+                        nextAmount = remaining;
+                    }
+                    if (nextAmount < MIN) nextAmount = MIN;
+
+                    const bonus = Math.max(0, nextAmount - MIN);
+                    const awarded = await _storyXP(bonus);
+
+                    if (!_running) break outer;
+
+                    if (awarded > 0) {
+                        consecutiveFailures = 0;
+                        earned += awarded;
+                        cur++;
+                        if (_user) { _user.totalXp = (_user.totalXp || 0) + awarded; _renderUser(_user); }
+                        if (!_isInfXP && earned >= txp) break;
+                    } else {
+                        consecutiveFailures++;
+                        if (consecutiveFailures >= 5) {
+                            _notif('❌', _t('notif_xp_done_title'), 'Rate-limited. Stopping.');
+                            _running = false;
+                            break outer;
+                        }
+                        await _sleep(2000);
+                        continue;
+                    }
+
+                    if (_isInfXP) { _xpLive(); }
+                    else { _setBtnProgress('DH_XP_Btn', Math.floor(Math.min(100, (earned / txp) * 100))); }
+
+                    await _sleep(_delay);
                 }
-                _setBtnProgress('DH_XP_Btn', 100);
+
+                // Infinite mode or stopped — skip verify, exit
+                if (!_running || _isInfXP) break;
+
+                // Server verify: check actual XP applied vs local estimate.
+                // Server can apply less XP than awardedXp response field → gap.
+                if (_sub && _jwt) {
+                    try {
+                        const vr = await _gm('GET', `https://www.duolingo.com/2017-06-30/users/${_sub}?fields=totalXp,gems`);
+                        if (vr.status === 200) {
+                            const vd = JSON.parse(vr.responseText);
+                            const serverGained = Math.max(0, (vd.totalXp || 0) - xpBefore);
+                            if (_user) { _user.totalXp = vd.totalXp || _user.totalXp; _user.gems = vd.gems ?? _user.gems; _renderUser(_user); }
+
+                            if (serverGained >= txp) { earned = serverGained; break outer; }
+
+                            const gap = txp - serverGained;
+                            if (gap < MIN) { earned = serverGained; break outer; }
+
+                            // Server confirmed less — reset earned to actual, re-enter inner loop
+                            earned = serverGained;
+                            continue outer;
+                        }
+                    } catch {}
+                }
+                break outer; // verify failed, accept local count
+            }
+
+            // Final server sync for accurate notification
+            if (earned > 0 && _sub && _jwt) {
+                try {
+                    const vr = await _gm('GET', `https://www.duolingo.com/2017-06-30/users/${_sub}?fields=totalXp,gems`);
+                    if (vr.status === 200) {
+                        const vd = JSON.parse(vr.responseText);
+                        const serverGained = Math.max(0, (vd.totalXp || 0) - xpBefore);
+                        if (serverGained > 0) earned = serverGained;
+                        if (_user) { _user.totalXp = vd.totalXp || _user.totalXp; _user.gems = vd.gems ?? _user.gems; _renderUser(_user); }
+                    }
+                } catch {}
             }
             if (_running) {
+                _xpLiveReset();
                 _setBtnDone('DH_XP_Btn', _t('btn_done'));
-                _notif('✅', 'XP Farm Done!', `Farmed ${earned} XP in ${cur} loops.`);
+                _notif('✅', _t('notif_xp_done_title'), _t('notif_xp_done_body', earned.toLocaleString(), cur));
                 setTimeout(_connect, 1500);
                 setTimeout(() => _resetBtn('DH_XP_Btn', _t('btn_get')), 3000);
+            } else {
+                _xpLiveReset();
+                if (_isInfXP) {
+                    if (earned > 0) _notif('✅', _t('notif_xp_done_title'), _t('notif_xp_done_inf_body', earned.toLocaleString()));
+                } else {
+                    if (earned > 0) _notif('⏹️', _t('notif_xp_stopped_title'), _t('notif_xp_stopped_body', earned.toLocaleString()));
+                }
+                _resetBtn('DH_XP_Btn', _t('btn_get'));
             }
         }
 
@@ -4296,9 +4814,11 @@
                     startTime: now,
                     endTime: now + dur
                 });
-                return r.status === 200;
+                if (r.status !== 200) return 0;
+                const d = JSON.parse(r.responseText);
+                return typeof d.awardedXp === 'number' ? d.awardedXp : 0;
             } catch {
-                return false;
+                return 0;
             }
         }
 
@@ -4371,14 +4891,14 @@
         // ── Gem Farm Helpers (ported from GemHelper) ──────────────────────────────
         async function _fetchGemRewards() {
             try {
-                const response = await fetch(`https://www.duolingo.com/2023-05-23/users/${_sub}?fields=rewardBundles`, {
+                const response = await fetch(`https://www.duolingo.com/2023-05-23/users/${_sub}?fields=rewardBundles{rewards}`, {
                     headers: {
                         'authorization': `Bearer ${_jwt}`,
                         'content-type': 'application/json'
                     }
                 });
 
-                if (!response.ok) return [];
+                if (!response.ok) return null;
 
                 const data = await response.json();
                 const bundles = data.rewardBundles || [];
@@ -4386,7 +4906,10 @@
                 const gemRewards = [];
                 for (const bundle of bundles) {
                     for (const reward of bundle.rewards || []) {
-                        if (!reward.consumed && (reward.id.includes('GEMS') || reward.currency === 'GEMS')) {
+                        if (!reward.consumed && (
+                            (reward.id || '').startsWith('SKILL_COMPLETION-') ||
+                            (reward.id || '').startsWith('SKILL_COMPLETION_BALANCED-')
+                        )) {
                             gemRewards.push({
                                 id: reward.id,
                                 amount: reward.amount || 0
@@ -4397,7 +4920,7 @@
 
                 return gemRewards;
             } catch (e) {
-                return [];
+                return null;
             }
         }
 
@@ -4405,26 +4928,14 @@
             const body = {
                 consumed: true,
                 fromLanguage: _user.fromLanguage,
-                learningLanguage: _user.learningLanguage,
-                pathLevelSpecifics: {
-                    anchorSkillId: 'f22fd38157eea63965dc39eeac3c40c1',
-                    indexSinceAnchorSkill: 0,
-                    treeId: '14b1a2672c1bb3b250ebaa31b86c343e',
-                    nodeState: 'active'
-                }
+                learningLanguage: _user.learningLanguage
             };
             try {
-                // Use native fetch like Gem Helper instead of _gm wrapper
-                const response = await fetch(`https://www.duolingo.com/2017-06-30/users/${_sub}/rewards/${rewardId}`, {
+                const response = await fetch(`https://www.duolingo.com/2023-05-23/users/${_sub}/rewards/${rewardId}`, {
                     method: 'PATCH',
                     headers: {
                         'authorization': `Bearer ${_jwt}`,
-                        'content-type': 'application/json',
-                        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36',
-                        'x-amzn-trace-id': `User=${_sub}`,
-                        'x-requested-with': 'XMLHttpRequest',
-                        'referer': 'https://www.duolingo.com/learn',
-                        'origin': 'https://www.duolingo.com'
+                        'content-type': 'application/json'
                     },
                     body: JSON.stringify(body)
                 });
@@ -4464,46 +4975,53 @@
             if (gemInput) gemInput.value = '';
 
             let totalGained = 0;
+            let consecutiveFailures = 0;
 
             outer:
                 while (_running && _task === 'gem') {
                     const rewards = await _fetchGemRewards();
+
+                    if (rewards === null) {
+                        consecutiveFailures++;
+                        if (consecutiveFailures >= 5) {
+                            _notif('❌', _t('notif_gem_farm_title'), 'Rate-limited. Stopping.');
+                            break;
+                        }
+                        await _sleep(3000);
+                        continue;
+                    }
+                    consecutiveFailures = 0;
 
                     if (rewards.length === 0) {
                         await _sleep(Math.max(200, _delay));
                         continue;
                     }
 
-                    const gemsBefore = await _getGemCount() ?? (_user?.gems ?? 0);
+                    // Fire all rewards in parallel batches
+                    const results = await Promise.all(rewards.map(r => _exploitGemReward(r.id)));
+                    if (!_running || _task !== 'gem') break outer;
 
-                    // Fire all rewards in parallel batches — no inter-batch delay
-                    for (let i = 0; i < rewards.length; i += THREADS) {
-                        if (!_running || _task !== 'gem') break outer;
-                        const batch = rewards.slice(i, i + THREADS);
-                        await Promise.all(batch.map(r => _exploitGemReward(r.id)));
-                    }
-
-                    // Single gem count check after full pass — avoids extra API calls
-                    const now = await _getGemCount();
-                    if (now !== null) {
-                        const gained = Math.max(0, now - gemsBefore);
-                        totalGained += gained;
+                    // Accumulate from reward.amount — no extra API call needed
+                    let batchGained = 0;
+                    results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    if (batchGained > 0) {
+                        totalGained += batchGained;
                         if (gemInput) gemInput.value = String(totalGained);
                         if (_user) {
-                            _user.gems = now;
+                            _user.gems = (_user.gems || 0) + batchGained;
                             _renderUser(_user);
                         }
                     }
 
-                    // Short cooldown before next pass
-                    await _sleep(Math.max(200, _delay / 2));
+                    // Short cooldown before next pass (claims already batched in parallel)
+                    await _sleep(Math.max(80, _delay / 4));
                 }
 
             // Always reset button after farm ends (stopped or done)
             _setBtnState('DH_Gem_Btn', _C_BLUE, _t('btn_run'));
             if (btn) btn.disabled = !_user;
             if (totalGained > 0) {
-                _notif('✅', 'Gem Farm Done!', `+${totalGained} gems gained.`);
+                _notif('✅', _t('notif_gem_done_title'), _t('notif_gem_done_body', totalGained.toLocaleString()));
                 setTimeout(_connect, 1500);
             }
         }
@@ -4556,10 +5074,30 @@
             }
 
             let doneLoops = 0, savedDays = 0;
+            const _isInfSt = days >= 9999;
+            function _stLive() {
+                const inp = document.getElementById('DH_Streak_Input');
+                const wrap = document.getElementById('DH_Streak_Input_Wrap');
+                if (inp) {
+                    inp.type = 'text';
+                    inp.readOnly = true;
+                    inp.style.pointerEvents = 'none';
+                    inp.value = savedDays > 0 ? '+' + savedDays + ' ' + _t(savedDays === 1 ? 'streak_day' : 'streak_days') : '...';
+                }
+                if (wrap) wrap.style.opacity = '1';
+            }
+            function _stLiveReset() {
+                const inp = document.getElementById('DH_Streak_Input');
+                const wrap = document.getElementById('DH_Streak_Input_Wrap');
+                if (inp) { inp.type = 'number'; inp.readOnly = false; inp.style.pointerEvents = ''; inp.value = ''; }
+                if (wrap) wrap.style.opacity = '';
+            }
             _setBtnRunning('DH_Streak_Btn');
 
+            let streakFailures = 0;
             while (_running && doneLoops < days) {
-                _setBtnProgress('DH_Streak_Btn', Math.floor((doneLoops / days) * 100));
+                if (_isInfSt) { _stLive(); }
+                else { _setBtnProgress('DH_Streak_Btn', Math.floor((doneLoops / days) * 100)); }
 
                 // endTime = 12:00:00 of (base - 1 - doneLoops) theo timezone tài khoản
                 const endSecs = _wallClockToSeconds(
@@ -4584,49 +5122,75 @@
 
                 if (!_running) break;
 
-                if (sess?.id) {
-                    let ok = false;
-                    await new Promise(r => GM_xmlhttpRequest({
-                        method: 'PUT',
-                        url: `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`,
-                        headers: _hdrs,
-                        data: JSON.stringify({
-                            ...sess,
-                            heartsLeft: 5,
-                            startTime: endSecs - 1, endTime: endSecs,
-                            enableBonusPoints: false, failed: false,
-                            maxInLessonStreak: 9, shouldLearnThings: true
-                        }),
-                        onload: res => { ok = res.status === 200; r(); },
-                        onerror: () => r(), timeout: 15000, ontimeout: () => r()
-                    }));
-
-                    if (ok) {
-                        savedDays++;
-                        if (_user) {
-                            _user.streak = (_user.streak || 0) + 1;
-                            _renderUser(_user);
-                        }
+                // POST failed — retry this day without advancing doneLoops
+                if (!sess?.id) {
+                    streakFailures++;
+                    if (streakFailures >= 5) {
+                        _notif('❌', _t('notif_streak_farm_title'), 'Rate-limited. Stopping.');
+                        _running = false;
+                        break;
                     }
+                    await _sleep(2000);
+                    continue;
                 }
 
-                doneLoops++;
-                await _sleep(_delay);
+                let ok = false;
+                await new Promise(r => GM_xmlhttpRequest({
+                    method: 'PUT',
+                    url: `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`,
+                    headers: _hdrs,
+                    data: JSON.stringify({
+                        ...sess,
+                        heartsLeft: 5,
+                        startTime: endSecs - 1, endTime: endSecs,
+                        enableBonusPoints: false, failed: false,
+                        maxInLessonStreak: 9, shouldLearnThings: true
+                    }),
+                    onload: res => { ok = res.status === 200; r(); },
+                    onerror: () => r(), timeout: 15000, ontimeout: () => r()
+                }));
+
+                if (!_running) break;
+
+                if (ok) {
+                    streakFailures = 0;
+                    savedDays++;
+                    doneLoops++;   // only advance when day actually saved
+                    if (_user) {
+                        _user.streak = (_user.streak || 0) + 1;
+                        _renderUser(_user);
+                    }
+                    if (_isInfSt) { _stLive(); }
+                    await _sleep(_delay);
+                } else {
+                    // PUT failed — retry this day
+                    streakFailures++;
+                    if (streakFailures >= 5) {
+                        _notif('❌', _t('notif_streak_farm_title'), 'Rate-limited. Stopping.');
+                        _running = false;
+                        break;
+                    }
+                    await _sleep(2000);
+                }
             }
 
             if (_running) {
+                _stLiveReset();
                 _setBtnProgress('DH_Streak_Btn', 100);
                 _setBtnDone('DH_Streak_Btn', _t('btn_done'));
                 if (savedDays > 0) {
-                    _notif('🔥', 'Streak Farm Done!', `Restored ${savedDays} streak days.`);
+                    _notif('🔥', _t('notif_streak_done_title'), _t('notif_streak_done_body', savedDays));
                 } else {
-                    _notif('⚠️', 'Streak Farm', 'No days could be saved. Please try again.');
+                    _notif('⚠️', _t('notif_streak_farm_title'), _t('notif_streak_no_days'));
                 }
                 setTimeout(_connect, 1500);
                 setTimeout(() => _resetBtn('DH_Streak_Btn', _t('btn_run')), 3000);
             } else {
-                if (savedDays > 0) {
-                    _notif('⏹', 'Streak Farm Stopped', `Processed ${savedDays} days.`);
+                _stLiveReset();
+                if (_isInfSt) {
+                    if (savedDays > 0) _notif('🔥', _t('notif_streak_done_title'), _t('notif_streak_done_inf_body', savedDays, _t(savedDays === 1 ? 'streak_day' : 'streak_days')));
+                } else {
+                    if (savedDays > 0) _notif('⏹', _t('notif_streak_stopped_title'), _t('notif_streak_stopped_body', savedDays));
                 }
                 _resetBtn('DH_Streak_Btn', _t('btn_run'));
             }
@@ -4638,13 +5202,13 @@
             _lessonsToSolve = count;
             _currentLessonCount = 0;
             if (_lessonSolving) {
-                _notif('⚠️', 'Busy', 'Practice farm already running.');
+                _notif('⚠️', _t('notif_busy_title'), _t('notif_practice_busy'));
                 return;
             }
             _lessonSolving = true;
             const btn = document.getElementById('DH_Practice_Btn');
             _setBtnState('DH_Practice_Btn', _C_RED, _t('btn_stop'));
-            _notif('📚', 'Farm Practice', 'Navigating to practice...', 3);
+            _notif('📚', _t('notif_practice_title'), _t('notif_practice_nav'), 3);
 
             if (!window.location.pathname.startsWith('/practice')) {
                 window.location.assign('/practice');
@@ -4662,109 +5226,34 @@
             }
             if (!_lessonSolving) return;
 
-            await new Promise(resolve => {
-                let lastId = null,
-                    solving = false,
-                    ticks = 0;
-                const MAX = 240;
-                const clickNext = () => {
-                    const inStory = location.hostname.includes('stories.duolingo.com') ||
-                        location.pathname.includes('/stories') ||
-                        !!document.querySelector('[data-test="stories-choice"]') ||
-                        !!document.querySelector('[data-test="stories-player-continue"]') ||
-                        !!document.querySelector('[data-test="stories-player-done"]');
-                    if (inStory) {
-                        const continueStory = _autoSolver.findStoryContinue();
-                        if (continueStory) {
-                            continueStory();
-                            return;
-                        }
-                    }
-                    const nb = document.querySelector('[data-test="player-next"]') || document.querySelector('[data-test="stories-player-continue"]') || document.querySelector('[data-test="stories-player-done"]');
-                    if (!nb || nb.getAttribute('aria-disabled') === 'true' || nb.disabled) return;
-                    nb.click();
-                    setTimeout(() => {
-                        if (!nb.disabled) nb.click();
-                    }, 5);
-                };
-                const iv = setInterval(async () => {
+            const deadline = Date.now() + 180000;
+            while (_lessonSolving && Date.now() < deadline) {
+                const done = document.querySelector('[data-test="session-over"]') ||
+                    document.querySelector('[data-test="session-complete-slide"]') ||
+                    document.querySelector('[data-test="session-complete"]');
+                if (done) {
+                    _currentLessonCount++;
                     try {
-                        if (!_lessonSolving) {
-                            clearInterval(iv);
-                            resolve();
-                            return;
-                        }
-                        if (++ticks > MAX) {
-                            clearInterval(iv);
-                            resolve();
-                            return;
-                        }
-                        const done = document.querySelector('[data-test="session-over"]') || document.querySelector('[data-test="session-complete-slide"]') || document.querySelector('[data-test="session-complete"]');
-                        if (done) {
-                            clearInterval(iv);
-                            _currentLessonCount++;
-
-                            try {
-                                const s = JSON.parse(sessionStorage.getItem('dh2_practice') || '{}');
-                                s.done = _currentLessonCount;
-                                sessionStorage.setItem('dh2_practice', JSON.stringify(s));
-                            } catch {}
-                            await _sleep(_safeWait(500));
-                            resolve();
-                            return;
-                        }
-                        if (solving) return;
-                        let el = document.querySelector('._3yE3H') || document.querySelector('[data-test="challenge"]') || document.querySelector('[class*="challenge"]');
-                        // Stories elements
-                        if (!el) el = document.querySelector('[data-test="stories-choice"]')?.closest('[class]') || document.querySelector('[data-test="challenge-tap-token-text"]')?.closest('[class]') || document.querySelector('.FmlUF');
-                        if (!el) {
-                            clickNext();
-                            return;
-                        }
-                        const ri = _autoSolver.findReact(el);
-                        window.sol = ri?.props?.currentChallenge;
-                        if (!window.sol) {
-                            clickNext();
-                            return;
-                        }
-                        const cid = `${window.sol.type}:${window.sol.id||JSON.stringify(window.sol.correctIndex??window.sol.correctTokens??window.sol.correctSolutions?.[0]??'')}`;
-                        if (cid === lastId) {
-                            clickNext();
-                            return;
-                        }
-                        const type = _autoSolver.determineChallengeType();
-                        if (!type) {
-                            clickNext();
-                            return;
-                        }
-                        solving = true;
-                        lastId = cid;
-                        try {
-                            await _autoSolver.handleChallenge(type);
-                        } catch {}
-                        if (_SAFE_MODE) await _sleep(_safeWait(350));
-                        clickNext();
-                        if (_SAFE_MODE) await _sleep(_safeWait(600));
-                        solving = false;
-                    } catch {
-                        solving = false;
-                    }
-                }, _safeWait(500));
-                setTimeout(() => {
-                    clearInterval(iv);
-                    resolve();
-                }, 180000);
-            });
+                        const s = JSON.parse(sessionStorage.getItem('dh2_practice') || '{}');
+                        s.done = _currentLessonCount;
+                        sessionStorage.setItem('dh2_practice', JSON.stringify(s));
+                    } catch {}
+                    await _sleep(_safeWait(500));
+                    break;
+                }
+                await _autoSolver.solve();
+                await _sleep(_safeWait(400));
+            }
 
             if (!_lessonSolving) return;
 
             if (_lessonsToSolve > 0 && _currentLessonCount >= _lessonsToSolve) {
-                _notif('✅', 'Farm Practice Done!', `Completed ${_currentLessonCount} practice(s).`);
+                _notif('✅', _t('notif_practice_done_title'), _t('notif_practice_done_body', _currentLessonCount));
                 _stopPractice();
                 return;
             }
 
-            _notif('📚', 'Farm Practice', `Done ${_currentLessonCount}${_lessonsToSolve>0?' / '+_lessonsToSolve:''} — loading next...`, 2);
+            _notif('📚', _t('notif_practice_title'), _t('notif_practice_next_body', _currentLessonCount, _lessonsToSolve), 2);
             await _sleep(800);
             if (_lessonSolving) window.location.assign('/practice');
         }
@@ -4813,26 +5302,71 @@
             } catch {}
         }
 
+        async function _joinLeague() {
+            let wasPrivate = false;
+            try {
+                const pr = await _gm('GET', `https://www.duolingo.com/2023-05-23/users/${_sub}/privacy-settings?fields=privacySettings`);
+                if (pr.status === 200) {
+                    const pd = JSON.parse(pr.responseText);
+                    const soc = (pd.privacySettings || []).find(s => s.id === 'disable_social');
+                    wasPrivate = soc ? soc.enabled : false;
+                }
+            } catch {}
+            if (wasPrivate) {
+                try {
+                    await _gm('PATCH', `https://www.duolingo.com/2023-05-23/users/${_sub}/privacy-settings?fields=privacySettings`, { DISABLE_SOCIAL: false });
+                    await _sleep(2000);
+                } catch {}
+            }
+            try { await _storyXP(0); } catch {}
+            if (wasPrivate) {
+                try {
+                    await _gm('PATCH', `https://www.duolingo.com/2023-05-23/users/${_sub}/privacy-settings?fields=privacySettings`, { DISABLE_SOCIAL: true });
+                } catch {}
+            }
+        }
+
         async function _farmLeague() {
             const LB = 'https://duolingo-leaderboards-prod.duolingo.com/leaderboards/7d9f5dd1-8423-491a-91f2-2532052038ce';
             const prog = document.getElementById('DH_League_Prog');
             const fill = document.getElementById('DH_League_Fill');
             if (prog) prog.classList.add('on');
             _setBtnState('DH_League_Btn', _C_RED, _t('btn_stop'));
+            let joinAttemptCount = 0;
+            let consecutiveFailures = 0;
             while (_running) {
                 try {
                     const r = await _gm('GET', `${LB}/users/${_sub}?client_unlocked=true&get_reactions=true&_=${Date.now()}`);
                     if (r.status !== 200) {
+                        consecutiveFailures++;
+                        if (consecutiveFailures >= 5) {
+                            _notif('❌', 'League', 'Rate-limited. Stopping.');
+                            break;
+                        }
                         await _sleep(3000);
                         continue;
                     }
+                    consecutiveFailures = 0;
                     const data = JSON.parse(r.responseText);
                     const ranks = data?.active?.cohort?.rankings || [];
                     const me = ranks.find(u => u.user_id == _sub);
                     if (!me) {
-                        _notif('⚠️', 'Not in league!', 'Join a league first.');
+                        if (joinAttemptCount === 0) {
+                            joinAttemptCount = 1;
+                            _notif('ℹ️', 'League', 'Not in a league. Joining now…');
+                            await _joinLeague();
+                            await _sleep(3000);
+                            continue;
+                        } else if (joinAttemptCount < 5) {
+                            joinAttemptCount++;
+                            await _storyXP(0);
+                            await _sleep(3000);
+                            continue;
+                        }
+                        _notif('⚠️', 'League', 'Could not join a league after several attempts.');
                         break;
                     }
+                    joinAttemptCount = 0;
                     const rank = ranks.indexOf(me) + 1;
                     const top1 = ranks[0];
                     const gap = top1.score - me.score;
@@ -4842,8 +5376,8 @@
                     }
                     if (fill) fill.style.width = Math.min(95, Math.floor((me.score / Math.max(top1.score, 1)) * 100)) + '%';
                     if (gap + 100 > 0) {
-                        const ok = await _storyXP(469);
-                        if (!ok) await _sleep(3000);
+                        const awarded = await _storyXP(469);
+                        if (!awarded) await _sleep(3000);
                     }
                     await _sleep(_delay);
                 } catch {
@@ -4923,7 +5457,7 @@
             _setBtnState('DH_Quest_Btn', _C_GRAY, _t('btn_loading'));
             const [schema, progress] = await Promise.all([_getGoals(), _getProgress()]);
             if (!schema || !progress) {
-                _notif('❌', 'Error', 'Could not load quest data.');
+                _notif('❌', _t('notif_error_title'), _t('notif_daily_error'));
                 _resetBtn('DH_Quest_Btn', _t('btn_run'));
                 return;
             }
@@ -4931,7 +5465,7 @@
             const daily = (schema.goals || []).filter(g => g.category && g.category.includes('DAILY'));
             const metrics = new Set(daily.filter(g => !earned.has(g.badgeId) && !earned.has(g.goalId) && g.metric).map(g => g.metric));
             if (!metrics.size) {
-                _notif('✅', 'All Done!', 'All daily quests completed.');
+                _notif('✅', _t('notif_all_done_title'), _t('notif_all_done_body'));
                 _setBtnDone('DH_Quest_Btn', _t('btn_done'));
                 setTimeout(() => _resetBtn('DH_Quest_Btn', _t('btn_run')), 3000);
                 return;
@@ -4939,11 +5473,11 @@
             _setBtnState('DH_Quest_Btn', _C_RED, _t('btn_running'));
             const ok = await _bruteForceGoals(Array.from(metrics));
             if (ok) {
-                _notif('✅', 'Daily Quests Done!', `Completed ${metrics.size} metric(s).`);
+                _notif('✅', _t('notif_daily_done_title'), _t('notif_daily_done_body', metrics.size));
                 _setBtnDone('DH_Quest_Btn', _t('btn_done'));
                 setTimeout(() => _resetBtn('DH_Quest_Btn', _t('btn_run')), 3000);
             } else {
-                _notif('❌', 'Error', 'Quest completion failed.');
+                _notif('❌', _t('notif_error_title'), _t('notif_daily_fail'));
                 _resetBtn('DH_Quest_Btn', _t('btn_run'));
             }
         }
@@ -5052,12 +5586,12 @@
                     if (r.status === 200 || r.status === 201) {
                         _sBtn.className = 'DH_Shop_Btn got';
                         _sBtn.textContent = _t('btn_got');
-                        _notif('✅', 'Super Activated!', 'Free Super Duolingo activated!', 7);
+                        _notif('✅', _t('notif_super_title'), _t('notif_super_body'), 7);
                         setTimeout(() => { _sBtn.className = 'DH_Shop_Btn'; _sBtn.textContent = _t('btn_get'); }, 3000);
                     } else {
                         _sBtn.className = 'DH_Shop_Btn fail';
                         _sBtn.textContent = _t('btn_failed');
-                        _notif('❌', 'Failed', 'Activation failed. You may already have Super.', 5);
+                        _notif('❌', _t('notif_failed_title'), _t('notif_super_fail'), 5);
                         setTimeout(() => { _sBtn.className = 'DH_Shop_Btn'; _sBtn.textContent = _t('btn_get'); }, 2000);
                     }
                 } catch {
@@ -5135,7 +5669,7 @@
                             if (ok) {
                                 btn.className = 'DH_Shop_Btn got';
                                 btn.textContent = _t('btn_got');
-                                _notif('🛒', 'Shop', 'Got ' + item.displayName + '!');
+                                _notif('🎁', 'Shop', 'Got ' + item.displayName + '!');
                                 setTimeout(() => {
                                     btn.className = 'DH_Shop_Btn';
                                     btn.textContent = _t('btn_get');
@@ -5349,6 +5883,7 @@
             while (_v1Running && _v1Task === 'xp') {
                 if (use499) {
                     let status = 0;
+                    let awarded499 = 0;
                     try {
                         const now = Math.floor(Date.now() / 1000);
                         const dur = Math.floor(Math.random() * 121 + 300);
@@ -5371,14 +5906,18 @@
                             endTime: now + dur
                         });
                         status = r.status;
+                        if (status === 200) {
+                            const d = JSON.parse(r.responseText);
+                            awarded499 = typeof d.awardedXp === 'number' ? d.awardedXp : 499;
+                        }
                     } catch {}
 
                     if (status === 200) {
                         cons429 = 0;
                         fallbackErrors = 0;
-                        _v1Earned.xp += 499;
+                        _v1Earned.xp += awarded499;
                         _v1UpdateDisplayNow();
-                        if (_user) { _user.totalXp = (_user.totalXp || 0) + 499; _v1SyncUser(); }
+                        if (_user) { _user.totalXp = (_user.totalXp || 0) + awarded499; _v1SyncUser(); }
                         loopPct = (loopPct + 2) % 99 + 1;
                         _v1SetProg('DH_V1_XP', loopPct);
                     } else if (status === 429) {
@@ -5424,7 +5963,7 @@
 
             _v1ClearProg('DH_V1_XP');
             _v1SetBtnState('DH_V1_XP_Btn', _C_BLUE, _t('btn_run'));
-            document.getElementById('DH_V1_XP_Btn').disabled = !_user;
+            const _v1xb = document.getElementById('DH_V1_XP_Btn'); if (_v1xb) _v1xb.disabled = !_user;
             _v1Running = false;
             _v1Task = null;
             if (_v1Earned.xp > 0) {
@@ -5440,47 +5979,54 @@
             _v1SetProg('DH_V1_Gem', 1);
 
             let loopPct = 0;
+            let consecutiveFailures = 0;
 
             outer:
                 while (_v1Running && _v1Task === 'gems') {
                     const rewards = await _fetchGemRewards();
 
+                    if (rewards === null) {
+                        consecutiveFailures++;
+                        if (consecutiveFailures >= 5) {
+                            _notif('❌', 'Gem Farm', 'Rate-limited. Stopping.');
+                            break;
+                        }
+                        await _sleep(3000);
+                        continue;
+                    }
+                    consecutiveFailures = 0;
+
                     if (rewards.length === 0) {
-                        _notif('⚠️', 'Gem Farm', 'No rewards available. Retrying…', 3);
+                        _notif('⚠️', 'Gem Farm', _t('notif_gem_no_rewards'), 3);
                         await _sleep(_delay * 2);
                         continue;
                     }
 
-                    const gemsBefore = await _getGemCount() ?? (_user?.gems ?? 0);
+                    // Fire all rewards in parallel
+                    const results = await Promise.all(rewards.map(r => _exploitGemReward(r.id)));
+                    if (!_v1Running || _v1Task !== 'gems') break outer;
 
-                    // Fire all rewards in parallel batches — no inter-batch delay
-                    for (let i = 0; i < rewards.length; i += THREADS) {
-                        if (!_v1Running || _v1Task !== 'gems') break outer;
-                        const batch = rewards.slice(i, i + THREADS);
-                        await Promise.all(batch.map(r => _exploitGemReward(r.id)));
-                    }
-
-                    // Single gem count check after full pass
-                    const now = await _getGemCount();
-                    if (now !== null) {
-                        const cycle = Math.max(0, now - gemsBefore);
-                        _v1Earned.gems += cycle;
+                    // Accumulate from reward.amount — no extra API call needed
+                    let batchGained = 0;
+                    results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    if (batchGained > 0) {
+                        _v1Earned.gems += batchGained;
                         _v1UpdateDisplayNow();
                         loopPct = (loopPct + 1) % 99 + 1;
                         _v1SetProg('DH_V1_Gem', loopPct);
                         if (_user) {
-                            _user.gems = now;
+                            _user.gems = (_user.gems || 0) + batchGained;
                             _v1SyncUser();
                         }
                     }
 
-                    // Short cooldown before next pass
-                    await _sleep(Math.max(200, _delay / 2));
+                    // Short cooldown before next pass (claims already batched in parallel)
+                    await _sleep(Math.max(80, _delay / 4));
                 }
 
             _v1ClearProg('DH_V1_Gem');
             _v1SetBtnState('DH_V1_Gem_Btn', _C_BLUE, _t('btn_run'));
-            document.getElementById('DH_V1_Gem_Btn').disabled = !_user;
+            const _v1gb = document.getElementById('DH_V1_Gem_Btn'); if (_v1gb) _v1gb.disabled = !_user;
             _v1Running = false;
             _v1Task = null;
             if (_v1Earned.gems > 0) {
@@ -5566,7 +6112,7 @@
 
             _v1ClearProg('DH_V1_Streak');
             _v1SetBtnState('DH_V1_Streak_Btn', _C_BLUE, _t('btn_run'));
-            document.getElementById('DH_V1_Streak_Btn').disabled = !_user;
+            const _v1sb = document.getElementById('DH_V1_Streak_Btn'); if (_v1sb) _v1sb.disabled = !_user;
             _v1Running = false;
             _v1Task = null;
             if (_v1Earned.streak > 0) {
@@ -5708,12 +6254,12 @@
             <div class="DH_Acc_Info">
                 <p class="DH_Acc_Name DH_NoSel">${acc.username}</p>
                 ${isCurrentUser
-                    ? `<p class="DH_Acc_Sub active DH_NoSel"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="rgb(var(--DH-green))"><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle></svg>Active</p>`
-                    : `<p class="DH_Acc_Sub DH_NoSel">ID: ${String(acc.id).slice(0,8)}…</p>`
+                    ? `<p class="DH_Acc_Sub active DH_NoSel"><svg width="8" height="8" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="rgb(var(--DH-green))"><animate attributeName="opacity" values="1;0.4;1" dur="2s" repeatCount="indefinite"/></circle></svg>${_t('acc_active')}</p>`
+                    : `<p class="DH_Acc_Sub DH_NoSel">ID: ${acc.id}</p>`
                 }
             </div>
             <div class="DH_Acc_Action_Row">
-                ${!isCurrentUser?`<button class="DH_Acc_Btn login" data-id="${acc.id}">LOG IN</button>`:''}
+                ${!isCurrentUser?`<button class="DH_Acc_Btn login" data-id="${acc.id}">${_t('acc_login_btn')}</button>`:''}
                 <button class="DH_Acc_Btn del" data-id="${acc.id}">✕</button>
             </div>
         `;
@@ -5756,7 +6302,7 @@
                         acc.pic = pic;
                         changed = true;
                     }
-                } catch { /* token hết hạn hoặc lỗi mạng — bỏ qua */ }
+                } catch { /* token hết hạn hoac lỗi mạng — bỏ qua */ }
             }));
 
             if (changed) {
@@ -5922,7 +6468,7 @@
             <img src="${icon}" class="DH_Quest_Icon" onerror="this.src='https://d35aaqx5ub95lt.cloudfront.net/images/achievement/aca5f82d97f5e67c1acb1ea05a0e6d1a.svg'">
             <div class="DH_Quest_Info">
                 <p class="DH_Quest_Title DH_NoSel">${title}</p>
-                <p class="DH_Quest_Meta DH_NoSel">${isEarned ? 'COMPLETED' : cur + ' / ' + tgt + ' · ' + metric}</p>
+                <p class="DH_Quest_Meta DH_NoSel">${isEarned ? _t('mq_completed') : cur + ' / ' + tgt + ' · ' + metric}</p>
                 <div class="DH_Quest_Bar_Bg"><div class="DH_Quest_Bar_Fill" style="width:${pct}%"></div></div>
             </div>
             ${!isEarned && !isCurrentMonth ? `<button class="DH_Quest_Get_Btn" data-ym="${ym}" data-metric="${metric}" data-amount="${remaining}" data-id="${progressKey || ym + '_monthly_challenge'}">GET</button>` : ''}
@@ -6049,8 +6595,8 @@
 
 
         document.getElementById('DH_SwitchV1_Btn').addEventListener('click', () => {
+            if (_pageBusy) return;
             _v1Mode = true;
-
             document.getElementById('DH_SwitchV1_Btn').style.display = 'none';
             document.getElementById('DH_SwitchV2_Btn').style.display = '';
             _v1SyncUser();
@@ -6059,22 +6605,19 @@
         });
 
         document.getElementById('DH_SwitchV2_Btn').addEventListener('click', () => {
+            if (_pageBusy) return;
             _v1Mode = false;
-
             if (_v1Running) {
                 _v1Running = false;
                 _v1Task = null;
             }
-
             document.getElementById('DH_SwitchV2_Btn').style.display = 'none';
             document.getElementById('DH_SwitchV1_Btn').style.display = '';
             _goPage(1);
         });
 
 
-        document.getElementById('DH_V1_XP_Btn').addEventListener('click', () => _v1RunToggle('xp'));
-        document.getElementById('DH_V1_Gem_Btn').addEventListener('click', () => _v1RunToggle('gems'));
-        document.getElementById('DH_V1_Streak_Btn').addEventListener('click', () => _v1RunToggle('streak'));
+        // V1 XP/Gem/Streak buttons removed from Solver page
 
         async function _activateFreeSuper_REMOVED(btnId, lblId, progId, fillId) { return; // removed
             const jwt = _getSuperJWT();
@@ -6143,10 +6686,7 @@
             }
         }
 
-        document.getElementById('DH_V1_Settings_Btn').addEventListener('click', () => {
-            _goPage(4);
-            _initHideProfileToggle();
-        });
+        document.getElementById('DH_V1_Settings_Btn').addEventListener('click', () => _goPage(2));
         document.getElementById('DH_Discord_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/discord', '_blank'));
         document.getElementById('DH_GitHub_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/github', '_blank'));
         document.getElementById('DH_YouTube_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/youtube', '_blank'));
@@ -6157,6 +6697,12 @@
         document.getElementById('DH_Donate_Btn').addEventListener('click', () => {
             window.open('https://duohacker.io.vn/donation#choose', '_blank');
         });
+        // Solver page social/donate/settings buttons
+        document.getElementById('DH_V1_Discord_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/discord', '_blank'));
+        document.getElementById('DH_V1_GitHub_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/github', '_blank'));
+        document.getElementById('DH_V1_YouTube_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/youtube', '_blank'));
+        document.getElementById('DH_V1_Donate_Btn').addEventListener('click', () => window.open('https://duohacker.io.vn/donation#choose', '_blank'));
+        document.getElementById('DH_V1_TopSettings_Btn').addEventListener('click', () => { _goPage(4); _initHideProfileToggle(); });
 
         async function _getPrivacy() {
             if (!_sub || !_hdrs) return null;
@@ -6371,6 +6917,221 @@
             if (e.key === 'Enter' && !stB.disabled) stB.click();
         });
 
+        // ── Mode Buttons (# / Time / Infinity) ──────────────────────────────────
+        (function _setupModeBtns() {
+            // SVG icons matching DuoHacker stroke style
+            const ICON_HASH = '􀆃'; // SF Symbol: number.sign (#)
+            const ICON_TIME = '􀐬'; // SF Symbol: timer
+            const ICON_INF  = '∞'; // SF Symbol: infinity
+
+            // Clone a button element to strip ALL existing event listeners
+            function cloneBtn(id) {
+                const old = document.getElementById(id);
+                if (!old) return null;
+                const fresh = old.cloneNode(true);
+                old.parentNode.replaceChild(fresh, old);
+                return fresh;
+            }
+
+            // ── XP: hash → time → infinity ──
+            let xpMode = 'hash';
+            const xpModeBtn  = document.getElementById('DH_XP_Mode_Btn');
+            const xpModeIcon = document.getElementById('DH_XP_Mode_Icon');
+            const xpInputWrap = document.getElementById('DH_XP_Input_Wrap');
+            // Clone xpB to remove old click listeners that would conflict
+            const xpBtn = cloneBtn('DH_XP_Btn');
+
+            function syncXPMode() {
+                const icon = document.getElementById('DH_XP_Mode_Icon');
+                if (xpMode === 'hash') {
+                    icon.textContent = ICON_HASH;
+                    xpModeBtn.title = 'Switch to Time Mode';
+                    xpInputWrap.style.opacity = '';
+                    xpI.style.pointerEvents = '';
+                    xpI.readOnly = false;
+                    xpI.placeholder = '0';
+                    xpBtn.disabled = !_user || !xpI.value || +xpI.value < 30;
+                } else if (xpMode === 'time') {
+                    icon.textContent = ICON_TIME;
+                    xpModeBtn.title = 'Switch to Infinite Mode';
+                    xpInputWrap.style.opacity = '';
+                    xpI.style.pointerEvents = '';
+                    xpI.readOnly = false;
+                    xpI.placeholder = 'min';
+                    xpBtn.disabled = !_user || !xpI.value || +xpI.value < 1;
+                } else {
+                    icon.textContent = ICON_INF;
+                    xpModeBtn.title = 'Switch to # Mode';
+                    xpInputWrap.style.opacity = '0.35';
+                    xpI.style.pointerEvents = 'none';
+                    xpBtn.disabled = !_user;
+                }
+            }
+            xpModeBtn.addEventListener('click', () => {
+                xpMode = xpMode === 'hash' ? 'time' : xpMode === 'time' ? 'infinity' : 'hash';
+                xpI.value = '';
+                syncXPMode();
+            });
+            xpI.addEventListener('input', () => { syncXPMode(); });
+            xpI.addEventListener('keydown', e => { if (e.key === 'Enter' && !xpBtn.disabled) xpBtn.click(); });
+            xpBtn.addEventListener('click', () => {
+                if (_running && _task === 'xp') {
+                    if (xpMode === 'hash') { _run('xp', 0); } else { _running = false; }
+                    return;
+                }
+                if (_running) { _notif('⚠️', 'Busy', 'Stop current farm first.'); return; }
+                if (xpMode === 'infinity') {
+                    _run('xp', 99999999);
+                    setTimeout(() => {
+                        const prog = document.getElementById('DH_XP_Prog');
+                        if (prog) { prog.classList.remove('on'); }
+                        const fill = document.getElementById('DH_XP_Fill');
+                        if (fill) fill.style.width = '0%';
+                    }, 80);
+                } else if (xpMode === 'time') {
+                    const mins = +xpI.value;
+                    if (mins < 1) { _notif('⚠️', 'Min 1 min', 'Enter at least 1 minute.'); return; }
+                    const startAt = Date.now();
+                    const endAt = startAt + mins * 60000;
+                    const totalMs = mins * 60000;
+                    _run('xp', 99999999);
+                    const progEl  = document.getElementById('DH_XP_Prog');
+                    if (progEl) progEl.classList.add('on');
+                    const stopTimer = setInterval(() => {
+                        if (!_running || _task !== 'xp') { clearInterval(stopTimer); return; }
+                        const now = Date.now();
+                        const elapsed = now - startAt;
+                        const pct = Math.min(100, Math.floor((elapsed / totalMs) * 100));
+                        const fill = document.getElementById('DH_XP_Fill');
+                        if (fill) fill.style.width = pct + '%';
+                        if (now >= endAt) { clearInterval(stopTimer); _running = false; }
+                    }, 500);
+                } else {
+                    const v = +xpI.value;
+                    if (v < 30) { _notif('⚠️', 'Min 30 XP', 'Enter at least 30 XP.'); return; }
+                    _run('xp', v);
+                }
+            });
+            syncXPMode();
+
+            // ── Streak: hash → time → infinity ──
+            let stMode = 'hash';
+            const stModeBtn  = document.getElementById('DH_Streak_Mode_Btn');
+            const stModeIcon = document.getElementById('DH_Streak_Mode_Icon');
+            const stInputWrap = document.getElementById('DH_Streak_Input_Wrap');
+            // Clone stB to remove old click listeners
+            const stBtn = cloneBtn('DH_Streak_Btn');
+
+            function syncStMode() {
+                const icon = document.getElementById('DH_Streak_Mode_Icon');
+                if (stMode === 'hash') {
+                    icon.textContent = ICON_HASH;
+                    stModeBtn.title = 'Switch to Time Mode';
+                    stInputWrap.style.opacity = '';
+                    stI.style.pointerEvents = '';
+                    stI.readOnly = false;
+                    stI.placeholder = '0';
+                    stBtn.disabled = !_user || !stI.value || +stI.value < 1;
+                } else if (stMode === 'time') {
+                    icon.textContent = ICON_TIME;
+                    stModeBtn.title = 'Switch to Infinite Mode';
+                    stInputWrap.style.opacity = '';
+                    stI.style.pointerEvents = '';
+                    stI.readOnly = false;
+                    stI.placeholder = 'min';
+                    stBtn.disabled = !_user || !stI.value || +stI.value < 1;
+                } else {
+                    icon.textContent = ICON_INF;
+                    stModeBtn.title = 'Switch to # Mode';
+                    stInputWrap.style.opacity = '0.35';
+                    stI.style.pointerEvents = 'none';
+                    stBtn.disabled = !_user;
+                }
+            }
+            stModeBtn.addEventListener('click', () => {
+                stMode = stMode === 'hash' ? 'time' : stMode === 'time' ? 'infinity' : 'hash';
+                stI.value = '';
+                syncStMode();
+            });
+            stI.addEventListener('input', () => { syncStMode(); });
+            stI.addEventListener('keydown', e => { if (e.key === 'Enter' && !stBtn.disabled) stBtn.click(); });
+            stBtn.addEventListener('click', () => {
+                if (_running && _task === 'streak') {
+                    if (stMode === 'hash') { _run('streak', 0); } else { _running = false; }
+                    return;
+                }
+                if (_running) { _notif('⚠️', 'Busy', 'Stop current farm first.'); return; }
+                if (stMode === 'infinity') {
+                    _run('streak', 9999);
+                    setTimeout(() => {
+                        const prog = document.getElementById('DH_Streak_Prog');
+                        if (prog) { prog.classList.remove('on'); }
+                        const fill = document.getElementById('DH_Streak_Fill');
+                        if (fill) fill.style.width = '0%';
+                    }, 80);
+                } else if (stMode === 'time') {
+                    const mins = +stI.value;
+                    if (mins < 1) { _notif('⚠️', 'Min 1 min', 'Enter at least 1 minute.'); return; }
+                    const startAt = Date.now();
+                    const endAt = startAt + mins * 60000;
+                    const totalMs = mins * 60000;
+                    _run('streak', 9999);
+                    const progEl  = document.getElementById('DH_Streak_Prog');
+                    if (progEl) progEl.classList.add('on');
+                    const stopTimer = setInterval(() => {
+                        if (!_running || _task !== 'streak') { clearInterval(stopTimer); return; }
+                        const now = Date.now();
+                        const elapsed = now - startAt;
+                        const pct = Math.min(100, Math.floor((elapsed / totalMs) * 100));
+                        const fill = document.getElementById('DH_Streak_Fill');
+                        if (fill) fill.style.width = pct + '%';
+                        if (now >= endAt) { clearInterval(stopTimer); _running = false; }
+                    }, 500);
+                } else {
+                    const v = +stI.value;
+                    if (v < 1) return;
+                    _run('streak', v);
+                }
+            });
+            syncStMode();
+
+            // ── Gem: hash → infinity ──
+            let gmMode = 'hash';
+            const gmModeBtn  = document.getElementById('DH_Gem_Mode_Btn');
+            const gmInputWrap = document.getElementById('DH_Gem_Input_Wrap');
+            const gmI = document.getElementById('DH_Gem_Input');
+            // Clone gmB to remove old click listeners
+            const gmBtn = cloneBtn('DH_Gem_Btn');
+
+            function syncGmMode() {
+                const icon = document.getElementById('DH_Gem_Mode_Icon');
+                if (gmMode === 'hash') {
+                    icon.textContent = ICON_HASH;
+                    gmModeBtn.title = 'Switch to Infinite Mode';
+                    gmInputWrap.style.opacity = '';
+                    gmI.style.pointerEvents = 'none';
+                    gmI.placeholder = '0';
+                } else {
+                    icon.textContent = ICON_INF;
+                    gmModeBtn.title = 'Switch to # Mode';
+                    gmInputWrap.style.opacity = '0.35';
+                    gmI.style.pointerEvents = 'none';
+                }
+                gmBtn.disabled = !_user;
+            }
+            gmModeBtn.addEventListener('click', () => {
+                gmMode = gmMode === 'hash' ? 'infinity' : 'hash';
+                syncGmMode();
+            });
+            gmBtn.addEventListener('click', () => {
+                if (_running && _task === 'gem') { _run('gem', 0); return; }
+                if (_running) { _notif('⚠️', 'Busy', 'Stop current farm first.'); return; }
+                _run('gem', 0);
+            });
+            syncGmMode();
+        })();
+        // ────────────────────────────────────────────────────────────────────────
+
         const prI = document.getElementById('DH_Practice_Input'),
             prB = document.getElementById('DH_Practice_Btn');
         prI.addEventListener('input', () => {
@@ -6566,7 +7327,7 @@ body * {
         document.getElementById('DH_License_Open_Btn').addEventListener('click', () => _goPage(9));
         document.getElementById('DH_License_Back_Btn').addEventListener('click', () => _goBack());
         document.getElementById('DH_Changelog_Back_Btn').addEventListener('click', () => _goBack());
-        document.getElementById('DH_Conn_Btn').addEventListener('click', () => {
+        document.getElementById('DH_Version_Txt').addEventListener('click', () => {
             _renderChangelog();
             _goPage(10);
         });
@@ -6584,7 +7345,7 @@ body * {
                 vRow.style.cssText = 'display:flex;align-items:center;gap:8px;';
                 vRow.innerHTML = `
             <p class="DH_T1 DH_NoSel" style="font-size:15px;font-weight:800;color:rgb(var(--color-eel,88,88,88));">v${entry.version}</p>
-            ${isLatest ? `<span style="background:rgb(var(--DH-blue));color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">CURRENT</span>` : ''}
+            ${isLatest ? `<span style="background:rgb(var(--DH-blue));color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;">${_t('changelog_current')}</span>` : ''}
         `;
 
                 const changeList = document.createElement('div');
@@ -6649,6 +7410,55 @@ body * {
         }, 700);
 
         _resumePracticeIfNeeded();
+
+        // ── Magnetic hover (giống DLP) ──
+        function _initMagneticHover(el) {
+            let down = false, origZ = null;
+            el.addEventListener('pointermove', e => {
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - r.left - r.width / 2;
+                const y = e.clientY - r.top - r.height / 2;
+                el.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(${down ? 0.9 : 1.05})`;
+                if (origZ === null) origZ = parseInt(el.style.zIndex) || 0;
+                el.style.zIndex = origZ + 1;
+            });
+            el.addEventListener('pointerleave', () => {
+                el.style.transform = 'translate(0,0) scale(1)';
+                if (origZ !== null) el.style.zIndex = origZ;
+                down = false;
+            });
+            el.addEventListener('pointerdown', e => {
+                down = true;
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - r.left - r.width / 2;
+                const y = e.clientY - r.top - r.height / 2;
+                el.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(0.9)`;
+            });
+            el.addEventListener('pointerup', e => {
+                down = false;
+                const r = el.getBoundingClientRect();
+                const x = e.clientX - r.left - r.width / 2;
+                const y = e.clientY - r.top - r.height / 2;
+                el.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px) scale(1.05)`;
+            });
+        }
+        function _initAllMagneticHovers() {
+            const MARK = 'data-dh-mag';
+            document.querySelectorAll('.DH_Btn').forEach(el => {
+                if (!el.hasAttribute(MARK)) {
+                    _initMagneticHover(el);
+                    el.setAttribute(MARK, '1');
+                }
+            });
+        }
+        _initAllMagneticHovers();
+        new MutationObserver(muts => {
+            muts.forEach(m => m.addedNodes.forEach(n => {
+                if (!(n instanceof Element)) return;
+                if (n.classList.contains('DH_Btn') && !n.hasAttribute('data-dh-mag')) { _initMagneticHover(n); n.setAttribute('data-dh-mag','1'); }
+                n.querySelectorAll?.('.DH_Btn').forEach(d => { if (!d.hasAttribute('data-dh-mag')) { _initMagneticHover(d); d.setAttribute('data-dh-mag','1'); } });
+            }));
+        }).observe(document.documentElement, { childList: true, subtree: true });
 
     }
     _dhMountUI();
