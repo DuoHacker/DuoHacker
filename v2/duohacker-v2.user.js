@@ -4258,6 +4258,12 @@
                 box.style.filter = 'blur(8px)';
                 box.style.opacity = '0';
                 box.style.transform = 'scale(0.96)';
+                // fix: box was blocking page clicks
+                box.style.pointerEvents = 'none';
+                // fix: main still blocked page clicks
+                main.style.pointerEvents = 'none';
+                // fix: keep toggle button clickable
+                hideBtn.style.pointerEvents = 'auto';
             } else {
                 if (switchV1Btn && !_v1Mode) {
                     switchV1Btn.style.display = '';
@@ -4288,6 +4294,12 @@
                 box.style.filter = '';
                 box.style.opacity = '';
                 box.style.transform = 'scale(1)';
+                // fix: re-enable box click area
+                box.style.pointerEvents = '';
+                // fix: restore main's click area
+                main.style.pointerEvents = '';
+                // fix: reset button pointer-events override
+                hideBtn.style.pointerEvents = '';
             }
             setTimeout(() => {
                 main.style.transition = '';
