@@ -52,7 +52,7 @@
 // @name:ur             Duolingo DuoHacker
 
 // @namespace           https://github.com/DuoHacker/DuoHacker
-// @version             2026.07.27
+// @version             2026.07.31
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 // @description:vi      Công cụ hack Duolingo #1 - Farm XP, Gems, Streaks và mở khóa Duolingo Max miễn phí.
 // @description:zh-CN   最强 Duolingo 辅助工具 - 自动刷 XP、宝石、连胜，免费解锁 Duolingo Max。
@@ -126,6 +126,7 @@
 // @connect             assets.duohacker.io.vn
 // @connect             d35aaqx5ub95lt.cloudfront.net
 // @connect             font.duohacker.io.vn
+// @connect             simg-ssl.duolingo.com
 
 // @compatible          chrome   Tested on Chrome 120+ with Tampermonkey
 // @compatible          firefox  Tested on Firefox 120+ with Tampermonkey / Violentmonkey
@@ -181,8 +182,8 @@
             farm_practice: 'How many practice lesson you would like to solve?',
             farm_practice_sub: '0 = unlimited practice sessions',
             shop_items: 'Shop Items',
-            auto_league: 'Auto League #1',
-            auto_league_sub: 'Farm XP until rank #1',
+            auto_league: 'Auto League',
+            auto_league_sub: 'Farm XP to reach your target rank',
             auto_daily_quest: 'Auto Daily Quest',
             auto_daily_sub: 'Complete all daily quests',
             claim_monthly: 'Claim Monthly Quest',
@@ -397,7 +398,7 @@
             farm_practice_sub: '0 = vô hạn luồng cày',
             shop_items: 'Shop vật phẩm',
             auto_league: 'Tự động cày bảng xếp hạng',
-            auto_league_sub: 'Cày XP đến khi đạt #1',
+            auto_league_sub: 'Cày XP để đạt thứ hạng mục tiêu',
             auto_daily_quest: 'Hoàn thành nhiệm vụ hằng ngày',
             auto_daily_sub: 'Hoàn thành tất cả nhiệm vụ hằng ngày',
             claim_monthly: 'Hack huy hiệu tháng',
@@ -1991,7 +1992,7 @@
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">duohacker.io.vn</p>
-                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.07.27</p>
+                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.07.31</p>
             </div>
         </div>
 
@@ -2037,8 +2038,8 @@
             <!-- Auto League -->
             <div class="DH_HStack_Auto" style="align-self:stretch;">
                 <div style="display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;">
-                    <p class="DH_T1 DH_NoSel" id="DH_League_Title">Auto League #1</p>
-                    <p class="DH_T2 DH_NoSel" id="DH_League_Sub" style="font-size:11px;">Farm XP until rank #1</p>
+                    <p class="DH_T1 DH_NoSel" id="DH_League_Title">Auto League</p>
+                    <p class="DH_T2 DH_NoSel" id="DH_League_Sub" style="font-size:11px;">Farm XP to reach your target rank</p>
                 </div>
                 <button class="DH_Sm_Btn DH_NoSel" id="DH_League_Btn" disabled>
                     <span class="DH_Sm_Btn_Label" id="DH_League_Lbl" style="color:#fff;">RUN</span>
@@ -2470,32 +2471,44 @@
             document.getElementById('DH_V1_UGems').textContent = (_user.gems || 0).toLocaleString();
             document.getElementById('DH_V1_UStreak').textContent = (_user.streak || 0).toLocaleString();
             const av = document.getElementById('DH_V1_Avatar');
-            // If blob avatar already loaded from leaderboard, mirror it instead of overwriting with lower-quality picture
-            if (_panelAvatarLoaded) {
-                const v2Img = document.getElementById('DH_Avatar') && document.getElementById('DH_Avatar').querySelector('img');
-                if (v2Img && av) {
-                    av.innerHTML = '';
+            // Skip re-render if avatar already loaded (img present and not broken)
+            const v1ExistingImg = av && av.querySelector('img');
+            const v1AvatarAlreadyLoaded = v1ExistingImg && v1ExistingImg.complete && v1ExistingImg.naturalWidth > 0;
+            if (!v1AvatarAlreadyLoaded) {
+                // If blob avatar already loaded from leaderboard, mirror it instead of overwriting with lower-quality picture
+                if (_panelAvatarLoaded) {
+                    const v2Img = document.getElementById('DH_Avatar') && document.getElementById('DH_Avatar').querySelector('img');
+                    if (v2Img && av) {
+                        av.innerHTML = '';
+                        const img = document.createElement('img');
+                        img.src = v2Img.src;
+                        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
+                        img.draggable = false;
+                        av.appendChild(img);
+                    }
+                } else {
+                    // Use _bestAvatarUrl for consistent // protocol fix + default fallback
+                    const hq = _bestAvatarUrl(_user.picture, _sub);
                     const img = document.createElement('img');
-                    img.src = v2Img.src;
+                    img.src = hq;
                     img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
                     img.draggable = false;
-                    av.appendChild(img);
+                    img.addEventListener('error', function() {
+                        const def = document.createElement('img');
+                        def.src = _AVATAR_DEFAULT_URL;
+                        def.style.cssText = img.style.cssText;
+                        def.draggable = false;
+                        if (av) av.replaceChildren(def);
+                    });
+                    if (av) av.replaceChildren(img);
                 }
-            } else if (_user.picture) {
-                let hq = _user.picture.replace(/\/(medium|large|small)$/, '/xlarge');
-                if (!hq.endsWith('/xlarge') && hq.includes('duolingo.com/ssr-avatars')) hq += '/xlarge';
-                const img = document.createElement('img');
-                img.src = hq;
-                img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
-                img.onerror = function() { av.innerHTML = '👤'; };
-                av.innerHTML = '';
-                av.appendChild(img);
             }
         }
         let _remoteVersion = '';
         let _running = false,
             _task = null,
             _hidden = false;
+        let _dhLeagueTarget = 1;
         let _delay = parseInt(localStorage.getItem('dh2_delay') || '500', 10);
         let _shopItems = [];
         const _sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -2585,11 +2598,17 @@
         };
 
         // Get best avatar URL: prefer custom picture, fallback to lb avatar_url, then default
+        const _AVATAR_DEFAULT_URL = 'https://simg-ssl.duolingo.com/avatar/default_2/xlarge';
         function _bestAvatarUrl(picture, userId) {
             const isDefault = !picture || picture.includes('/avatar/default');
             if (!isDefault) {
-                let hq = picture.replace(/\/(medium|large|small)$/, '/xlarge');
-                if (!hq.endsWith('/xlarge') && hq.includes('duolingo.com/ssr-avatars')) hq += '/xlarge';
+                let hq = picture;
+                if (hq.startsWith('//')) hq = 'https:' + hq; // fix protocol-relative URLs
+                hq = hq.replace(/\/(medium|large|small|xlarge)$/, '/xlarge'); // Remove existing size suffix first
+                if (!hq.endsWith('/xlarge')) {
+                    if (!hq.endsWith('/')) hq += '/';
+                    hq += 'xlarge';
+                }
                 return hq;
             }
             // Try leaderboard cache for league-assigned avatar
@@ -2598,7 +2617,7 @@
             if (lbUser?.avatar_url && !lbUser.avatar_url.includes('/avatar/default')) {
                 return lbUser.avatar_url + '/large';
             }
-            return '';
+            return _AVATAR_DEFAULT_URL; // always return a usable URL
         }
         function _reactionIconUrl(r) {
             if (!r || r === 'NONE') return _REACTION_ICONS['NONE'];
@@ -2706,7 +2725,7 @@
             if (_panelAvatarLoaded) return;
             const rankings = lb?.cohort?.rankings || [];
             const me = rankings.find(u => String(u.user_id) === String(_sub));
-            if (!me || !me.avatar_url) return;
+            if (!me || !me.avatar_url || me.avatar_url.includes('/avatar/default')) return;
             GM_xmlhttpRequest({
                 method: 'GET', url: me.avatar_url + '/large',
                 responseType: 'blob', timeout: 8000,
@@ -4057,14 +4076,14 @@
         }
 
         const _GF_SCRIPT_URL = 'https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-        const _CURRENT_VER = '2026.07.27';
+        const _CURRENT_VER = '2026.07.31';
 
         /* ── Changelog Popup -*/
         const _CHANGELOG = [{
-            version: '2026.07.27',
+            version: '2026.07.31',
             changes: [
-                'Fixed Gem Farming',
-                'Improved XP Verify',
+                'Fixed Avatar funcs',
+                'Fixed Gem Farming verify',
                 'Improved Auto League',
             ]
         }, ];
@@ -4632,31 +4651,39 @@
             document.getElementById('DH_UGems').textContent = (u.gems || 0).toLocaleString();
             document.getElementById('DH_UStreak').textContent = (u.streak || 0).toLocaleString();
             const av = document.getElementById('DH_Avatar');
-            const bestUrl = _bestAvatarUrl(u.picture, _sub);
-            if (bestUrl) {
+            const bestUrl = _bestAvatarUrl(u.picture, _sub); // always returns a valid URL now
+            // Skip re-render if avatar already loaded (img present and not broken)
+            const existingImg = av && av.querySelector('img');
+if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 const avImg = document.createElement('img');
                 avImg.src = bestUrl;
                 avImg.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
                 avImg.draggable = false;
-                avImg.onerror = function() {
-                    // picture failed — try league fallback before emoji
+                avImg.addEventListener('error', function() {
+                    // primary URL failed — try leaderboard blob, then hard default
                     const lbUrl = _bestAvatarUrl('', _sub);
-                    if (lbUrl) {
+                    if (lbUrl && lbUrl !== bestUrl) {
                         const fb = document.createElement('img');
                         fb.src = lbUrl;
                         fb.style.cssText = avImg.style.cssText;
                         fb.draggable = false;
-                        fb.onerror = function() { av.innerHTML = '👤'; };
-                        av.innerHTML = '';
-                        av.appendChild(fb);
+                        fb.addEventListener('error', function() {
+                            const def = document.createElement('img');
+                            def.src = _AVATAR_DEFAULT_URL;
+                            def.style.cssText = avImg.style.cssText;
+                            def.draggable = false;
+                            av.replaceChildren(def);
+                        });
+                        av.replaceChildren(fb);
                     } else {
-                        av.innerHTML = '👤';
+                        const def = document.createElement('img');
+                        def.src = _AVATAR_DEFAULT_URL;
+                        def.style.cssText = avImg.style.cssText;
+                        def.draggable = false;
+                        av.replaceChildren(def);
                     }
-                };
-                av.innerHTML = '';
-                av.appendChild(avImg);
-            } else if (av.innerHTML === '' || av.innerHTML === '👤') {
-                av.innerHTML = '👤';
+                });
+                av.replaceChildren(avImg);
             }
         }
 
@@ -4977,9 +5004,15 @@
             let totalGained = 0;
             let consecutiveFailures = 0;
 
+            // Fetch baseline once — used as "gemsBefore" for first batch
+            let prevGems = await _getGemCount();
+
+            // Pre-fetch first rewards batch so loop starts immediately
+            let nextRewardsPromise = _fetchGemRewards();
+
             outer:
                 while (_running && _task === 'gem') {
-                    const rewards = await _fetchGemRewards();
+                    const rewards = await nextRewardsPromise;
 
                     if (rewards === null) {
                         consecutiveFailures++;
@@ -4988,33 +5021,50 @@
                             break;
                         }
                         await _sleep(3000);
+                        nextRewardsPromise = _fetchGemRewards();
                         continue;
                     }
                     consecutiveFailures = 0;
 
                     if (rewards.length === 0) {
                         await _sleep(Math.max(200, _delay));
+                        nextRewardsPromise = _fetchGemRewards();
                         continue;
                     }
 
-                    // Fire all rewards in parallel batches
+                    // Claim all rewards in parallel
                     const results = await Promise.all(rewards.map(r => _exploitGemReward(r.id)));
                     if (!_running || _task !== 'gem') break outer;
 
-                    // Accumulate from reward.amount — no extra API call needed
+                    // Pipeline: fetch next rewards + verify gem delta simultaneously
+                    const [gemsAfter] = await Promise.all([
+                        _getGemCount(),
+                        // Kick off next rewards fetch in background (result assigned below)
+                        (nextRewardsPromise = _fetchGemRewards(), Promise.resolve())
+                    ]);
+
                     let batchGained = 0;
-                    results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    if (prevGems !== null && gemsAfter !== null) {
+                        // Ground truth: delta from API (prevGems = gemsAfter of last batch)
+                        batchGained = Math.max(0, gemsAfter - prevGems);
+                    } else {
+                        // Fallback: use reward.amount if API unavailable
+                        results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    }
+
+                    if (gemsAfter !== null) prevGems = gemsAfter;
+
                     if (batchGained > 0) {
                         totalGained += batchGained;
                         if (gemInput) gemInput.value = String(totalGained);
                         if (_user) {
-                            _user.gems = (_user.gems || 0) + batchGained;
+                            _user.gems = gemsAfter !== null ? gemsAfter : (_user.gems || 0) + batchGained;
                             _renderUser(_user);
                         }
                     }
 
-                    // Short cooldown before next pass (claims already batched in parallel)
-                    await _sleep(Math.max(80, _delay / 4));
+                    // Minimal cooldown — next rewards already in-flight
+                    if (_delay > 80) await _sleep(_delay / 4);
                 }
 
             // Always reset button after farm ends (stopped or done)
@@ -5326,7 +5376,7 @@
             }
         }
 
-        async function _farmLeague() {
+        async function _farmLeague(targetRank) {
             const LB = 'https://duolingo-leaderboards-prod.duolingo.com/leaderboards/7d9f5dd1-8423-491a-91f2-2532052038ce';
             const prog = document.getElementById('DH_League_Prog');
             const fill = document.getElementById('DH_League_Fill');
@@ -5367,18 +5417,23 @@
                         break;
                     }
                     joinAttemptCount = 0;
-                    const rank = ranks.indexOf(me) + 1;
-                    const top1 = ranks[0];
-                    const gap = top1.score - me.score;
-                    if (rank === 1 && gap <= 0) {
-                        _notif('🏆', 'League #1!', 'You reached Rank #1!');
+                    const myRank = ranks.indexOf(me) + 1;
+                    // Person just above target rank (targetRank - 1 index)
+                    const aboveIdx = targetRank - 2; // 0-based index of person at rank targetRank-1
+                    const abovePerson = aboveIdx >= 0 ? ranks[aboveIdx] : null;
+                    // Target score: score of person above + 50 (or just 50 if targeting rank 1 with no one above)
+                    const targetScore = abovePerson ? abovePerson.score + 50 : 50;
+                    const refScore = abovePerson ? abovePerson.score : 0;
+                    // Progress bar: how close we are to targetScore
+                    if (fill) fill.style.width = Math.min(95, Math.floor((me.score / Math.max(targetScore, 1)) * 100)) + '%';
+                    // Check if already reached target
+                    if (me.score >= targetScore || myRank <= targetRank) {
+                        _notif('🏆', `League #${targetRank}!`, `You reached Rank #${targetRank}!`);
                         break;
                     }
-                    if (fill) fill.style.width = Math.min(95, Math.floor((me.score / Math.max(top1.score, 1)) * 100)) + '%';
-                    if (gap + 100 > 0) {
-                        const awarded = await _storyXP(469);
-                        if (!awarded) await _sleep(3000);
-                    }
+                    // Farm 50 XP per loop until we surpass target
+                    const awarded = await _storyXP(0);
+                    if (!awarded) await _sleep(3000);
                     await _sleep(_delay);
                 } catch {
                     await _sleep(5000);
@@ -5981,9 +6036,15 @@
             let loopPct = 0;
             let consecutiveFailures = 0;
 
+            // Baseline for delta verification
+            let v1PrevGems = await _getGemCount();
+
+            // Pre-fetch first rewards batch
+            let v1NextRewardsPromise = _fetchGemRewards();
+
             outer:
                 while (_v1Running && _v1Task === 'gems') {
-                    const rewards = await _fetchGemRewards();
+                    const rewards = await v1NextRewardsPromise;
 
                     if (rewards === null) {
                         consecutiveFailures++;
@@ -5992,6 +6053,7 @@
                             break;
                         }
                         await _sleep(3000);
+                        v1NextRewardsPromise = _fetchGemRewards();
                         continue;
                     }
                     consecutiveFailures = 0;
@@ -5999,29 +6061,42 @@
                     if (rewards.length === 0) {
                         _notif('⚠️', 'Gem Farm', _t('notif_gem_no_rewards'), 3);
                         await _sleep(_delay * 2);
+                        v1NextRewardsPromise = _fetchGemRewards();
                         continue;
                     }
 
-                    // Fire all rewards in parallel
+                    // Claim all rewards in parallel
                     const results = await Promise.all(rewards.map(r => _exploitGemReward(r.id)));
                     if (!_v1Running || _v1Task !== 'gems') break outer;
 
-                    // Accumulate from reward.amount — no extra API call needed
+                    // Pipeline: verify gem delta + pre-fetch next rewards simultaneously
+                    const [v1GemsAfter] = await Promise.all([
+                        _getGemCount(),
+                        (v1NextRewardsPromise = _fetchGemRewards(), Promise.resolve())
+                    ]);
+
                     let batchGained = 0;
-                    results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    if (v1PrevGems !== null && v1GemsAfter !== null) {
+                        batchGained = Math.max(0, v1GemsAfter - v1PrevGems);
+                    } else {
+                        results.forEach((ok, i) => { if (ok) batchGained += rewards[i].amount || 0; });
+                    }
+
+                    if (v1GemsAfter !== null) v1PrevGems = v1GemsAfter;
+
                     if (batchGained > 0) {
                         _v1Earned.gems += batchGained;
                         _v1UpdateDisplayNow();
                         loopPct = (loopPct + 1) % 99 + 1;
                         _v1SetProg('DH_V1_Gem', loopPct);
                         if (_user) {
-                            _user.gems = (_user.gems || 0) + batchGained;
+                            _user.gems = v1GemsAfter !== null ? v1GemsAfter : (_user.gems || 0) + batchGained;
                             _v1SyncUser();
                         }
                     }
 
-                    // Short cooldown before next pass (claims already batched in parallel)
-                    await _sleep(Math.max(80, _delay / 4));
+                    // Minimal cooldown — next rewards already in-flight
+                    if (_delay > 80) await _sleep(_delay / 4);
                 }
 
             _v1ClearProg('DH_V1_Gem');
@@ -6161,7 +6236,7 @@
                 if (type === 'xp') await _farmXP(val);
                 if (type === 'gem') await _farmGems();
                 if (type === 'streak') await _farmStreak(val);
-                if (type === 'league') await _farmLeague();
+                if (type === 'league') await _farmLeague(_dhLeagueTarget || 1);
             } catch (e) {
                 _notif('❌', 'Error', e.message);
             }
@@ -7163,7 +7238,7 @@
             _farmPractice(v);
         });
 
-        document.getElementById('DH_League_Btn').addEventListener('click', () => {
+        document.getElementById('DH_League_Btn').addEventListener('click', async () => {
             if (_running && _task === 'league') {
                 _run('league', 0);
                 return;
@@ -7172,7 +7247,35 @@
                 _notif('⚠️', 'Busy', 'Stop current farm first.');
                 return;
             }
-            if (!confirm('⚠️ Warning\n\nOverusing this feature may result in your account being permanently banned from the leaderboard.\n\nDo you wish to continue?')) return;
+            // Ask user for target rank
+            const rankInput = prompt('🏆 Target Rank\n\nEnter the rank you want to reach (e.g. 1 for #1, 3 for top 3):');
+            if (rankInput === null) return;
+            const targetRank = parseInt(rankInput);
+            if (isNaN(targetRank) || targetRank < 1) {
+                _notif('❌', 'League', 'Invalid rank. Please enter a number ≥ 1.');
+                return;
+            }
+            // Check current rank before starting
+            try {
+                const LB = 'https://duolingo-leaderboards-prod.duolingo.com/leaderboards/7d9f5dd1-8423-491a-91f2-2532052038ce';
+                const r = await _gm('GET', `${LB}/users/${_sub}?client_unlocked=true&get_reactions=true&_=${Date.now()}`);
+                if (r.status === 200) {
+                    const data = JSON.parse(r.responseText);
+                    const ranks = data?.active?.cohort?.rankings || [];
+                    const me = ranks.find(u => u.user_id == _sub);
+                    if (me) {
+                        const myRank = ranks.indexOf(me) + 1;
+                        const aboveIdx = targetRank - 2;
+                        const abovePerson = aboveIdx >= 0 ? ranks[aboveIdx] : null;
+                        const targetScore = abovePerson ? abovePerson.score + 50 : 50;
+                        if (me.score >= targetScore || myRank <= targetRank) {
+                            _notif('✅', 'League', `Your rank (#${myRank}) is already at or above #${targetRank}!`);
+                            return;
+                        }
+                    }
+                }
+            } catch {}
+            _dhLeagueTarget = targetRank;
             _run('league', 0);
         });
 
