@@ -115,6 +115,7 @@
 
 // @grant               GM_xmlhttpRequest
 // @grant               GM_addStyle
+// @connect             translate.googleapis.com
 // @connect             duolingo.com
 // @connect             ssr-avatars.duolingo.com
 // @connect             stories.duolingo.com
@@ -147,7 +148,19 @@
 
     // ── i18n ──────────────────────────────────────────────────────────
     var _I18N_KEY = 'dh2_lang';
-    var _lang = localStorage.getItem(_I18N_KEY) || 'vi';
+    var _AUTO_CACHE_PREFIX = 'dh2_auto_';
+    var _storedLang = localStorage.getItem(_I18N_KEY) || 'vi';
+    // Keep the old `auto` value working, but expose the two implementations
+    // separately from now on.
+    if (_storedLang === 'auto') _storedLang = 'auto_script';
+    var _autoScriptMode = _storedLang === 'auto_script';
+    var _autoWidgetMode = _storedLang === 'auto_widget';
+    var _autoMode = _autoScriptMode || _autoWidgetMode;
+    var _lang = _autoMode ? 'en' : (_storedLang === 'en' ? 'en' : 'vi');
+    var _autoDict = null;
+    var _autoBusy = false;
+    var _widgetReady = false;
+    var _widgetLoading = false;
     var _isOutdated = false;
     var _currentConnState = null;
 
@@ -157,6 +170,8 @@
             lang_select_label: 'Language',
             lang_en: 'English',
             lang_vi: 'Tiếng Việt',
+            lang_auto_script: 'Auto (translation script)',
+            lang_auto_widget: 'Auto (Google widget)',
 
             // ── Top bar ──
             hide: 'Hide',
@@ -372,6 +387,8 @@
             lang_select_label: 'Ngôn ngữ',
             lang_en: 'English',
             lang_vi: 'Tiếng Việt',
+            lang_auto_script: 'Tự động (script dịch)',
+            lang_auto_widget: 'Tự động (tiện ích Google)',
 
             // ── Top bar ──
             hide: 'Ẩn',
@@ -585,6 +602,12 @@
     };
 
     function _t(key, ...args) {
+        if (_autoScriptMode && _autoDict) {
+            const av = _autoDict[key];
+            if (typeof av === 'string' && av !== '') {
+                return av.replace(/\{(\d+)\}/g, (m, i) => (args[+i] === undefined ? m : args[+i]));
+            }
+        }
         const d = _LANGS[_lang] || _LANGS.en;
         const v = d[key];
         const en = _LANGS.en[key];
@@ -595,10 +618,370 @@
     }
 
     function _setLang(l) {
-        if (l !== 'vi' && l !== 'en') return;
-        _lang = l;
+        if (l !== 'vi' && l !== 'en' && l !== 'auto_script' && l !== 'auto_widget') return;
+        var _leavingWidget = _autoWidgetMode && l !== 'auto_widget' && _widgetWasApplied();
+        _widgetRestore();
         localStorage.setItem(_I18N_KEY, l);
-        _applyLang();
+        if (_leavingWidget) {
+            // Google keeps its already-translated text nodes alive (and
+            // re-translates anything the panel re-renders), so a reload is the
+            // only reliable way back to clean EN / VI text.
+            _widgetClearCookies();
+            location.reload();
+            return;
+        }
+        if (l === 'auto_script') {
+            _autoMode = true;
+            _autoScriptMode = true;
+            _autoWidgetMode = false;
+            _lang = 'en';               // English is the translation source
+            _applyLang();               // instant: show EN, then swap in when ready
+            _autoLoad();
+        } else if (l === 'auto_widget') {
+            _autoMode = true;
+            _autoScriptMode = false;
+            _autoWidgetMode = true;
+            _autoDict = null;
+            _lang = 'en';
+            _applyLang();
+            _widgetLoad();
+        } else {
+            _autoMode = false;
+            _autoScriptMode = false;
+            _autoWidgetMode = false;
+            _autoDict = null;
+            _lang = l;
+            _applyLang();
+        }
+    }
+
+    // ── Hidden Google Translate widget mode ───────────────────────────
+    // Google requires its own select widget to be present, but it is moved far
+    // off-screen. All existing Duolingo nodes are marked notranslate so this
+    // mode only changes the DuoHacker panel.
+    var _widgetObserver = null;
+    var _widgetSelectTries = 0;
+
+    // Kill every piece of Google Translate UI chrome: the top banner iframe,
+    // the "Translated to ..." bubble, the hover tooltip and the text highlight.
+    function _widgetKillChrome() {
+        if (!document.getElementById('DH_GT_Killer')) {
+            var st = document.createElement('style');
+            st.id = 'DH_GT_Killer';
+            st.textContent = [
+                '.skiptranslate,iframe.skiptranslate,.goog-te-banner-frame,',
+                '.goog-te-balloon-frame,#goog-gt-tt,.goog-te-ftab,#goog-gt-vt,',
+                '.VIpgJd-ZVi9od-ORHb-OEVmcd,.VIpgJd-ZVi9od-ORHb,',
+                '.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,.VIpgJd-ZVi9od-aZ2wEe-OiiCO,',
+                '.VIpgJd-ZVi9od-l4eHX-hSRGPd,.VIpgJd-ZVi9od-xl07Ob-OEVmcd',
+                '{display:none!important;visibility:hidden!important;opacity:0!important;',
+                'pointer-events:none!important;height:0!important;width:0!important;}',
+                'body{top:0!important;}',
+                '.goog-text-highlight{background:none!important;box-shadow:none!important;}',
+                '#DH_GoogleTranslate{position:fixed!important;left:-10000px!important;top:-10000px!important;',
+                'width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;}'
+            ].join('');
+            (document.head || document.documentElement).appendChild(st);
+        }
+        // Google sets body{top:40px} inline when the banner shows.
+        if (document.body && document.body.style.top) document.body.style.top = '';
+    }
+
+    function _widgetProtectPage() {
+        if (!document.body) return;
+        Array.from(document.body.children).forEach(function(el) {
+            if (el.id !== 'DH_Root' && el.id !== 'DH_GoogleTranslate') el.classList.add('notranslate');
+        });
+        var root = document.getElementById('DH_Root');
+        if (root) {
+            root.classList.remove('notranslate');
+            root.setAttribute('translate', 'yes');
+        }
+    }
+
+    // Keeps chrome hidden + new page nodes protected for the whole session.
+    function _widgetWatch() {
+        if (_widgetObserver || !document.body) return;
+        _widgetObserver = new MutationObserver(function() {
+            _widgetKillChrome();
+            _widgetProtectPage();
+        });
+        _widgetObserver.observe(document.documentElement, { childList: true, subtree: false });
+        _widgetObserver.observe(document.body, { childList: true, attributes: true, attributeFilter: ['style'] });
+        setInterval(_widgetKillChrome, 1000);
+    }
+
+    function _widgetTranslated() {
+        return /(^|\s)translated-(ltr|rtl)(\s|$)/.test(document.documentElement.className);
+    }
+
+    function _widgetSelectTarget() {
+        if (!_autoWidgetMode) return;
+        _widgetKillChrome();
+        _widgetProtectPage();
+        var select = document.querySelector('#DH_GoogleTranslate select.goog-te-combo') ||
+                     document.querySelector('select.goog-te-combo');
+        if (!select) {
+            if (_widgetSelectTries++ < 80) setTimeout(_widgetSelectTarget, 250);
+            return;
+        }
+        var tgt = _autoTarget();
+        var option = Array.from(select.options).find(function(o) {
+            return o.value.toLowerCase() === String(tgt).toLowerCase();
+        });
+        if (!option && String(tgt).indexOf('-') !== -1) {
+            var base = String(tgt).split('-')[0];
+            option = Array.from(select.options).find(function(o) { return o.value === base; });
+        }
+        if (!option || !option.value || option.value === 'en') {
+            // Google fills the combo's <option> list asynchronously; on a cold
+            // page load it is still empty here. Keep retrying instead of
+            // giving up (that is why translation only started after manually
+            // toggling the language).
+            if (select.options.length <= 1 && _widgetSelectTries++ < 80) {
+                setTimeout(_widgetSelectTarget, 250);
+            }
+            return;
+        }
+        if (select.value !== option.value || !_widgetTranslated()) {
+            select.value = option.value;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        // Retry until Google actually applies the translation (it silently
+        // ignores the first change event while its frames are still loading).
+        if (!_widgetTranslated() && _widgetSelectTries++ < 80) {
+            setTimeout(_widgetSelectTarget, 400);
+        } else {
+            setTimeout(_widgetKillChrome, 300);
+        }
+    }
+
+    function _widgetLoad() {
+        if (!_autoWidgetMode) return;
+        _widgetSelectTries = 0;
+        _widgetKillChrome();
+        _widgetProtectPage();
+        _widgetWatch();
+        if (_widgetReady) { _widgetSelectTarget(); return; }
+        if (_widgetLoading) return;
+        _widgetLoading = true;
+
+        var host = document.getElementById('DH_GoogleTranslate');
+        if (!host) {
+            host = document.createElement('div');
+            host.id = 'DH_GoogleTranslate';
+            host.setAttribute('aria-hidden', 'true');
+            host.style.cssText = 'position:fixed;left:-10000px;top:-10000px;width:1px;height:1px;overflow:hidden;';
+            document.body.appendChild(host);
+        }
+
+        var pageWindow = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+        pageWindow.googleTranslateElementInit = function() {
+            try {
+                new pageWindow.google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    autoDisplay: false
+                }, 'DH_GoogleTranslate');
+                _widgetReady = true;
+                _widgetLoading = false;
+                _widgetKillChrome();
+                setTimeout(_widgetSelectTarget, 150);
+            } catch (e) {
+                _widgetLoading = false;
+                console.warn('[DuoHacker] Google widget could not start:', e);
+            }
+        };
+
+        if (pageWindow.google && pageWindow.google.translate) {
+            pageWindow.googleTranslateElementInit();
+            return;
+        }
+        if (!document.getElementById('DH_GoogleTranslateScript')) {
+            var script = document.createElement('script');
+            script.id = 'DH_GoogleTranslateScript';
+            script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+            script.async = true;
+            script.onerror = function() { _widgetLoading = false; };
+            (document.head || document.documentElement).appendChild(script);
+        }
+    }
+
+    // Start hiding Google's chrome as early as possible so nothing flashes on
+    // page load when Auto (Google widget) is the saved language.
+    if (_autoWidgetMode) {
+        _widgetKillChrome();
+        if (document.body) _widgetWatch();
+        else document.addEventListener('DOMContentLoaded', function() { _widgetKillChrome(); _widgetWatch(); }, { once: true });
+    }
+
+    function _widgetRestore() {
+        if (!_autoWidgetMode) return;
+        var select = document.querySelector('#DH_GoogleTranslate select.goog-te-combo');
+        if (select && select.selectedIndex > 0) {
+            select.selectedIndex = 0;
+            select.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+    }
+
+    // Was the widget translation actually applied to the page?
+    function _widgetWasApplied() {
+        if (_widgetTranslated()) return true;
+        var sel = document.querySelector('#DH_GoogleTranslate select.goog-te-combo') ||
+                  document.querySelector('select.goog-te-combo');
+        return !!(sel && sel.value && sel.value !== 'en');
+    }
+
+    // Only used when LEAVING widget mode: drop the googtrans cookies Google
+    // re-reads on every DOM change, otherwise the panel keeps showing the
+    // translated text after switching back to EN / VI.
+    function _widgetClearCookies() {
+        var host = location.hostname;
+        var domains = ['', host, '.' + host];
+        var parts = host.split('.');
+        if (parts.length > 2) domains.push('.' + parts.slice(-2).join('.'));
+        domains.forEach(function(d) {
+            document.cookie = 'googtrans=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/' +
+                (d ? ';domain=' + d : '');
+        });
+        try { localStorage.removeItem('googtrans'); } catch (e) {}
+    }
+
+    // ── Auto translate ────────────────────────────────────────────────
+    // Translates ONLY the DuoHacker panel strings (the _LANGS.en table) via
+    // Google Translate, into the browser's language. Nothing on the Duolingo
+    // page is touched: no page-wide widget, no MutationObserver, no DOM
+    // scanning — so the solver DOM and page performance stay untouched.
+    // Results are cached in localStorage, so it is a one-time fetch.
+    function _autoTarget() {
+        var l = (navigator.language || 'en').toLowerCase();
+        var map = { 'zh-cn': 'zh-CN', 'zh-sg': 'zh-CN', 'zh-tw': 'zh-TW', 'zh-hk': 'zh-TW',
+                    'pt-br': 'pt', 'pt-pt': 'pt', 'nb': 'no', 'nn': 'no', 'fil': 'tl',
+                    'he': 'iw', 'jv': 'jw', 'zh': 'zh-CN' };
+        if (map[l]) return map[l];
+        var b = l.split('-')[0];
+        return map[b] || b;
+    }
+
+    // Build [key, sourceText] pairs. Function values (parameterised strings)
+    // are probed with {0}/{1} placeholders, which Google preserves verbatim.
+    function _autoSource() {
+        var out = [];
+        var en = _LANGS.en;
+        for (var k in en) {
+            if (!Object.prototype.hasOwnProperty.call(en, k)) continue;
+            if (k === 'lang_en' || k === 'lang_vi' || k === 'lang_auto_script' || k === 'lang_auto_widget') continue;
+            var v = en[k];
+            if (typeof v === 'string') {
+                if (v.trim() !== '') out.push([k, v]);
+            } else if (typeof v === 'function') {
+                try {
+                    var args = [];
+                    for (var i = 0; i < Math.max(v.length, 0); i++) args.push('{' + i + '}');
+                    var probe = v.apply(null, args);
+                    if (typeof probe === 'string' && probe.trim() !== '') out.push([k, probe]);
+                } catch (e) { /* skip strings we cannot probe safely */ }
+            }
+        }
+        return out;
+    }
+
+    function _autoSleep(ms) { return new Promise(function(r) { setTimeout(r, ms); }); }
+
+    function _autoRequest(url) {
+        return new Promise(function(resolve, reject) {
+            if (typeof GM_xmlhttpRequest === 'function') {
+                GM_xmlhttpRequest({
+                    method: 'GET', url: url, timeout: 20000,
+                    onload: function(r) {
+                        if (r.status >= 200 && r.status < 300) resolve(r.responseText);
+                        else reject(new Error('HTTP ' + r.status));
+                    },
+                    onerror: function() { reject(new Error('network')); },
+                    ontimeout: function() { reject(new Error('timeout')); }
+                });
+            } else {
+                fetch(url).then(function(r) {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.text();
+                }).then(resolve).catch(reject);
+            }
+        });
+    }
+
+    // Batch translate. Returns an array aligned with `texts`.
+    async function _autoFetch(texts, tgt) {
+        var url = 'https://translate.googleapis.com/translate_a/t?client=gtx&sl=en&tl=' +
+            encodeURIComponent(tgt) + '&' + texts.map(function(t) {
+                return 'q=' + encodeURIComponent(t);
+            }).join('&');
+        var txt = await _autoRequest(url);
+        if (!txt || txt.charAt(0) === '<') throw new Error('rate-limited');
+        var j = JSON.parse(txt);
+        if (typeof j === 'string') j = [j];
+        if (!Array.isArray(j) || j.length !== texts.length) throw new Error('bad payload');
+        return j.map(function(x) { return typeof x === 'string' ? x : String(x); });
+    }
+
+    var _AUTO_COOL_KEY = 'dh2_auto_cooldown';
+    async function _autoLoad() {
+        var tgt = _autoTarget();
+        if (!tgt || tgt === 'en') { _autoDict = null; _applyLang(); return; }
+        if (_autoBusy) return;
+
+        var pairs = _autoSource();
+        var cacheKey = _AUTO_CACHE_PREFIX + tgt;
+        var dict = {};
+        try {
+            var cached = localStorage.getItem(cacheKey);
+            if (cached) dict = JSON.parse(cached) || {};
+        } catch (e) { dict = {}; }
+
+        var missing = pairs.filter(function(p) { return typeof dict[p[0]] !== 'string'; });
+        if (Object.keys(dict).length) { _autoDict = dict; _applyLang(); }
+        if (!missing.length) return;
+
+        // Google's free endpoint answers 429 when hammered. Back off for a
+        // while instead of retrying on every page load.
+        try {
+            var until = parseInt(localStorage.getItem(_AUTO_COOL_KEY) || '0', 10);
+            if (until && Date.now() < until) {
+                console.warn('[DuoHacker] translate endpoint rate-limited, retrying later.');
+                return;
+            }
+        } catch (e) {}
+
+        _autoBusy = true;
+        try {
+            var chunk = 20;
+            for (var i = 0; i < missing.length;) {
+                if (!_autoScriptMode) return;              // user switched away mid-flight
+                var slice = missing.slice(i, i + chunk);
+                var res = null;
+                for (var attempt = 0; attempt < 3 && res === null; attempt++) {
+                    try {
+                        res = await _autoFetch(slice.map(function(p) { return p[1]; }), tgt);
+                    } catch (e) {
+                        if (attempt === 2) throw e;
+                        await _autoSleep(700 * (attempt + 1));  // backoff on 429 / network blips
+                    }
+                }
+                for (var j2 = 0; j2 < slice.length; j2++) {
+                    if (typeof res[j2] === 'string' && res[j2] !== '') dict[slice[j2][0]] = res[j2];
+                }
+                i += chunk;
+                _autoDict = dict;
+                try { localStorage.setItem(cacheKey, JSON.stringify(dict)); } catch (e) { /* quota */ }
+                if (_autoScriptMode) _applyLang();         // progressive fill-in
+                await _autoSleep(250);                     // stay friendly to the endpoint
+            }
+        } catch (e) {
+            if (/429|rate-limited/i.test(String(e && e.message))) {
+                try { localStorage.setItem(_AUTO_COOL_KEY, String(Date.now() + 30 * 60 * 1000)); } catch (e2) {}
+            }
+            console.warn('[DuoHacker] auto translate incomplete (untranslated keys stay English):', e);
+        } finally {
+            _autoBusy = false;
+        }
     }
 
     function _applyLang() {
@@ -714,15 +1097,23 @@
 
         // Lang selector button label
         const lb = document.getElementById('DH_LangSelector_Lbl');
-        if (lb) {
+        if (lb && _autoScriptMode) {
+            lb.innerHTML = '<span style="font-size:14px;line-height:1;" aria-hidden="true">\uD83C\uDF10</span> AUTO SCRIPT';
+        } else if (lb && _autoWidgetMode) {
+            lb.innerHTML = '<span style="font-size:14px;line-height:1;" aria-hidden="true">\uD83C\uDF10</span> AUTO WIDGET';
+        } else if (lb) {
             lb.innerHTML = _lang === 'vi' ?
                 `<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/2b077d42185bc45d4896ed55f15c4fea.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> VI` :
-                `<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> EN`
+                `<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> EN`;
         }
         // Dropdown option labels
         const opEn = document.getElementById('DH_LangOpt_en');
         const opVi = document.getElementById('DH_LangOpt_vi');
         if (opEn) opEn.innerHTML = '<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> ' + _t('lang_en');
+        const opAutoScript = document.getElementById('DH_LangOpt_auto_script');
+        const opAutoWidget = document.getElementById('DH_LangOpt_auto_widget');
+        if (opAutoScript) opAutoScript.innerHTML = '<span style="font-size:14px;line-height:1;" aria-hidden="true">\uD83C\uDF10</span> ' + _t('lang_auto_script');
+        if (opAutoWidget) opAutoWidget.innerHTML = '<span style="font-size:14px;line-height:1;" aria-hidden="true">\uD83C\uDF10</span> ' + _t('lang_auto_widget');
         if (opVi) opVi.innerHTML = '<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/2b077d42185bc45d4896ed55f15c4fea.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> ' + _t('lang_vi');
     }
     // ── End i18n ──────────────────────────────────────────────────────
@@ -1844,6 +2235,24 @@
             >
                 English
             </button>
+
+            <button
+                type="button"
+                class="DH_LangOption DH_NoSel"
+                id="DH_LangOpt_auto_script"
+                data-lang="auto_script"
+            >
+                Auto (translation script)
+            </button>
+
+            <button
+                type="button"
+                class="DH_LangOption DH_NoSel"
+                id="DH_LangOpt_auto_widget"
+                data-lang="auto_widget"
+            >
+                Auto (Google widget)
+            </button>
         </div>
     </div>
 <div class="DH_Notif_Main" id="DH_Notif_Main"></div>
@@ -2415,7 +2824,7 @@
                 event.stopPropagation();
 
                 const lang = option.dataset.lang;
-                if (lang !== 'vi' && lang !== 'en') return;
+                if (lang !== 'vi' && lang !== 'en' && lang !== 'auto_script' && lang !== 'auto_widget') return;
 
                 _setLang(lang);
                 _langSelector.classList.remove('open');
@@ -2430,6 +2839,18 @@
 
 
         _applyLang();
+        if (_autoScriptMode) _autoLoad();
+        if (_autoWidgetMode) {
+            _widgetLoad();
+            setTimeout(_widgetLoad, 1500);
+            // Two gentle late kicks for slow cold loads. Nothing is reset here,
+            // so an in-flight widget load is never interrupted.
+            [4000, 8000].forEach(function(ms) {
+                setTimeout(function() {
+                    if (_autoWidgetMode && !_widgetTranslated()) _widgetLoad();
+                }, ms);
+            });
+        }
 
 
         let _jwt = null,
