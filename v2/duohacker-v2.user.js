@@ -52,7 +52,7 @@
 // @name:ur             Duolingo DuoHacker
 
 // @namespace           https://github.com/DuoHacker/DuoHacker
-// @version             2026.07.31
+// @version             2026.08.27
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 // @description:vi      Công cụ hack Duolingo #1 - Farm XP, Gems, Streaks và mở khóa Duolingo Max miễn phí.
 // @description:zh-CN   最强 Duolingo 辅助工具 - 自动刷 XP、宝石、连胜，免费解锁 Duolingo Max。
@@ -157,6 +157,8 @@
             lang_select_label: 'Language',
             lang_en: 'English',
             lang_vi: 'Tiếng Việt',
+            lang_es: 'Español',
+            lang_fr: 'Français',
 
             // ── Top bar ──
             hide: 'Hide',
@@ -372,6 +374,8 @@
             lang_select_label: 'Ngôn ngữ',
             lang_en: 'English',
             lang_vi: 'Tiếng Việt',
+            lang_es: 'Español',
+            lang_fr: 'Français',
 
             // ── Top bar ──
             hide: 'Ẩn',
@@ -581,6 +585,440 @@
             notif_acc_removed_body: 'Đã xóa tài khoản khỏi danh sách.',
             notif_acc_already_body: 'Tài khoản này đã được lưu rồi.',
             notif_acc_not_found_body: 'Không tìm thấy tài khoản.',
+        },
+        es: {
+            // ── Language selector ──
+            lang_select_label: 'Idioma',
+            lang_en: 'English',
+            lang_vi: 'Tiếng Việt',
+            lang_es: 'Español',
+            lang_fr: 'Français',
+
+            // ── Top bar ──
+            hide: 'Ocultar',
+            show: 'Mostrar',
+            switch_v1: 'Cambiar a Solver',
+            switch_v2: 'Cambiar a V2',
+
+            // ── Connection status ──
+            connecting: 'Conectando',
+            connected: 'Conectado',
+            error: 'Error',
+            outdated: 'Desactualizado',
+
+            // ── Page 1 (main) ──
+            donate: 'Donar',
+            xp_question: '¿Cuánto XP te gustaría ganar?',
+            gems_run_label: 'Haz clic en "EJECUTAR" para farmear Gemas',
+            streak_question: '¿Cuántos días de racha quieres restaurar?',
+            extra_features: 'Funciones extra',
+
+            // ── Page 2 (extra features) ──
+            back: 'Atrás',
+            farm_practice: '¿Cuántas lecciones de práctica quieres resolver?',
+            farm_practice_sub: '0 = sesiones de práctica ilimitadas',
+            shop_items: 'Artículos de la tienda',
+            auto_league: 'Liga automática',
+            auto_league_sub: 'Farmea XP para alcanzar tu rango objetivo',
+            auto_daily_quest: 'Misión diaria automática',
+            auto_daily_sub: 'Completa todas las misiones diarias',
+            claim_monthly: 'Reclamar misión mensual',
+            claim_monthly_sub: 'Ver y reclamar misiones mensuales',
+            free_super: 'Super Duolingo gratis',
+            free_super_sub: 'Activa Super Duolingo gratis',
+
+            // ── Page 4 (settings) ──
+            loop_delay: 'Retraso de bucle (ms)',
+            free_duo_max: 'Duolingo Max gratis',
+            free_duo_max_sub: 'Solo del lado del cliente, recarga para aplicar',
+            hide_profile: 'Ocultar perfil',
+            auto_solver: 'Resolución automática',
+            auto_solver_sub: 'Mostrar botones de resolución automática durante las lecciones',
+            hide_animation: 'Ocultar animación',
+            hide_animation_sub: 'Ocultar imágenes y animaciones de Duolingo',
+            lesson_shortener: 'Acortador de lecciones',
+            lesson_shortener_sub: 'Reemplaza las lecciones con 1 pregunta instantánea',
+            stories_shortener: 'Saltar desafíos de historias',
+            stories_shortener_sub: 'Salta todos los desafíos en las historias',
+            safe_mode: 'Modo seguro',
+            safe_mode_sub: 'Añade más retraso entre clics al resolver lecciones/prácticas',
+            view_credits: 'Ver créditos',
+
+            // ── Page 3 (shop) ──
+            search_placeholder: 'Buscar artículos...',
+            loading_shop: 'Cargando tienda...',
+            no_items_found: 'No se encontraron artículos.',
+            no_items_available: 'No hay artículos disponibles.',
+
+            // ── Page 5 (account manager) ──
+            account_manager: 'Administrador de cuentas',
+            no_saved_accounts: 'No hay cuentas guardadas.',
+
+            // ── Page 6 (monthly quests) ──
+            monthly_quests: 'Misiones mensuales',
+            loading_quests: 'Cargando misiones...',
+            no_monthly_quests: 'No se encontraron misiones de este mes.',
+            quest_failed: 'Error al cargar las misiones.',
+
+            // ── Page 7 (credits) ──
+            credits: 'Créditos',
+
+            // ── Page V1 ──
+            xp_farming: 'Farmeo de XP',
+            farm_gems: 'Farmear Gemas',
+            streak_farming: 'Farmeo de racha',
+            activate_super_q: '¿Te gustaría activar Super Duolingo gratis?',
+            settings: 'Ajustes',
+
+            // ── Not connected ──
+            not_connected: 'No conectado.',
+
+            // ── Buttons (short labels) ──
+            btn_get: 'OBTENER',
+            btn_run: 'EJECUTAR',
+            btn_stop: 'DETENER',
+            btn_save: 'GUARDAR',
+            btn_saved: 'GUARDADO ✓',
+            btn_claim: 'RECLAMAR TODO',
+            btn_activate: 'ACTIVAR',
+            btn_done: 'HECHO ✓',
+            btn_save_current: 'GUARDAR ACTUAL',
+            btn_solve_all: 'RESOLVER TODO',
+            btn_pause: 'PAUSAR',
+            btn_loading: 'Cargando...',
+            btn_running: 'Ejecutando...',
+            btn_got: 'OBTENIDO ✓',
+            btn_failed: 'FALLIDO',
+
+            // ── Hide Profile status ──
+            profile_private: 'El perfil es privado',
+            profile_public: 'El perfil es público',
+            status_unavailable: 'No disponible',
+            status_saving: 'Guardando…',
+            status_failed_retry: 'Error — reintentar',
+            status_not_connected: 'No conectado',
+            status_loading: 'Cargando…',
+
+            // ── Page 11 (leaderboard) ──
+            leaderboard: 'Clasificación',
+            leaderboard_sub: 'Ver tu liga actual',
+            your_current_league: 'Tu liga actual',
+            lb_loading: 'Cargando clasificación...',
+            lb_failed: 'Error al cargar la clasificación.',
+            choose_reaction: 'Elegir reacción',
+            lb_promoted: '⬆ Ascendido',
+            lb_demoted: '⬇ Descendido',
+            lb_safe: '🟡 Seguro',
+            lb_ended: 'Concurso finalizado',
+
+            // ── Leaderboard separators ──
+            lb_rank_up: 'Subir de rango',
+            lb_rank_down: 'Bajar de rango',
+
+            // ── Monthly quest status ──
+            mq_completed: 'COMPLETADO',
+
+            // ── Changelog badge ──
+            changelog_current: 'ACTUAL',
+
+            // ── Account manager labels ──
+            acc_active: 'Activa',
+            acc_login_btn: 'INICIAR SESIÓN',
+
+            // ── Connection error subtexts ──
+            conn_not_logged_in: 'No has iniciado sesión',
+            conn_invalid_token: 'Token inválido',
+            conn_failed_retry: 'Error — reintentando',
+
+            // ── Streak live counter suffixes ──
+            streak_day: 'día',
+            streak_days: 'días',
+
+            // ── Notification titles ──
+            notif_xp_done_title: '¡Farmeo de XP completado!',
+            notif_xp_stopped_title: 'Farmeo de XP detenido',
+            notif_gem_done_title: '¡Farmeo de Gemas completado!',
+            notif_gem_farm_title: 'Farmeo de Gemas',
+            notif_streak_done_title: '¡Farmeo de racha completado!',
+            notif_streak_farm_title: 'Farmeo de racha',
+            notif_streak_stopped_title: 'Farmeo de racha detenido',
+            notif_practice_done_title: '¡Farmeo de práctica completado!',
+            notif_practice_title: 'Farmeo de práctica',
+            notif_daily_done_title: '¡Misiones diarias completadas!',
+            notif_all_done_title: '¡Todo listo!',
+            notif_mq_title: 'Misiones mensuales',
+            notif_mq_partial_title: 'Parcial',
+            notif_super_title: '¡Super activado!',
+            notif_shop_title: 'Tienda',
+            notif_error_title: 'Error',
+            notif_failed_title: 'Fallido',
+            notif_stopped_title: 'Detenido',
+            notif_busy_title: 'Ocupado',
+            notif_not_connected_title: 'No conectado',
+            notif_not_loaded_title: 'No cargado',
+            notif_nothing_to_do_title: 'Nada que hacer',
+            notif_v1xp_title: 'V1 XP',
+            notif_acc_saved_title: 'Cuenta guardada',
+            notif_acc_removed_title: 'Eliminada',
+            notif_acc_already_title: 'Ya guardada',
+            notif_acc_not_found_title: 'No encontrada',
+
+            // ── Notification bodies ──
+            notif_xp_done_body: (xp, loops) => `Se farmearon ${xp} XP en ${loops} vueltas.`,
+            notif_xp_done_inf_body: (xp) => `+${xp} XP obtenidos.`,
+            notif_xp_stopped_body: (xp) => `+${xp} XP obtenidos.`,
+            notif_gem_done_body: (gems) => `+${gems} gemas obtenidas.`,
+            notif_gem_no_rewards: 'No hay recompensas disponibles. Reintentando…',
+            notif_streak_done_body: (days) => `Se restauraron ${days} días de racha.`,
+            notif_streak_no_days: 'No se pudo guardar ningún día. Inténtalo de nuevo.',
+            notif_streak_done_inf_body: (days, unit) => `+${days} ${unit} obtenidos.`,
+            notif_streak_stopped_body: (days) => `Se procesaron ${days} días.`,
+            notif_practice_done_body: (n) => `Se completaron ${n} práctica(s).`,
+            notif_practice_next_body: (n, total) => `Hecho ${n}${total > 0 ? ' / ' + total : ''} — cargando siguiente...`,
+            notif_practice_nav: 'Navegando a la práctica...',
+            notif_practice_busy: 'El farmeo de práctica ya está en curso.',
+            notif_daily_done_body: (n) => `Se completaron ${n} objetivo(s).`,
+            notif_all_done_body: 'Todas las misiones diarias completadas.',
+            notif_daily_error: 'No se pudieron cargar los datos de la misión.',
+            notif_daily_fail: 'Error al completar la misión.',
+            notif_mq_all_body: (n) => `¡${n} misión(es) reclamada(s)!`,
+            notif_mq_partial_body: (ok, total) => `${ok}/${total} misiones reclamadas.`,
+            notif_mq_fail: 'No se pudo reclamar ninguna misión.',
+            notif_mq_not_loaded: 'Abre primero Misiones mensuales.',
+            notif_mq_nothing: 'No se encontraron misiones sin reclamar.',
+            notif_super_body: '¡Super Duolingo gratis activado!',
+            notif_super_fail: 'Error al activar. Puede que ya tengas Super.',
+            notif_shop_got: (name) => `¡Obtuviste ${name}!`,
+            notif_shop_fail: 'Error al obtener el artículo.',
+            notif_v1xp_errors: 'Demasiados errores, deteniendo.',
+            notif_v1xp_done_body: (xp) => `Se farmearon ${xp} XP.`,
+            notif_v1gem_done_body: (gems) => `+${gems} gemas obtenidas.`,
+            notif_v1streak_done_body: (days) => `Se farmearon ${days} días de racha.`,
+            notif_stopped_body: 'Farmeo detenido.',
+            notif_busy_v1: 'Detén el farmeo V1 actual primero.',
+            notif_not_connected_body: 'Por favor espera.',
+            notif_not_connected_conn: 'Por favor espera la conexión.',
+            notif_acc_saved_body: (name) => `Cuenta guardada: ${name}`,
+            notif_acc_removed_body: 'Cuenta eliminada de la lista.',
+            notif_acc_already_body: 'Esta cuenta ya está en la lista.',
+            notif_acc_not_found_body: 'Cuenta no encontrada.',
+        },
+        fr: {
+            // ── Language selector ──
+            lang_select_label: 'Langue',
+            lang_en: 'English',
+            lang_vi: 'Tiếng Việt',
+            lang_es: 'Español',
+            lang_fr: 'Français',
+
+            // ── Top bar ──
+            hide: 'Masquer',
+            show: 'Afficher',
+            switch_v1: 'Passer à Solver',
+            switch_v2: 'Passer à V2',
+
+            // ── Connection status ──
+            connecting: 'Connexion',
+            connected: 'Connecté',
+            error: 'Erreur',
+            outdated: 'Obsolète',
+
+            // ── Page 1 (main) ──
+            donate: 'Faire un don',
+            xp_question: "Combien d'XP souhaitez-vous gagner ?",
+            gems_run_label: 'Cliquez sur « LANCER » pour farmer des Gemmes',
+            streak_question: 'Combien de jours de série voulez-vous restaurer ?',
+            extra_features: 'Fonctionnalités supplémentaires',
+
+            // ── Page 2 (extra features) ──
+            back: 'Retour',
+            farm_practice: 'Combien de leçons de pratique voulez-vous résoudre ?',
+            farm_practice_sub: '0 = sessions de pratique illimitées',
+            shop_items: 'Articles de la boutique',
+            auto_league: 'Ligue automatique',
+            auto_league_sub: "Farmez de l'XP pour atteindre votre rang cible",
+            auto_daily_quest: 'Quête quotidienne automatique',
+            auto_daily_sub: 'Complétez toutes les quêtes quotidiennes',
+            claim_monthly: 'Réclamer la quête mensuelle',
+            claim_monthly_sub: 'Voir et réclamer les quêtes mensuelles',
+            free_super: 'Super Duolingo gratuit',
+            free_super_sub: 'Activez Super Duolingo gratuitement',
+
+            // ── Page 4 (settings) ──
+            loop_delay: 'Délai de boucle (ms)',
+            free_duo_max: 'Duolingo Max gratuit',
+            free_duo_max_sub: 'Côté client uniquement, rechargez pour appliquer',
+            hide_profile: 'Masquer le profil',
+            auto_solver: 'Résolveur automatique',
+            auto_solver_sub: 'Afficher les boutons du résolveur automatique pendant les leçons',
+            hide_animation: "Masquer l'animation",
+            hide_animation_sub: 'Masquer les images et animations de Duolingo',
+            lesson_shortener: 'Raccourcisseur de leçons',
+            lesson_shortener_sub: 'Remplace les leçons par 1 question instantanée',
+            stories_shortener: 'Passer les défis des histoires',
+            stories_shortener_sub: 'Ignore tous les défis dans les histoires',
+            safe_mode: 'Mode sécurisé',
+            safe_mode_sub: 'Ajoute plus de délai entre les clics lors de la résolution des leçons/pratiques',
+            view_credits: 'Voir les crédits',
+
+            // ── Page 3 (shop) ──
+            search_placeholder: 'Rechercher des articles...',
+            loading_shop: 'Chargement de la boutique...',
+            no_items_found: 'Aucun article trouvé.',
+            no_items_available: 'Aucun article disponible.',
+
+            // ── Page 5 (account manager) ──
+            account_manager: 'Gestionnaire de comptes',
+            no_saved_accounts: 'Aucun compte enregistré.',
+
+            // ── Page 6 (monthly quests) ──
+            monthly_quests: 'Quêtes mensuelles',
+            loading_quests: 'Chargement des quêtes...',
+            no_monthly_quests: 'Aucune quête trouvée ce mois-ci.',
+            quest_failed: 'Échec du chargement des quêtes.',
+
+            // ── Page 7 (credits) ──
+            credits: 'Crédits',
+
+            // ── Page V1 ──
+            xp_farming: "Farming d'XP",
+            farm_gems: 'Farmer des Gemmes',
+            streak_farming: 'Farming de série',
+            activate_super_q: 'Voulez-vous activer Super Duolingo gratuitement ?',
+            settings: 'Paramètres',
+
+            // ── Not connected ──
+            not_connected: 'Non connecté.',
+
+            // ── Buttons (short labels) ──
+            btn_get: 'OBTENIR',
+            btn_run: 'LANCER',
+            btn_stop: 'ARRÊTER',
+            btn_save: 'ENREGISTRER',
+            btn_saved: 'ENREGISTRÉ ✓',
+            btn_claim: 'TOUT RÉCLAMER',
+            btn_activate: 'ACTIVER',
+            btn_done: 'TERMINÉ ✓',
+            btn_save_current: 'ENREGISTRER ACTUEL',
+            btn_solve_all: 'TOUT RÉSOUDRE',
+            btn_pause: 'PAUSE',
+            btn_loading: 'Chargement...',
+            btn_running: 'En cours...',
+            btn_got: 'OBTENU ✓',
+            btn_failed: 'ÉCHEC',
+
+            // ── Hide Profile status ──
+            profile_private: 'Le profil est privé',
+            profile_public: 'Le profil est public',
+            status_unavailable: 'Indisponible',
+            status_saving: 'Enregistrement…',
+            status_failed_retry: 'Échec — réessayer',
+            status_not_connected: 'Non connecté',
+            status_loading: 'Chargement…',
+
+            // ── Page 11 (leaderboard) ──
+            leaderboard: 'Classement',
+            leaderboard_sub: 'Voir votre ligue actuelle',
+            your_current_league: 'Votre ligue actuelle',
+            lb_loading: 'Chargement du classement...',
+            lb_failed: 'Échec du chargement du classement.',
+            choose_reaction: 'Choisir une réaction',
+            lb_promoted: '⬆ Promu',
+            lb_demoted: '⬇ Rétrogradé',
+            lb_safe: '🟡 Sûr',
+            lb_ended: 'Concours terminé',
+
+            // ── Leaderboard separators ──
+            lb_rank_up: 'Monter de rang',
+            lb_rank_down: 'Descendre de rang',
+
+            // ── Monthly quest status ──
+            mq_completed: 'TERMINÉ',
+
+            // ── Changelog badge ──
+            changelog_current: 'ACTUEL',
+
+            // ── Account manager labels ──
+            acc_active: 'Actif',
+            acc_login_btn: 'CONNEXION',
+
+            // ── Connection error subtexts ──
+            conn_not_logged_in: 'Non connecté',
+            conn_invalid_token: 'Jeton invalide',
+            conn_failed_retry: 'Échec — nouvelle tentative',
+
+            // ── Streak live counter suffixes ──
+            streak_day: 'jour',
+            streak_days: 'jours',
+
+            // ── Notification titles ──
+            notif_xp_done_title: "Farming d'XP terminé !",
+            notif_xp_stopped_title: "Farming d'XP arrêté",
+            notif_gem_done_title: 'Farming de Gemmes terminé !',
+            notif_gem_farm_title: 'Farming de Gemmes',
+            notif_streak_done_title: 'Farming de série terminé !',
+            notif_streak_farm_title: 'Farming de série',
+            notif_streak_stopped_title: 'Farming de série arrêté',
+            notif_practice_done_title: 'Farming de pratique terminé !',
+            notif_practice_title: 'Farming de pratique',
+            notif_daily_done_title: 'Quêtes quotidiennes terminées !',
+            notif_all_done_title: 'Tout est terminé !',
+            notif_mq_title: 'Quêtes mensuelles',
+            notif_mq_partial_title: 'Partiel',
+            notif_super_title: 'Super activé !',
+            notif_shop_title: 'Boutique',
+            notif_error_title: 'Erreur',
+            notif_failed_title: 'Échec',
+            notif_stopped_title: 'Arrêté',
+            notif_busy_title: 'Occupé',
+            notif_not_connected_title: 'Non connecté',
+            notif_not_loaded_title: 'Non chargé',
+            notif_nothing_to_do_title: 'Rien à faire',
+            notif_v1xp_title: 'V1 XP',
+            notif_acc_saved_title: 'Compte enregistré',
+            notif_acc_removed_title: 'Supprimé',
+            notif_acc_already_title: 'Déjà enregistré',
+            notif_acc_not_found_title: 'Introuvable',
+
+            // ── Notification bodies ──
+            notif_xp_done_body: (xp, loops) => `${xp} XP farmés en ${loops} boucles.`,
+            notif_xp_done_inf_body: (xp) => `+${xp} XP obtenus.`,
+            notif_xp_stopped_body: (xp) => `+${xp} XP obtenus.`,
+            notif_gem_done_body: (gems) => `+${gems} gemmes obtenues.`,
+            notif_gem_no_rewards: 'Aucune récompense disponible. Nouvelle tentative…',
+            notif_streak_done_body: (days) => `${days} jours de série restaurés.`,
+            notif_streak_no_days: "Aucun jour n'a pu être enregistré. Veuillez réessayer.",
+            notif_streak_done_inf_body: (days, unit) => `+${days} ${unit} obtenus.`,
+            notif_streak_stopped_body: (days) => `${days} jours traités.`,
+            notif_practice_done_body: (n) => `${n} pratique(s) terminée(s).`,
+            notif_practice_next_body: (n, total) => `${n}${total > 0 ? ' / ' + total : ''} terminé — chargement du suivant...`,
+            notif_practice_nav: 'Navigation vers la pratique...',
+            notif_practice_busy: 'Le farming de pratique est déjà en cours.',
+            notif_daily_done_body: (n) => `${n} objectif(s) complété(s).`,
+            notif_all_done_body: 'Toutes les quêtes quotidiennes terminées.',
+            notif_daily_error: 'Impossible de charger les données de quête.',
+            notif_daily_fail: 'Échec de la complétion de la quête.',
+            notif_mq_all_body: (n) => `${n} quête(s) réclamée(s) !`,
+            notif_mq_partial_body: (ok, total) => `${ok}/${total} quêtes réclamées.`,
+            notif_mq_fail: "Aucune quête n'a pu être réclamée.",
+            notif_mq_not_loaded: "Ouvrez d'abord les Quêtes mensuelles.",
+            notif_mq_nothing: 'Aucune quête non réclamée trouvée.',
+            notif_super_body: 'Super Duolingo gratuit activé !',
+            notif_super_fail: 'Échec de l\'activation. Vous avez peut-être déjà Super.',
+            notif_shop_got: (name) => `Vous avez obtenu ${name} !`,
+            notif_shop_fail: "Échec de l'obtention de l'article.",
+            notif_v1xp_errors: "Trop d'erreurs, arrêt en cours.",
+            notif_v1xp_done_body: (xp) => `${xp} XP farmés.`,
+            notif_v1gem_done_body: (gems) => `+${gems} gemmes obtenues.`,
+            notif_v1streak_done_body: (days) => `${days} jours de série farmés.`,
+            notif_stopped_body: 'Farming arrêté.',
+            notif_busy_v1: "Arrêtez d'abord le farming V1 actuel.",
+            notif_not_connected_body: 'Veuillez patienter.',
+            notif_not_connected_conn: 'Veuillez patienter pendant la connexion.',
+            notif_acc_saved_body: (name) => `Compte enregistré : ${name}`,
+            notif_acc_removed_body: 'Compte supprimé de la liste.',
+            notif_acc_already_body: 'Ce compte est déjà dans la liste.',
+            notif_acc_not_found_body: 'Compte introuvable.',
         }
     };
 
@@ -595,7 +1033,7 @@
     }
 
     function _setLang(l) {
-        if (l !== 'vi' && l !== 'en') return;
+        if (l !== 'vi' && l !== 'en' && l !== 'es' && l !== 'fr') return;
         _lang = l;
         localStorage.setItem(_I18N_KEY, l);
         _applyLang();
@@ -712,18 +1150,31 @@
         const ph = document.getElementById('DH_Shop_Search');
         if (ph) ph.placeholder = _t('search_placeholder');
 
+        // Flag icon URLs per language
+        const _LANG_ICON = {
+            vi: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/2b077d42185bc45d4896ed55f15c4fea.svg',
+            en: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg',
+            es: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/59a90a2cedd48b751a8fd22014768fd7.svg',
+            fr: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/482fda142ee4abd728ebf4ccce5d3307.svg',
+        };
+        const _LANG_CODE = { vi: 'VI', en: 'EN', es: 'ES', fr: 'FR' };
+        const _flagImg = (code) => `<img src="${_LANG_ICON[code]}" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true">`;
+
         // Lang selector button label
         const lb = document.getElementById('DH_LangSelector_Lbl');
         if (lb) {
-            lb.innerHTML = _lang === 'vi' ?
-                `<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/2b077d42185bc45d4896ed55f15c4fea.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> VI` :
-                `<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> EN`
+            const code = _LANG_ICON[_lang] ? _lang : 'en';
+            lb.innerHTML = `${_flagImg(code)} ${_LANG_CODE[code]}`;
         }
         // Dropdown option labels
         const opEn = document.getElementById('DH_LangOpt_en');
         const opVi = document.getElementById('DH_LangOpt_vi');
-        if (opEn) opEn.innerHTML = '<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> ' + _t('lang_en');
-        if (opVi) opVi.innerHTML = '<img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/2b077d42185bc45d4896ed55f15c4fea.svg" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true"> ' + _t('lang_vi');
+        const opEs = document.getElementById('DH_LangOpt_es');
+        const opFr = document.getElementById('DH_LangOpt_fr');
+        if (opEn) opEn.innerHTML = _flagImg('en') + ' ' + _t('lang_en');
+        if (opVi) opVi.innerHTML = _flagImg('vi') + ' ' + _t('lang_vi');
+        if (opEs) opEs.innerHTML = _flagImg('es') + ' ' + _t('lang_es');
+        if (opFr) opFr.innerHTML = _flagImg('fr') + ' ' + _t('lang_fr');
     }
     // ── End i18n ──────────────────────────────────────────────────────
 
@@ -1844,6 +2295,24 @@
             >
                 English
             </button>
+
+            <button
+                type="button"
+                class="DH_LangOption DH_NoSel"
+                id="DH_LangOpt_es"
+                data-lang="es"
+            >
+                Español
+            </button>
+
+            <button
+                type="button"
+                class="DH_LangOption DH_NoSel"
+                id="DH_LangOpt_fr"
+                data-lang="fr"
+            >
+                Français
+            </button>
         </div>
     </div>
 <div class="DH_Notif_Main" id="DH_Notif_Main"></div>
@@ -1992,7 +2461,7 @@
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">duohacker.io.vn</p>
-                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.07.31</p>
+                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.08.27</p>
             </div>
         </div>
 
@@ -2415,7 +2884,7 @@
                 event.stopPropagation();
 
                 const lang = option.dataset.lang;
-                if (lang !== 'vi' && lang !== 'en') return;
+                if (lang !== 'vi' && lang !== 'en' && lang !== 'es' && lang !== 'fr') return;
 
                 _setLang(lang);
                 _langSelector.classList.remove('open');
@@ -2726,25 +3195,20 @@
             const rankings = lb?.cohort?.rankings || [];
             const me = rankings.find(u => String(u.user_id) === String(_sub));
             if (!me || !me.avatar_url || me.avatar_url.includes('/avatar/default')) return;
-            GM_xmlhttpRequest({
-                method: 'GET', url: me.avatar_url + '/large',
-                responseType: 'blob', timeout: 8000,
-                onload: function(r) {
-                    if (r.status !== 200 || !r.response) return;
-                    var blobUrl = URL.createObjectURL(r.response);
-                    _panelAvatarLoaded = true;
-                    ['DH_Avatar', 'DH_V1_Avatar'].forEach(function(elId) {
-                        var el = document.getElementById(elId);
-                        if (!el) return;
-                        el.innerHTML = '';
-                        var img = document.createElement('img');
-                        img.src = blobUrl;
-                        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
-                        img.draggable = false;
-                        el.appendChild(img);
-                    });
-                },
-                onerror: function() {}, ontimeout: function() {}
+            _dhFetchBlob(me.avatar_url + '/large').then(function(blob) {
+                if (!blob) return;
+                var blobUrl = URL.createObjectURL(blob);
+                _panelAvatarLoaded = true;
+                ['DH_Avatar', 'DH_V1_Avatar'].forEach(function(elId) {
+                    var el = document.getElementById(elId);
+                    if (!el) return;
+                    el.innerHTML = '';
+                    var img = document.createElement('img');
+                    img.src = blobUrl;
+                    img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;';
+                    img.draggable = false;
+                    el.appendChild(img);
+                });
             });
         }
 
@@ -2883,30 +3347,26 @@
                 var done = 0;
                 function onDone() { if (++done === slice.length) _batchAvatars(queue, offset + CHUNK); }
                 slice.forEach(function(item) {
-                    GM_xmlhttpRequest({
-                        method: 'GET', url: item.url, responseType: 'blob', timeout: 8000,
-                        onload: function(r) {
-                            if (r.status === 200 && r.response) {
-                                var bUrl = URL.createObjectURL(r.response);
-                                item.awEl.innerHTML = '';
-                                var ai = document.createElement('img');
-                                ai.className = 'DH_LB_AvatarImg'; ai.src = bUrl; ai.alt = '';
-                                item.awEl.appendChild(ai);
-                                if (item.inP || item.inD) _appendZoneIcon(item.awEl, item.inP);
-                                // Re-add reaction icon (was cleared by innerHTML='')
-                                if (item.reaction !== null && item.reaction !== undefined) {
-                                    var ri2 = document.createElement('img');
-                                    ri2.className = 'DH_LB_Reaction' + (item.isMe ? ' me' : '');
-                                    ri2.src = _reactionIconUrl(item.reaction);
-                                    ri2.alt = '';
-                                    if (item.isMe) ri2.addEventListener('click', function() { _goPage(12); });
-                                    item.awEl.appendChild(ri2);
-                                }
+                    _dhFetchBlob(item.url).then(function(blob) {
+                        if (blob) {
+                            var bUrl = URL.createObjectURL(blob);
+                            item.awEl.innerHTML = '';
+                            var ai = document.createElement('img');
+                            ai.className = 'DH_LB_AvatarImg'; ai.src = bUrl; ai.alt = '';
+                            item.awEl.appendChild(ai);
+                            if (item.inP || item.inD) _appendZoneIcon(item.awEl, item.inP);
+                            // Re-add reaction icon (was cleared by innerHTML='')
+                            if (item.reaction !== null && item.reaction !== undefined) {
+                                var ri2 = document.createElement('img');
+                                ri2.className = 'DH_LB_Reaction' + (item.isMe ? ' me' : '');
+                                ri2.src = _reactionIconUrl(item.reaction);
+                                ri2.alt = '';
+                                if (item.isMe) ri2.addEventListener('click', function() { _goPage(12); });
+                                item.awEl.appendChild(ri2);
                             }
-                            onDone();
-                        },
-                        onerror: onDone, ontimeout: onDone
-                    });
+                        }
+                        onDone();
+                    }).catch(onDone);
                 });
             })(_avatarQueue, 0);
             } catch(e) {
@@ -3974,17 +4434,67 @@
             };
         }
 
+        // ── Mobile-safe fetch layer ─────────────────────────────────────────────
+        const _isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+            || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+        const _FORBIDDEN_HDRS = { cookie:1, origin:1, 'user-agent':1, host:1, referer:1, 'content-length':1 };
+
+        function _dhFetch(method, url, data, hdrs, timeoutMs) {
+            const rawHdrs = hdrs || _hdrs || {};
+            const body = (data == null) ? null : (typeof data === 'string' ? data : JSON.stringify(data));
+            const ms = timeoutMs || 15000;
+
+            const gmReq = () => new Promise(r => {
+                GM_xmlhttpRequest({
+                    method, url, headers: rawHdrs, data: body,
+                    onload: r,
+                    onerror: () => r({ status: 0, responseText: '' }),
+                    timeout: ms, ontimeout: () => r({ status: 0, responseText: '' })
+                });
+            });
+
+            const useFetch = _isMobile || typeof GM_xmlhttpRequest === 'undefined';
+            if (useFetch) {
+                const safeHdrs = {};
+                for (const k in rawHdrs) if (!_FORBIDDEN_HDRS[k.toLowerCase()]) safeHdrs[k] = rawHdrs[k];
+                return fetch(url, {
+                    method,
+                    headers: safeHdrs,
+                    body: (method === 'GET' || method === 'HEAD') ? undefined : body,
+                    credentials: 'include',
+                    mode: 'cors'
+                })
+                .then(res => res.text().then(text => ({ status: res.status, responseText: text })))
+                .catch(() => typeof GM_xmlhttpRequest !== 'undefined'
+                    ? gmReq()
+                    : { status: 0, responseText: '' }
+                );
+            }
+            return gmReq();
+        }
+
+        function _dhFetchBlob(url) {
+            const useFetch = _isMobile || typeof GM_xmlhttpRequest === 'undefined';
+            if (useFetch) {
+                return fetch(url, { credentials: 'include', mode: 'cors' })
+                    .then(res => res.ok ? res.blob() : null)
+                    .catch(() => null);
+            }
+            return new Promise(r => {
+                GM_xmlhttpRequest({
+                    method: 'GET', url, responseType: 'blob', timeout: 8000,
+                    onload: resp => r(resp.status === 200 && resp.response ? resp.response : null),
+                    onerror: () => r(null), ontimeout: () => r(null)
+                });
+            });
+        }
+        // ── End mobile-safe fetch layer ─────────────────────────────────────────
+
         function _gm(method, url, data, hdrs) {
-            return new Promise((res, rej) => GM_xmlhttpRequest({
-                method,
-                url,
-                headers: hdrs || _hdrs,
-                data: data ? JSON.stringify(data) : null,
-                onload: r => res(r),
-                onerror: () => rej(new Error('Network')),
-                timeout: 15000,
-                ontimeout: () => rej(new Error('Timeout'))
-            }));
+            return _dhFetch(method, url, data, hdrs).then(r => {
+                if (r.status === 0) throw new Error('Network');
+                return r;
+            });
         }
 
         function _setBtnState(btnId, cfg, labelText) {
@@ -4076,15 +4586,14 @@
         }
 
         const _GF_SCRIPT_URL = 'https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-        const _CURRENT_VER = '2026.07.31';
+        const _CURRENT_VER = '2026.08.27';
 
         /* ── Changelog Popup -*/
         const _CHANGELOG = [{
-            version: '2026.07.31',
+            version: '2026.08.27',
             changes: [
-                'Fixed Avatar funcs',
-                'Fixed Gem Farming verify',
-                'Improved Auto League',
+                'Added Espanol language',
+                'Added Francais language',
             ]
         }, ];
 
@@ -4204,16 +4713,8 @@
 
         async function _checkVersionOnLoad() {
             try {
-                const r = await new Promise((res, rej) => GM_xmlhttpRequest({
-                    method: 'GET',
-                    url: `https://greasyfork.org/scripts/561041.json`,
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                    onload: r => res(r),
-                    onerror: () => rej(),
-                    timeout: 5000
-                }));
+                const r = await _dhFetch('GET', 'https://greasyfork.org/scripts/561041.json',
+                    null, { 'Accept': 'application/json' }, 5000);
                 if (r.status !== 200) return;
                 const data = JSON.parse(r.responseText);
                 const remoteVer = (data.version || '').trim();
@@ -5155,20 +5656,16 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 );
 
                 let sess = null;
-                await new Promise(r => GM_xmlhttpRequest({
-                    method: 'POST',
-                    url: 'https://www.duolingo.com/2017-06-30/sessions',
-                    headers: _hdrs,
-                    data: JSON.stringify({
+                {
+                    const _sr = await _dhFetch('POST', 'https://www.duolingo.com/2017-06-30/sessions', {
                         challengeTypes: CH,
                         fromLanguage: _user.fromLanguage,
                         isFinalLevel: false, isV2: true, juicy: true,
                         learningLanguage: _user.learningLanguage,
                         smartTipsVersion: 2, type: 'GLOBAL_PRACTICE'
-                    }),
-                    onload: res => { if (res.status === 200) { try { sess = JSON.parse(res.responseText); } catch {} } r(); },
-                    onerror: () => r(), timeout: 15000, ontimeout: () => r()
-                }));
+                    });
+                    if (_sr.status === 200) { try { sess = JSON.parse(_sr.responseText); } catch {} }
+                }
 
                 if (!_running) break;
 
@@ -5185,20 +5682,16 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 }
 
                 let ok = false;
-                await new Promise(r => GM_xmlhttpRequest({
-                    method: 'PUT',
-                    url: `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`,
-                    headers: _hdrs,
-                    data: JSON.stringify({
+                {
+                    const _pr = await _dhFetch('PUT', `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`, {
                         ...sess,
                         heartsLeft: 5,
                         startTime: endSecs - 1, endTime: endSecs,
                         enableBonusPoints: false, failed: false,
                         maxInLessonStreak: 9, shouldLearnThings: true
-                    }),
-                    onload: res => { ok = res.status === 200; r(); },
-                    onerror: () => r(), timeout: 15000, ontimeout: () => r()
-                }));
+                    });
+                    ok = _pr.status === 200;
+                }
 
                 if (!_running) break;
 
@@ -5450,23 +5943,17 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
             return new Date().toISOString();
         }
         async function _getGoals() {
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'GET',
-                url: `${GOALS_API}/schema?ui_language=en&_=${Date.now()}`,
-                headers: _goalHdrs(_jwt),
-                onload: res => r(res.status === 200 ? JSON.parse(res.responseText) : null),
-                onerror: () => r(null)
-            }));
+            try {
+                const res = await _dhFetch('GET', `${GOALS_API}/schema?ui_language=en&_=${Date.now()}`, null, _goalHdrs(_jwt));
+                return res.status === 200 ? JSON.parse(res.responseText) : null;
+            } catch { return null; }
         }
         async function _getProgress() {
             const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'GET',
-                url: `${GOALS_API}/users/${_sub}/progress?timezone=${encodeURIComponent(tz)}&ui_language=en`,
-                headers: _goalHdrs(_jwt),
-                onload: res => r(res.status === 200 ? JSON.parse(res.responseText) : null),
-                onerror: () => r(null)
-            }));
+            try {
+                const res = await _dhFetch('GET', `${GOALS_API}/users/${_sub}/progress?timezone=${encodeURIComponent(tz)}&ui_language=en`, null, _goalHdrs(_jwt));
+                return res.status === 200 ? JSON.parse(res.responseText) : null;
+            } catch { return null; }
         }
         async function _bruteForceGoals(metrics) {
             const updates = metrics.map(m => ({
@@ -5477,35 +5964,27 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 metric: 'QUESTS',
                 quantity: 1
             });
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'POST',
-                url: `${GOALS_API}/users/${_sub}/progress/batch`,
-                headers: _goalHdrs(_jwt),
-                data: JSON.stringify({
+            try {
+                const res = await _dhFetch('POST', `${GOALS_API}/users/${_sub}/progress/batch`, {
                     metric_updates: updates,
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     timestamp: new Date().toISOString()
-                }),
-                onload: res => r(res.status === 200),
-                onerror: () => r(false)
-            }));
+                }, _goalHdrs(_jwt));
+                return res.status === 200;
+            } catch { return false; }
         }
         async function _updateGoal(metric, amount, goalId) {
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'POST',
-                url: `${GOALS_API}/users/${_sub}/progress/batch`,
-                headers: _goalHdrs(_jwt),
-                data: JSON.stringify({
+            try {
+                const res = await _dhFetch('POST', `${GOALS_API}/users/${_sub}/progress/batch`, {
                     metric_updates: [{
                         metric,
                         quantity: amount
                     }],
                     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
                     timestamp: _getQuestTimestamp(goalId)
-                }),
-                onload: res => r(res.status === 200),
-                onerror: () => r(false)
-            }));
+                }, _goalHdrs(_jwt));
+                return res.status === 200;
+            } catch { return false; }
         }
 
         async function _farmDailyQuest() {
@@ -5574,20 +6053,11 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
         }
 
         async function _getShopItems() {
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'GET',
-                url: 'https://www.duolingo.com/2023-05-23/shop-items',
-                headers: _hdrs,
-                onload: res => {
-                    try {
-                        if (res.status === 200) r(JSON.parse(res.responseText).shopItems || []);
-                        else r([]);
-                    } catch {
-                        r([]);
-                    }
-                },
-                onerror: () => r([])
-            }));
+            try {
+                const res = await _gm('GET', 'https://www.duolingo.com/2023-05-23/shop-items');
+                if (res.status !== 200) return [];
+                return JSON.parse(res.responseText).shopItems || [];
+            } catch { return []; }
         }
 
         async function _buyShopItem(itemId) {
@@ -5598,14 +6068,10 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 fromLanguage: _user.fromLanguage,
                 learningLanguage: _user.learningLanguage
             };
-            return new Promise(r => GM_xmlhttpRequest({
-                method: 'POST',
-                url: `https://www.duolingo.com/2017-06-30/users/${_sub}/shop-items`,
-                headers: _hdrs,
-                data: JSON.stringify(payload),
-                onload: res => r(res.status === 200),
-                onerror: () => r(false)
-            }));
+            try {
+                const res = await _gm('POST', `https://www.duolingo.com/2017-06-30/users/${_sub}/shop-items`, payload);
+                return res.status === 200;
+            } catch { return false; }
         }
 
         let _allShopItems = [];
@@ -6138,37 +6604,29 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 );
 
                 let sess = null;
-                await new Promise(r => GM_xmlhttpRequest({
-                    method: 'POST',
-                    url: 'https://www.duolingo.com/2017-06-30/sessions',
-                    headers: _hdrs,
-                    data: JSON.stringify({
+                {
+                    const _sr = await _dhFetch('POST', 'https://www.duolingo.com/2017-06-30/sessions', {
                         challengeTypes: CH,
                         fromLanguage: _user.fromLanguage,
                         isFinalLevel: false, isV2: true, juicy: true,
                         learningLanguage: _user.learningLanguage,
                         smartTipsVersion: 2, type: 'GLOBAL_PRACTICE'
-                    }),
-                    onload: res => { if (res.status === 200) { try { sess = JSON.parse(res.responseText); } catch {} } r(); },
-                    onerror: () => r(), timeout: 15000, ontimeout: () => r()
-                }));
+                    });
+                    if (_sr.status === 200) { try { sess = JSON.parse(_sr.responseText); } catch {} }
+                }
 
                 if (sess?.id) {
                     let ok = false;
-                    await new Promise(r => GM_xmlhttpRequest({
-                        method: 'PUT',
-                        url: `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`,
-                        headers: _hdrs,
-                        data: JSON.stringify({
+                    {
+                        const _pr = await _dhFetch('PUT', `https://www.duolingo.com/2017-06-30/sessions/${sess.id}`, {
                             ...sess,
                             heartsLeft: 5,
                             startTime: endSecs - 1, endTime: endSecs,
                             enableBonusPoints: false, failed: false,
                             maxInLessonStreak: 9, shouldLearnThings: true
-                        }),
-                        onload: res => { ok = res.status === 200; r(); },
-                        onerror: () => r(), timeout: 15000, ontimeout: () => r()
-                    }));
+                        });
+                        ok = _pr.status === 200;
+                    }
 
                     if (ok) {
                         _v1Earned.streak++;
@@ -6399,16 +6857,10 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
         }
 
         function _mqGm(method, url, data, hdrs) {
-            return new Promise((res, rej) => GM_xmlhttpRequest({
-                method,
-                url,
-                headers: hdrs,
-                data: data ? JSON.stringify(data) : null,
-                onload: r => res(r),
-                onerror: () => rej(new Error('Network')),
-                timeout: 15000,
-                ontimeout: () => rej(new Error('Timeout'))
-            }));
+            return _dhFetch(method, url, data, hdrs).then(r => {
+                if (r.status === 0) throw new Error('Network');
+                return r;
+            });
         }
 
         function _mqGetTimestamp(goalId) {
@@ -7412,20 +7864,13 @@ body * {
             if (_licenseLoaded) return;
             const txt = document.getElementById('DH_License_Text');
             if (!txt) return;
-            GM_xmlhttpRequest({
-                method: 'GET',
-                url: 'https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/LICENSE',
-                onload: r => {
-                    if (!document.getElementById('DH_License_Text')) return;
-                    document.getElementById('DH_License_Text').textContent =
-                        r.status === 200 ? r.responseText : 'Could not load license. Please check your connection.';
-                    _licenseLoaded = true;
-                },
-                onerror: () => {
+            _dhFetch('GET', 'https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/LICENSE', null, {})
+                .then(r => {
                     const t = document.getElementById('DH_License_Text');
-                    if (t) t.textContent = 'Could not load license. Please check your connection.';
-                }
-            });
+                    if (!t) return;
+                    t.textContent = r.status === 200 ? r.responseText : 'Could not load license. Please check your connection.';
+                    if (r.status === 200) _licenseLoaded = true;
+                });
         }
         document.getElementById('DH_License_Open_Btn').addEventListener('click', () => _goPage(9));
         document.getElementById('DH_License_Back_Btn').addEventListener('click', () => _goBack());
