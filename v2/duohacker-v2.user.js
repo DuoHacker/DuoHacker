@@ -52,7 +52,7 @@
 // @name:ur             Duolingo DuoHacker
 
 // @namespace           https://github.com/DuoHacker/DuoHacker
-// @version             2026.08.27
+// @version             2026.08.28
 // @description         The #1 Duolingo hack - Farm XP, Gems, Streaks and unlock Duolingo Max for free.
 // @description:vi      Công cụ hack Duolingo #1 - Farm XP, Gems, Streaks và mở khóa Duolingo Max miễn phí.
 // @description:zh-CN   最强 Duolingo 辅助工具 - 自动刷 XP、宝石、连胜，免费解锁 Duolingo Max。
@@ -127,6 +127,7 @@
 // @connect             d35aaqx5ub95lt.cloudfront.net
 // @connect             font.duohacker.io.vn
 // @connect             simg-ssl.duolingo.com
+// @connect             d3gq3s1iyyx31w.cloudfront.net/
 
 // @compatible          chrome   Tested on Chrome 120+ with Tampermonkey
 // @compatible          firefox  Tested on Firefox 120+ with Tampermonkey / Violentmonkey
@@ -2461,7 +2462,7 @@
 
             <div class="DH_HStack_Auto">
                 <p class="DH_T2 DH_NoSel" style="color:rgba(var(--DH-blue),0.45);">duohacker.io.vn</p>
-                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.08.27</p>
+                <p class="DH_T2 DH_NoSel" id="DH_Version_Txt" style="color:rgb(var(--DH-blue));font-weight:700;cursor:pointer;">v2026.08.28/p>
             </div>
         </div>
 
@@ -4586,14 +4587,13 @@
         }
 
         const _GF_SCRIPT_URL = 'https://greasyfork.org/en/scripts/561041-duolingo-duohacker';
-        const _CURRENT_VER = '2026.08.27';
+        const _CURRENT_VER = '2026.08.28';
 
         /* ── Changelog Popup -*/
         const _CHANGELOG = [{
-            version: '2026.08.27',
+            version: '2026.08.28',
             changes: [
-                'Added Espanol language',
-                'Added Francais language',
+                'Added Duolingo domain to //@connect',
             ]
         }, ];
 
