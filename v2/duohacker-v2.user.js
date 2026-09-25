@@ -2540,6 +2540,15 @@
             >
                 Français
             </button>
+
+            <button
+                type="button"
+                class="DH_LangOption DH_NoSel"
+                id="DH_LangOpt_zh"
+                data-lang="zh"
+            >
+                中文
+            </button>
         </div>
     </div>
 <div class="DH_Notif_Main" id="DH_Notif_Main"></div>
@@ -3218,16 +3227,16 @@
         const _LB_ID = '7d9f5dd1-8423-491a-91f2-2532052038ce';
         const _LB_IMG = 'https://d35aaqx5ub95lt.cloudfront.net/images/leagues/';
         const _LEAGUE_TIERS = [
-            { name: 'Bronze',   emoji: '🥉', img: _LB_IMG + '192181672ada150becd83a74a4266ae9.svg' },
-            { name: 'Silver',   emoji: '🥈', img: _LB_IMG + '8148b17e32d8706a82c02688f559e9ef.svg'  },
-            { name: 'Gold',     emoji: '🏅', img: _LB_IMG + '0e249b5f869b806da7406b815f4d60c6.svg' },
-            { name: 'Sapphire', emoji: '💎', img: _LB_IMG + '3ced84eb1f0274ec0f02b24ae6e3d29b.svg' },
-            { name: 'Ruby',     emoji: '❤️‍🔥', img: _LB_IMG + '74d6ab6e5b6f92e7d16a4a6664d1fafd.svg' },
-            { name: 'Emerald',  emoji: '💚', img: _LB_IMG + 'f480e032c5222395e73dac88ce3592bb.svg' },
-            { name: 'Amethyst', emoji: '💜', img: _LB_IMG + '7f895707cd44583692d20481dcd9e0d0.svg' },
-            { name: 'Pearl',    emoji: '🤍', img: _LB_IMG + 'f902954eeaa88fd2cb12f9168b4f68cb.svg'  },
-            { name: 'Obsidian', emoji: '🖤', img: _LB_IMG + '57f0c6b260d33493a0cddc4ab38d6833.svg' },
-            { name: 'Diamond',  emoji: '💠', img: _LB_IMG + 'afe5c7067cd5fb7de936d3928ea7add6.svg'  },
+            { name: 'Bronze',   zh: '青铜联赛', emoji: '🥉', img: _LB_IMG + '192181672ada150becd83a74a4266ae9.svg' },
+            { name: 'Silver',   zh: '白银联赛', emoji: '🥈', img: _LB_IMG + '8148b17e32d8706a82c02688f559e9ef.svg'  },
+            { name: 'Gold',     zh: '黄金联赛', emoji: '🏅', img: _LB_IMG + '0e249b5f869b806da7406b815f4d60c6.svg' },
+            { name: 'Sapphire', zh: '蓝宝石联赛', emoji: '💎', img: _LB_IMG + '3ced84eb1f0274ec0f02b24ae6e3d29b.svg' },
+            { name: 'Ruby',     zh: '红宝石联赛', emoji: '❤️‍🔥', img: _LB_IMG + '74d6ab6e5b6f92e7d16a4a6664d1fafd.svg' },
+            { name: 'Emerald',  zh: '绿宝石联赛', emoji: '💚', img: _LB_IMG + 'f480e032c5222395e73dac88ce3592bb.svg' },
+            { name: 'Amethyst', zh: '紫水晶联赛', emoji: '💜', img: _LB_IMG + '7f895707cd44583692d20481dcd9e0d0.svg' },
+            { name: 'Pearl',    zh: '珍珠联赛', emoji: '🤍', img: _LB_IMG + 'f902954eeaa88fd2cb12f9168b4f68cb.svg'  },
+            { name: 'Obsidian', zh: '黑曜石联赛', emoji: '🖤', img: _LB_IMG + '57f0c6b260d33493a0cddc4ab38d6833.svg' },
+            { name: 'Diamond',  zh: '钻石联赛', emoji: '💠', img: _LB_IMG + 'afe5c7067cd5fb7de936d3928ea7add6.svg'  },
         ];
 
         async function _fetchLeaderboard() {
@@ -3292,6 +3301,15 @@
             'FLAG,chess': 'Chess', 'FLAG,math': 'Math', 'FLAG,music': 'Music',
             'NONE': 'None',
         };
+        // Chinese reaction names (leaderboard emoji picker)
+        const _ZH_REACTION_NAMES = {
+            'TROPHY': '奖杯', 'TROPHY,winner': '钻石奖杯',
+            'POPPER': '礼花', 'SUNGLASSES': '墨镜',
+            'ONE_HUNDRED': '100 分', 'CAT': '猫', 'POOP': '便便', 'POPCORN': '爆米花',
+            'EYES': '眼睛', 'ANGRY': '生气', 'DUMPSTER_FIRE': '火焰', 'FLEX': '秀肌肉',
+            'FLAG,chess': '国际象棋', 'FLAG,math': '数学', 'FLAG,music': '音乐',
+            'NONE': '无',
+        };
 
         // Get best avatar URL: prefer custom picture, fallback to lb avatar_url, then default
         const _AVATAR_DEFAULT_URL = 'https://simg-ssl.duolingo.com/avatar/default_2/xlarge';
@@ -3332,12 +3350,12 @@
 
             const GROUPS = [
                 {
-                    label: 'League Emojis',
+                    label: _lang === 'zh' ? '联赛表情' : 'League Emojis',
                     keys: ['TROPHY','TROPHY,winner','POPPER','SUNGLASSES','ONE_HUNDRED',
                            'CAT','POOP','POPCORN','EYES','ANGRY','DUMPSTER_FIRE','FLEX','NONE']
                 },
                 {
-                    label: 'Course Emojis',
+                    label: _lang === 'zh' ? '课程表情' : 'Course Emojis',
                     keys: ['FLAG,chess','FLAG,math','FLAG,music']
                 }
             ];
@@ -3363,11 +3381,15 @@
 
                     const lbl = document.createElement('div');
                     lbl.className = 'DH_Shop_Name DH_NoSel';
-                    lbl.textContent = _REACTION_NAMES[key] || key;
+                    lbl.textContent = _lang === 'zh'
+                        ? (_ZH_REACTION_NAMES[key] || _REACTION_NAMES[key] || key)
+                        : (_REACTION_NAMES[key] || key);
 
                     const btn = document.createElement('button');
                     btn.className = 'DH_React_Btn' + (isActive ? ' active' : '');
-                    btn.textContent = isActive ? 'ACTIVE' : 'EQUIP';
+                    btn.textContent = isActive
+                        ? (_lang === 'zh' ? '使用中' : 'ACTIVE')
+                        : (_lang === 'zh' ? '装备' : 'EQUIP');
 
                     btn.addEventListener('click', async () => {
                         if (btn.classList.contains('loading') || btn.classList.contains('active')) return;
@@ -3455,7 +3477,7 @@
             const { rankings, tier } = cohort;
             const { num_promoted, num_demoted } = contest.ruleset;
 
-            const tierInfo = _LEAGUE_TIERS[tier] || { name: `League ${tier}`, emoji: '🏆', img: null };
+            const tierInfo = _LEAGUE_TIERS[tier] || { name: `League ${tier}`, zh: `第 ${tier} 级联赛`, emoji: '🏆', img: null };
             const nProm    = (num_promoted || [])[tier] || 0;
             const nDem     = (num_demoted  || [])[tier] || 0;
             const total    = rankings.length;
@@ -3463,7 +3485,7 @@
             const myId     = String(_sub ?? myUserId ?? '');
 
             // League header
-            if (nameEl) nameEl.textContent = tierInfo.name + ' League';
+            if (nameEl) nameEl.textContent = _lang === 'zh' ? tierInfo.zh : tierInfo.name + ' League';
             if (imgEl) {
                 if (tierInfo.img) { imgEl.src = tierInfo.img; imgEl.style.display = ''; }
                 else imgEl.style.display = 'none';
@@ -6246,6 +6268,49 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
             return id.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
         }
 
+        // ── Chinese translations for shop categories & data-driven item names ──
+        const _ZH_SHOP_CAT = {
+            'Streak Freezes': '连胜冻结',
+            'XP Boosts': 'XP 加成',
+            'Hearts': '爱心',
+            'Gems': '宝石',
+            'Outfits': '服饰',
+            'Free Taste': '免费体验',
+            'Misc': '其他'
+        };
+
+        function _zhItemName(i) {
+            const id = i.id || '';
+            const raw = i.name || _formatItem(id);
+            const mins = ((id.match(/(\d{1,3})(?:_?mins?)?$/i) || [])[1]) || ((id.match(/^xp_boost\D*(\d{1,3})/) || [])[1]);
+            if (id.includes('streak_freeze')) return '连胜冻结';
+            if (id.includes('weekend_amulet')) return '周末护身符';
+            if (id.includes('double_or_nothing')) return '双倍或清零';
+            if (id.includes('xp_boost')) return 'XP 加成' + (mins ? ' ' + mins + ' 分钟' : '');
+            if (id.includes('timer_booster')) return '计时加速器';
+            if (id.includes('combo_booster') || id.includes('combo')) return '连击加速器';
+            if (id.includes('perfect_lesson')) return '完美课程加成';
+            if (id.includes('early_bird')) return '早鸟宝箱';
+            if (id.includes('night_owl')) return '夜猫宝箱';
+            if (id.includes('health') || id.includes('heart')) return '爱心补充';
+            if (id.includes('gift')) return '礼物';
+            if (id.includes('gem')) return '宝石';
+            const NM = {
+                'streak freeze': '连胜冻结',
+                'weekend amulet': '周末护身符',
+                'double or nothing': '双倍或清零',
+                'timer booster': '计时加速器',
+                'combo booster': '连击加速器',
+                'perfect lesson boost': '完美课程加成',
+                'early bird chest': '早鸟宝箱',
+                'night owl chest': '夜猫宝箱',
+                'hearts': '爱心',
+                'gems': '宝石'
+            };
+            const key = String(raw).toLowerCase();
+            return NM[key] || raw;
+        }
+
         function _categorizeItem(item) {
             const id = item.id || '';
             if (id.includes('streak_freeze')) return {
@@ -6315,7 +6380,7 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
             _sGrid.className = 'DH_Shop_Grid';
             const _sCard = document.createElement('div');
             _sCard.className = 'DH_Shop_Card';
-            _sCard.innerHTML = `<img src="https://d35aaqx5ub95lt.cloudfront.net/images/legendary/158dbe277bf83116d04692b969a27aa3.svg" class="DH_Shop_Ico"><div class="DH_Shop_Name DH_NoSel">Super 3 Days</div><button class="DH_Shop_Btn">GET</button>`;
+            _sCard.innerHTML = `<img src="https://d35aaqx5ub95lt.cloudfront.net/images/legendary/158dbe277bf83116d04692b969a27aa3.svg" class="DH_Shop_Ico"><div class="DH_Shop_Name DH_NoSel">${_lang === 'zh' ? 'Super 3 天' : 'Super 3 Days'}</div><button class="DH_Shop_Btn">${_t('btn_get')}</button>`;
             const _sBtn = _sCard.querySelector('.DH_Shop_Btn');
             _sBtn.onclick = async () => {
                 _sBtn.className = 'DH_Shop_Btn loading';
@@ -6371,8 +6436,8 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                     icon
                 } = _categorizeItem(i);
                 if (!grouped[cat]) grouped[cat] = [];
-                let name = i.name || _formatItem(i.id);
-                if (i.id.includes('xp_boost') && i.id.match(/\d+$/)) name += ' Mins';
+                let name = _lang === 'zh' ? _zhItemName(i) : (i.name || _formatItem(i.id));
+                if (_lang !== 'zh' && i.id.includes('xp_boost') && i.id.match(/\d+$/)) name += ' Mins';
                 grouped[cat].push({
                     ...i,
                     displayName: name,
@@ -6384,7 +6449,7 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                 if (!grouped[cat]) return;
                 const header = document.createElement('div');
                 header.className = 'DH_Cat_Header DH_NoSel';
-                header.textContent = cat;
+                header.textContent = _lang === 'zh' && _ZH_SHOP_CAT[cat] ? _ZH_SHOP_CAT[cat] : cat;
                 container.appendChild(header);
                 const grid = document.createElement('div');
                 grid.className = 'DH_Shop_Grid';
@@ -6394,7 +6459,7 @@ if (av && (!existingImg || existingImg.src !== bestUrl)) {
                     card.innerHTML = `
                 <img src="${item.icon}" class="DH_Shop_Ico">
                 <div class="DH_Shop_Name DH_NoSel">${item.displayName}</div>
-                <button class="DH_Shop_Btn" data-id="${item.id}">GET</button>`;
+                <button class="DH_Shop_Btn" data-id="${item.id}">${_t('btn_get')}</button>`;
                     const ico = card.querySelector('.DH_Shop_Ico');
                     if (ico) ico.onerror = function() {
                         this.style.display = 'none';
