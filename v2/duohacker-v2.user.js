@@ -148,7 +148,8 @@
 
     // ── i18n ──────────────────────────────────────────────────────────
     var _I18N_KEY = 'dh2_lang';
-    var _lang = localStorage.getItem(_I18N_KEY) || 'vi';
+    var _lang = localStorage.getItem(_I18N_KEY)
+        || ((navigator.language || '').toLowerCase().indexOf('zh') === 0 ? 'zh' : 'vi');
     var _isOutdated = false;
     var _currentConnState = null;
 
@@ -160,6 +161,7 @@
             lang_vi: 'Tiếng Việt',
             lang_es: 'Español',
             lang_fr: 'Français',
+            lang_zh: '中文',
 
             // ── Top bar ──
             hide: 'Hide',
@@ -377,6 +379,7 @@
             lang_vi: 'Tiếng Việt',
             lang_es: 'Español',
             lang_fr: 'Français',
+            lang_zh: '中文',
 
             // ── Top bar ──
             hide: 'Ẩn',
@@ -594,6 +597,7 @@
             lang_vi: 'Tiếng Việt',
             lang_es: 'Español',
             lang_fr: 'Français',
+            lang_zh: '中文',
 
             // ── Top bar ──
             hide: 'Ocultar',
@@ -811,6 +815,7 @@
             lang_vi: 'Tiếng Việt',
             lang_es: 'Español',
             lang_fr: 'Français',
+            lang_zh: '中文',
 
             // ── Top bar ──
             hide: 'Masquer',
@@ -1020,6 +1025,224 @@
             notif_acc_removed_body: 'Compte supprimé de la liste.',
             notif_acc_already_body: 'Ce compte est déjà dans la liste.',
             notif_acc_not_found_body: 'Compte introuvable.',
+        },
+        zh: {
+            // ── Language selector ──
+            lang_select_label: '语言',
+            lang_en: 'English',
+            lang_vi: 'Tiếng Việt',
+            lang_es: 'Español',
+            lang_fr: 'Français',
+            lang_zh: '中文',
+
+            // ── Top bar ──
+            hide: '隐藏',
+            show: '显示',
+            switch_v1: '切换到 Solver',
+            switch_v2: '切换到 V2',
+
+            // ── Connection status ──
+            connecting: '连接中',
+            connected: '已连接',
+            error: '错误',
+            outdated: '版本过旧',
+
+            // ── Page 1 (main) ──
+            donate: '捐赠',
+            xp_question: '你想获得多少 XP？',
+            gems_run_label: '点击"运行"刷宝石',
+            streak_question: '要恢复多少天连胜？',
+            extra_features: '额外功能',
+
+            // ── Page 2 (extra features) ──
+            back: '返回',
+            farm_practice: '你想完成多少个练习课程？',
+            farm_practice_sub: '0 = 无限练习',
+            shop_items: '商店物品',
+            auto_league: '自动联赛',
+            auto_league_sub: '刷 XP 以达到目标排名',
+            auto_daily_quest: '自动每日任务',
+            auto_daily_sub: '完成所有每日任务',
+            claim_monthly: '领取月度任务',
+            claim_monthly_sub: '查看并领取月度任务',
+            free_super: '免费 Super Duolingo',
+            free_super_sub: '免费激活 Super Duolingo',
+
+            // ── Page 4 (settings) ──
+            loop_delay: '循环延迟（毫秒）',
+            free_duo_max: '免费 Duolingo Max',
+            free_duo_max_sub: '仅客户端生效，刷新后应用',
+            hide_profile: '隐藏个人资料',
+            auto_solver: '自动解题',
+            auto_solver_sub: '课程中显示自动解题按钮',
+            hide_animation: '隐藏动画',
+            hide_animation_sub: '隐藏 Duolingo 图片与动画',
+            lesson_shortener: '课程缩短',
+            lesson_shortener_sub: '将课程替换为 1 道即时题目',
+            stories_shortener: '故事跳过挑战',
+            stories_shortener_sub: '跳过故事中的所有挑战',
+            safe_mode: '安全模式',
+            safe_mode_sub: '解题/练习时在点击之间增加更多延迟',
+            view_credits: '查看致谢',
+
+            // ── Page 3 (shop) ──
+            search_placeholder: '搜索物品…',
+            loading_shop: '正在加载商店…',
+            no_items_found: '未找到物品。',
+            no_items_available: '没有可用物品。',
+
+            // ── Page 5 (account manager) ──
+            account_manager: '账号管理',
+            no_saved_accounts: '暂无已保存的账号。',
+
+            // ── Page 6 (monthly quests) ──
+            monthly_quests: '月度任务',
+            loading_quests: '正在加载任务…',
+            no_monthly_quests: '未找到月度任务。',
+            quest_failed: '加载任务失败。',
+
+            // ── Page 7 (credits) ──
+            credits: '致谢',
+
+            // ── Page V1 ──
+            xp_farming: '刷 XP',
+            farm_gems: '刷宝石',
+            streak_farming: '刷连胜',
+            activate_super_q: '是否激活免费 Super Duolingo？',
+            settings: '设置',
+
+            // ── Not connected ──
+            not_connected: '未连接。',
+
+            // ── Buttons (short labels) ──
+            btn_get: '获取',
+            btn_run: '运行',
+            btn_stop: '停止',
+            btn_save: '保存',
+            btn_saved: '已保存 ✓',
+            btn_claim: '全部领取',
+            btn_activate: '激活',
+            btn_done: '完成 ✓',
+            btn_save_current: '保存当前',
+            btn_solve_all: '全部解答',
+            btn_pause: '暂停',
+            btn_loading: '加载中…',
+            btn_running: '运行中…',
+            btn_got: '已获取 ✓',
+            btn_failed: '失败',
+
+            // ── Hide Profile status ──
+            profile_private: '个人资料已设为私密',
+            profile_public: '个人资料已设为公开',
+            status_unavailable: '不可用',
+            status_saving: '保存中\u2026',
+            status_failed_retry: '失败 \u2014 请重试',
+            status_not_connected: '未连接',
+            status_loading: '加载中\u2026',
+
+            // ── Page 11 (leaderboard) ──
+            leaderboard: '排行榜',
+            leaderboard_sub: '查看你当前的联赛',
+            your_current_league: '你当前的联赛',
+            lb_loading: '正在加载排行榜…',
+            lb_failed: '加载排行榜失败。',
+            choose_reaction: '选择表情',
+            lb_promoted: '⬆ 已晋级',
+            lb_demoted: '⬇ 已降级',
+            lb_safe: '🟡 安全',
+            lb_ended: '比赛已结束',
+
+            // ── Leaderboard separators ──
+            lb_rank_up: '晋级区',
+            lb_rank_down: '降级区',
+
+            // ── Monthly quest status ──
+            mq_completed: '已完成',
+
+            // ── Changelog badge ──
+            changelog_current: '当前',
+
+            // ── Account manager labels ──
+            acc_active: '使用中',
+            acc_login_btn: '登录',
+
+            // ── Connection error subtexts ──
+            conn_not_logged_in: '未登录',
+            conn_invalid_token: '令牌无效',
+            conn_failed_retry: '失败 — 正在重试',
+
+            // ── Streak live counter suffixes ──
+            streak_day: '天',
+            streak_days: '天',
+
+            // ── Notification titles ──
+            notif_xp_done_title: '刷 XP 完成！',
+            notif_xp_stopped_title: '刷 XP 已停止',
+            notif_gem_done_title: '刷宝石完成！',
+            notif_gem_farm_title: '刷宝石',
+            notif_streak_done_title: '刷连胜完成！',
+            notif_streak_farm_title: '刷连胜',
+            notif_streak_stopped_title: '刷连胜已停止',
+            notif_practice_done_title: '刷练习完成！',
+            notif_practice_title: '刷练习',
+            notif_daily_done_title: '每日任务完成！',
+            notif_all_done_title: '全部完成！',
+            notif_mq_title: '月度任务',
+            notif_mq_partial_title: '部分完成',
+            notif_super_title: 'Super 已激活！',
+            notif_shop_title: '商店',
+            notif_error_title: '错误',
+            notif_failed_title: '失败',
+            notif_stopped_title: '已停止',
+            notif_busy_title: '忙碌',
+            notif_not_connected_title: '未连接',
+            notif_not_loaded_title: '未加载',
+            notif_nothing_to_do_title: '无事可做',
+            notif_v1xp_title: 'V1 XP',
+            notif_acc_saved_title: '账号已保存',
+            notif_acc_removed_title: '已移除',
+            notif_acc_already_title: '已保存过',
+            notif_acc_not_found_title: '未找到',
+
+            // ── Notification bodies ──
+            notif_xp_done_body: (xp, loops) => `已刷 ${xp} XP，共 ${loops} 轮。`,
+            notif_xp_done_inf_body: (xp) => `+${xp} XP 已到账。`,
+            notif_xp_stopped_body: (xp) => `+${xp} XP 已到账。`,
+            notif_gem_done_body: (gems) => `+${gems} 宝石已到账。`,
+            notif_gem_no_rewards: '没有可用奖励。正在重试…',
+            notif_streak_done_body: (days) => `已恢复 ${days} 天连胜。`,
+            notif_streak_no_days: '无法保存天数。请重试。',
+            notif_streak_done_inf_body: (days, unit) => `+${days} ${unit} 已到账。`,
+            notif_streak_stopped_body: (days) => `已处理 ${days} 天。`,
+            notif_practice_done_body: (n) => `已完成 ${n} 个练习。`,
+            notif_practice_next_body: (n, total) => `已完成 ${n}${total > 0 ? ' / ' + total : ''} — 正在加载下一个…`,
+            notif_practice_nav: '正在前往练习…',
+            notif_practice_busy: '练习刷取已在运行。',
+            notif_daily_done_body: (n) => `已完成 ${n} 项指标。`,
+            notif_all_done_body: '所有每日任务已完成。',
+            notif_daily_error: '无法加载任务数据。',
+            notif_daily_fail: '任务完成失败。',
+            notif_mq_all_body: (n) => `已领取全部 ${n} 个任务！`,
+            notif_mq_partial_body: (ok, total) => `已领取 ${ok}/${total} 个任务。`,
+            notif_mq_fail: '无法领取任何任务。',
+            notif_mq_not_loaded: '请先打开月度任务。',
+            notif_mq_nothing: '未找到可领取的任务。',
+            notif_super_body: '免费 Super Duolingo 已激活！',
+            notif_super_fail: '激活失败。你可能已拥有 Super。',
+            notif_shop_got: (name) => `已获得 ${name}！`,
+            notif_shop_fail: '获取物品失败。',
+            notif_v1xp_errors: '错误过多，正在停止。',
+            notif_v1xp_done_body: (xp) => `已刷 ${xp} XP。`,
+            notif_v1gem_done_body: (gems) => `+${gems} 宝石已到账。`,
+            notif_v1streak_done_body: (days) => `已刷 ${days} 天连胜。`,
+            notif_stopped_body: '刷取已停止。',
+            notif_busy_v1: '请先停止当前 V1 刷取。',
+            notif_not_connected_body: '请稍候。',
+            notif_not_connected_conn: '请等待连接。',
+            notif_acc_saved_body: (name) => `已保存账号：${name}`,
+            notif_acc_removed_body: '账号已从列表移除。',
+            notif_acc_already_body: '该账号已在列表中。',
+            notif_acc_not_found_body: '未找到账号。',
         }
     };
 
@@ -1034,7 +1257,7 @@
     }
 
     function _setLang(l) {
-        if (l !== 'vi' && l !== 'en' && l !== 'es' && l !== 'fr') return;
+        if (l !== 'vi' && l !== 'en' && l !== 'es' && l !== 'fr' && l !== 'zh') return;
         _lang = l;
         localStorage.setItem(_I18N_KEY, l);
         _applyLang();
@@ -1157,8 +1380,9 @@
             en: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/bbe17e16aa4a106032d8e3521eaed13e.svg',
             es: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/59a90a2cedd48b751a8fd22014768fd7.svg',
             fr: 'https://d35aaqx5ub95lt.cloudfront.net/vendor/482fda142ee4abd728ebf4ccce5d3307.svg',
+            zh: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI0MCI+PHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjREEyNTFEIi8+PHBvbHlnb24gZmlsbD0iI0ZGQ0QwMCIgcG9pbnRzPSIxNy4wMCw4LjAwIDE4Ljg4LDEzLjQxIDI0LjYxLDEzLjUzIDIwLjA0LDE2Ljk5IDIxLjcwLDIyLjQ3IDE3LjAwLDE5LjIwIDEyLjMwLDIyLjQ3IDEzLjk2LDE2Ljk5IDkuMzksMTMuNTMgMTUuMTIsMTMuNDEiLz48cG9seWdvbiBmaWxsPSIjRkZDRDAwIiBwb2ludHM9IjMxLjAwLDQuNDAgMzEuNjEsNi4xNiAzMy40Nyw2LjIwIDMxLjk5LDcuMzIgMzIuNTMsOS4xMCAzMS4wMCw4LjA0IDI5LjQ3LDkuMTAgMzAuMDEsNy4zMiAyOC41Myw2LjIwIDMwLjM5LDYuMTYiLz48cG9seWdvbiBmaWxsPSIjRkZDRDAwIiBwb2ludHM9IjM1LjAwLDExLjQwIDM1LjYxLDEzLjE2IDM3LjQ3LDEzLjIwIDM1Ljk5LDE0LjMyIDM2LjUzLDE2LjEwIDM1LjAwLDE1LjA0IDMzLjQ3LDE2LjEwIDM0LjAxLDE0LjMyIDMyLjUzLDEzLjIwIDM0LjM5LDEzLjE2Ii8+PHBvbHlnb24gZmlsbD0iI0ZGQ0QwMCIgcG9pbnRzPSIzNS4wMCwyMC40MCAzNS42MSwyMi4xNiAzNy40NywyMi4yMCAzNS45OSwyMy4zMiAzNi41MywyNS4xMCAzNS4wMCwyNC4wNCAzMy40NywyNS4xMCAzNC4wMSwyMy4zMiAzMi41MywyMi4yMCAzNC4zOSwyMi4xNiIvPjxwb2x5Z29uIGZpbGw9IiNGRkNEMDAiIHBvaW50cz0iMzEuMDAsMjcuNDAgMzEuNjEsMjkuMTYgMzMuNDcsMjkuMjAgMzEuOTksMzAuMzIgMzIuNTMsMzIuMTAgMzEuMDAsMzEuMDQgMjkuNDcsMzIuMTAgMzAuMDEsMzAuMzIgMjguNTMsMjkuMjAgMzAuMzksMjkuMTYiLz48L3N2Zz4=',
         };
-        const _LANG_CODE = { vi: 'VI', en: 'EN', es: 'ES', fr: 'FR' };
+        const _LANG_CODE = { vi: 'VI', en: 'EN', es: 'ES', fr: 'FR', zh: 'ZH' };
         const _flagImg = (code) => `<img src="${_LANG_ICON[code]}" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;flex-shrink:0;object-fit:cover;" aria-hidden="true">`;
 
         // Lang selector button label
@@ -1172,10 +1396,12 @@
         const opVi = document.getElementById('DH_LangOpt_vi');
         const opEs = document.getElementById('DH_LangOpt_es');
         const opFr = document.getElementById('DH_LangOpt_fr');
+        const opZh = document.getElementById('DH_LangOpt_zh');
         if (opEn) opEn.innerHTML = _flagImg('en') + ' ' + _t('lang_en');
         if (opVi) opVi.innerHTML = _flagImg('vi') + ' ' + _t('lang_vi');
         if (opEs) opEs.innerHTML = _flagImg('es') + ' ' + _t('lang_es');
         if (opFr) opFr.innerHTML = _flagImg('fr') + ' ' + _t('lang_fr');
+        if (opZh) opZh.innerHTML = _flagImg('zh') + ' ' + _t('lang_zh');
     }
     // ── End i18n ──────────────────────────────────────────────────────
 
@@ -2885,7 +3111,7 @@
                 event.stopPropagation();
 
                 const lang = option.dataset.lang;
-                if (lang !== 'vi' && lang !== 'en' && lang !== 'es' && lang !== 'fr') return;
+                if (lang !== 'vi' && lang !== 'en' && lang !== 'es' && lang !== 'fr' && lang !== 'zh') return;
 
                 _setLang(lang);
                 _langSelector.classList.remove('open');
