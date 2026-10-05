@@ -7825,7 +7825,7 @@ body * {
 
         const CREDITS = [{
                 script: 'DuoHacker V1',
-                url: 'https://github.com/DuoHacker/DuoHacker/tree/main/v1',
+                url: 'https://github.com/DuoHacker/DuoHacker/tree/main/userscript/legacy',
                 thumbnail: 'https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/images/DuoHacker_Logo_NoBG_PNG.png',
                 author: 'DuoHacker',
                 task: 'Original script - The main cores are being used in V2'

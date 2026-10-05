@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+
+# Build output
+desktop/dist/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

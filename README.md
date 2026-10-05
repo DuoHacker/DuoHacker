@@ -5,7 +5,7 @@
 <h1 align="center">Duolingo DuoHacker</h1>
 
 <p align="left">
-  <a href="https://github.com/not2pixel/DuoHacker/raw/main/DuoHacker.user.js">
+  <a href="https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js">
     <img src="https://img.shields.io/badge/Install-Script-blue?style=for-the-badge&logo=tampermonkey" alt="Install Script">
   </a>
   <a href="https://discord.gg/VjxjT47UFv">
@@ -48,7 +48,7 @@
 ## 🚀 Quick Start
 
 1. Install **[Tampermonkey](https://www.tampermonkey.net/)** for your browser
-2. Click **[Install this Script](https://github.com/not2pixel/DuoHacker/raw/main/DuoHacker.user.js)**
+2. Click **[Install this Script](https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js)**
 3. Log in at **[duolingo.com](https://www.duolingo.com)**
 4. The DuoHacker panel loads automatically — select a mode and start
 
@@ -65,6 +65,23 @@
 | 📋 **Quest Automation** | Finishes daily, weekly, monthly, and friends quests in seconds |
 | 🛒 **Item Shop** | Claim streak freezes, XP boosts, hearts, and outfits at no cost |
 | 🏆 **League Auto** | Automatically farms enough XP to reach any target leaderboard position |
+
+---
+
+## 📁 Repository Structure
+
+```
+.
+├── userscript/            # Tampermonkey userscript (main product)
+│   ├── duohacker.user.js  #   current version (V2)
+│   └── legacy/            #   original V1 script
+├── extension/             # Chromium MV3 browser extension
+│   └── release/           #   packaged .zip build
+├── desktop/               # Electron desktop app
+├── tools/generator/       # Account generator (CLI + bots)
+├── images/                # Logos & screenshots (referenced by raw URLs — do not move)
+└── .github/               # Contributing guide & code of conduct
+```
 
 ---
 
