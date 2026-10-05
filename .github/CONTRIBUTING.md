@@ -1,134 +1,117 @@
 # Contributing to DuoHacker
 
-Thank you for your interest in contributing to DuoHacker! This document outlines how to get started.
+Thanks for taking the time to contribute! This guide explains how to report problems, suggest features and submit code.
 
-## Getting Started
+By participating you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-1. **Fork & Clone**
+## Table of Contents
+
+- [Ways to Contribute](#ways-to-contribute)
+- [Project Layout](#project-layout)
+- [Development Setup](#development-setup)
+- [Branches and Commits](#branches-and-commits)
+- [Pull Requests](#pull-requests)
+- [Code Style](#code-style)
+- [Testing](#testing)
+- [Releases](#releases)
+
+## Ways to Contribute
+
+- **Report a bug:** open a [bug report](https://github.com/DuoHacker/DuoHacker/issues/new?template=bug_report.yml). Search existing issues first.
+- **Suggest a feature:** open a [feature request](https://github.com/DuoHacker/DuoHacker/issues/new?template=feature_request.yml).
+- **Fix or improve something:** pick an open issue, comment that you are working on it, then open a pull request.
+- **Improve docs or translations:** README, [docs/](../docs), and the multilingual `@name` / `@description` metadata in the userscript.
+
+Security problems must **not** be reported in public issues. See the [Security Policy](SECURITY.md).
+
+## Project Layout
+
+| Path | What it is |
+|---|---|
+| `userscript/duohacker.user.js` | Main Tampermonkey userscript (V2). Most changes land here. |
+| `userscript/legacy/` | Original V1 script. Kept for reference; only critical fixes. |
+| `extension/` | Chromium Manifest V3 extension (`manifest.json` at the folder root). |
+| `desktop/` | Electron app that loads Duolingo with the script injected. |
+| `tools/generator/` | Account generator (Python CLI, Python and Node.js bots). |
+| `docs/` | User documentation. |
+| `images/` | Logos and screenshots. These are loaded by raw URL from published scripts, so **do not rename or move them**. |
+
+## Development Setup
+
+1. Fork the repository and clone your fork:
    ```bash
-   git clone https://github.com/your-username/DuoHacker.git
+   git clone https://github.com/<your-username>/DuoHacker.git
    cd DuoHacker
    ```
+2. Work on the part you are changing:
+   - **Userscript:** in the Tampermonkey dashboard, create a new script and paste `userscript/duohacker.user.js`, or enable *Allow access to file URLs* for Tampermonkey and install the local file. Disable the GreasyFork copy while testing so both do not run.
+   - **Extension:** `chrome://extensions` → Developer mode → *Load unpacked* → select `extension/`. Click reload after each change.
+   - **Desktop:** `cd desktop && npm install && npm start`.
+   - **Generator (Python):** `cd tools/generator/cli-python && pip install tls_client pytz && python app.py`.
 
-2. **Create a Feature Branch**
-   ```bash
-   git checkout -b feature/your-feature-name
-   # or for fixes:
-   # git checkout -b fix/your-fix-name
-   ```
+## Branches and Commits
 
-3. **Make Changes**
-   - Write clean, readable JavaScript/Tampermonkey script code
-   - Follow existing code style and patterns
-   - Add comments for complex logic or API calls
-   - Test thoroughly before submitting
+Create a branch from `main`:
 
-4. **Commit & Push**
-   ```bash
-   git add .
-   git commit -m "feat: describe your change"
-   git push origin feature/your-feature-name
-   ```
-
-5. **Create a Pull Request**
-   - Go to GitHub and create a PR
-   - Provide clear description of changes
-   - Include testing details (e.g., "Tested on Duolingo lesson mode")
-   - Reference any related issues
-
-## Pull Request Guidelines
-
-- **One feature per PR** - Keep PRs focused and manageable
-- **Test on Duolingo** - Ensure it works in actual Duolingo environment
-- **Resolve all conversations** - Address all feedback before merge
-- **Update documentation** - If you change functionality, update relevant docs
-- **No breaking changes** - Maintain backward compatibility when possible
-- **Follow commit message format**:
-  - `feat:` for new features (e.g., "feat: add hide profile toggle")
-  - `fix:` for bug fixes (e.g., "fix: race condition in XP farming")
-  - `docs:` for documentation
-  - `refactor:` for code refactoring
-  - `perf:` for performance improvements
-  - `test:` for tests
-
-## Code Style Guidelines
-
-### Tampermonkey Script
-- Use meaningful variable names
-- Keep functions small and focused
-- Add comments explaining "why", not "what"
-- Remove `console.log()` and debug code before submitting
-- Follow existing Duolingo API patterns
-- Handle API errors gracefully
-
-### Example:
-```javascript
-// Good
-const probeSlugWithRetry = async (slug, maxRetries = 3) => {
-  // Implement exponential backoff for rate limiting
-  for (let i = 0; i < maxRetries; i++) {
-    try {
-      const response = await fetch(`${DUOLINGO_API}/${slug}`);
-      if (response.ok) return response.json();
-    } catch (error) {
-      if (i < maxRetries - 1) await delay(Math.pow(2, i) * 1000);
-    }
-  }
-  return null;
-};
-
-// Avoid
-const probe = async (s) => {
-  let r = await fetch(s); // unclear variable names
-  console.log(r); // debug logging left in
-  return r;
-};
+```bash
+git checkout -b feat/short-description   # new feature
+git checkout -b fix/short-description    # bug fix
 ```
 
-## Feature Areas
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/):
 
-Common areas for contribution:
-- **UI/UX Improvements** - Settings panel, styling, user experience
-- **XP Farming Logic** - Race detection, slug probing optimization
-- **Performance** - Reduce API calls, optimize animations
-- **Bug Fixes** - Fix race conditions, handle edge cases
-- **Metadata** - GreasyFork description translations, SEO improvements
-- **Documentation** - README, Wiki, inline code comments
+| Prefix | Use for |
+|---|---|
+| `feat:` | A new feature |
+| `fix:` | A bug fix |
+| `docs:` | Documentation only |
+| `refactor:` | Code change that neither fixes a bug nor adds a feature |
+| `perf:` | Performance improvement |
+| `style:` | Formatting, no logic change |
+| `chore:` | Tooling, metadata, repository housekeeping |
+
+Example: `fix: retry XP request after 429 response`
+
+## Pull Requests
+
+- Keep each PR focused on one change.
+- Fill in the [pull request template](PULL_REQUEST_TEMPLATE.md), including how you tested it.
+- Update docs and [CHANGELOG.md](../CHANGELOG.md) (under *Unreleased*) when behavior changes.
+- Do not bump `@version` in the userscript; maintainers do that when releasing.
+- Avoid breaking changes to settings stored in users' browsers. If unavoidable, migrate old values.
+- Resolve all review conversations before asking for a merge.
+
+## Code Style
+
+The repository has an [`.editorconfig`](../.editorconfig); most editors pick it up automatically.
+
+- Match the indentation of the file you are editing: 4 spaces in the userscript and Python tools, 2 spaces in `extension/`, `desktop/`, JSON, YAML and Markdown.
+- Use clear names; keep functions small.
+- Comment *why*, not *what*, especially around Duolingo API calls.
+- Handle network errors and rate limits (`429`) gracefully, with backoff instead of tight retry loops.
+- Remove debug `console.log` calls before submitting.
+- No obfuscated or minified code, and no code that sends user data anywhere the user did not ask for.
 
 ## Testing
 
-Before submitting a PR:
+There is no automated test suite yet, so manual testing is required. Before opening a PR:
 
-1. **Manual Testing**
-   - Test on actual Duolingo (different languages, lesson types)
-   - Test with various user scenarios (first farm, retry, 429 errors)
-   - Check browser console for errors
+- [ ] Script loads on duolingo.com with no errors in the browser console
+- [ ] The feature you changed works end to end
+- [ ] Features near your change still work
+- [ ] Tested in at least one Chromium browser; Firefox too if you touched browser-specific code
+- [ ] Rate-limit and error paths behave sensibly (slow network, `429` responses)
+- [ ] `node --check userscript/duohacker.user.js` passes
 
-2. **Edge Cases**
-   - Test with slow internet (rate limiting scenarios)
-   - Test with multiple concurrent operations
-   - Test on different browsers (Chrome, Firefox, Safari)
+## Releases
 
-## Review Process
+Maintainers handle releases:
 
-1. Submit your PR with clear description
-2. Project maintainer will review your code
-3. Address any feedback or requested changes
-4. Once approved, your PR will be merged
-5. Your changes will be included in the next release on GreasyFork
+1. Bump `@version` in `userscript/duohacker.user.js` using the `YYYY.MM.DD` format.
+2. Move *Unreleased* entries in [CHANGELOG.md](../CHANGELOG.md) under the new version.
+3. Update the version badge in the README.
+4. Publish the update on GreasyFork.
 
-## Questions or Ideas?
+## Questions
 
-- **Bug Reports** - Open an issue with steps to reproduce
-- **Feature Requests** - Open an issue describing the feature
-- **Code Questions** - Comment on related PR or open a discussion
-- **Join Discord** - https://discord.gg/Gvmd7deFtS
-
-## Important Notes
-
-- This is a Duolingo automation tool - use responsibly
-- Respect Duolingo's Terms of Service
-- No malicious features or code
-- Keep the community safe and supportive
-
-Thank you for contributing to DuoHacker! 🚀
+Ask in [Discord](https://duohacker.io.vn/discord) or open a [discussion issue](https://github.com/DuoHacker/DuoHacker/issues/new/choose).

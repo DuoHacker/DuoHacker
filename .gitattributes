@@ -1,0 +1,5 @@
+# Binary assets: never diff or convert line endings
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary

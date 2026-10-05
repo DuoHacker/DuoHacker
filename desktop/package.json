@@ -4,7 +4,7 @@
   "description": "DuoHacker – Duolingo with DuoHacker userscript injected",
   "main": "main.js",
   "author": "DuoHacker",
-  "license": "MIT",
+  "license": "CC-BY-NC-ND-4.0",
   "scripts": {
     "start": "electron .",
     "dev": "set DUOHACKER_DEV=1 && electron .",

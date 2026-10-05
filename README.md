@@ -1,100 +1,91 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/images/DuoHacker_Logo_NoBG_PNG.png" width="150" height="150" alt="DuoHacker Logo">
+  <img src="https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/images/DuoHacker_Logo_NoBG_PNG.png" width="150" height="150" alt="DuoHacker logo">
 </p>
 
-<h1 align="center">Duolingo DuoHacker</h1>
+<h1 align="center">DuoHacker</h1>
 
-<p align="left">
-  <a href="https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js">
-    <img src="https://img.shields.io/badge/Install-Script-blue?style=for-the-badge&logo=tampermonkey" alt="Install Script">
-  </a>
-  <a href="https://discord.gg/VjxjT47UFv">
-    <img src="https://img.shields.io/badge/Discord-Join-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Join Discord">
-  </a>
-  <a href="https://github.com/not2pixel/DuoHacker/releases">
-    <img src="https://img.shields.io/badge/Version-2026.08.27-green?style=for-the-badge" alt="Latest Version">
-  </a>
-  <a href="https://www.duolingo.com">
-    <img src="https://img.shields.io/badge/Platform-Duolingo%20Web-blue?style=for-the-badge&logo=duolingo" alt="Duolingo Web">
-  </a>
-  <a href="LICENSE">
-  <img src="https://img.shields.io/badge/License-BY--NC--ND%204.0-yellow?style=for-the-badge" alt="BY-NC-ND 4.0 License">
-</a>
+<p align="center">
+  Automation toolkit for Duolingo Web: XP, gems, streaks, quests and more.
 </p>
 
 <p align="center">
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/profile/01ce3a817dd01842581c3d18debcbc46.svg" width="20">
-  <strong>Unlimited XP</strong> &nbsp;•&nbsp;
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/gems/45c14e05be9c1af1d7d0b54c6eed7eee.svg" width="20">
-  <strong>Free Gems</strong> &nbsp;•&nbsp;
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/images/icons/398e4298a3b39ce566050e5c041949ef.svg" width="20">
-  <strong>Streak Protection</strong> &nbsp;•&nbsp;
-  <img src="https://d35aaqx5ub95lt.cloudfront.net/vendor/43ae4670b321ea3e5807b2a983864d18.svg" width="20">
-  <strong>Free Duolingo Max</strong>
+  <a href="https://greasyfork.org/en/scripts/561041-duolingo-duohacker"><img src="https://img.shields.io/badge/Install-GreasyFork-670000?style=for-the-badge&logo=greasyfork&logoColor=white" alt="Install from GreasyFork"></a>
+  <a href="https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js"><img src="https://img.shields.io/badge/Install-GitHub-181717?style=for-the-badge&logo=tampermonkey" alt="Install from GitHub"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/Version-2026.08.28-green?style=for-the-badge" alt="Version 2026.08.28"></a>
+  <a href="https://duohacker.io.vn/discord"><img src="https://img.shields.io/badge/Discord-Join-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey?style=for-the-badge" alt="License: CC BY-NC-ND 4.0"></a>
 </p>
 
-> **DuoHacker** is a Tampermonkey userscript that automates the repetitive parts of Duolingo — XP grinding, quest completion, streak maintenance, gem farming, and premium feature unlocks — so you can spend less time grinding and more time actually learning.
-
-| | |
-|---|---|
-| **Latest Version** | 2026.08.27 *(Working as of Augest 2026)* |
-| **Platform** | Duolingo Web |
-| **Requires** | Tampermonkey |
-| **Community** | [Discord](https://discord.gg/VjxjT47UFv) — support, news, and announcements |
-| **Tutorials** | [YouTube](https://www.youtube.com/@duohacker-hack-cheat) — setup guides and feature walkthroughs |
-
 ---
 
-## 🚀 Quick Start
+## Table of Contents
 
-1. Install **[Tampermonkey](https://www.tampermonkey.net/)** for your browser
-2. Click **[Install this Script](https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js)**
-3. Log in at **[duolingo.com](https://www.duolingo.com)**
-4. The DuoHacker panel loads automatically — select a mode and start
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [Other Ways to Install](#other-ways-to-install)
+- [Repository Structure](#repository-structure)
+- [Screenshots](#screenshots)
+- [Disclaimer](#disclaimer)
+- [Contributing](#contributing)
+- [Community & Support](#community--support)
+- [License](#license)
 
----
-
-## ✨ What it does
+## Features
 
 | Feature | Description |
 |---|---|
-| ⚡ **XP Farming** | Automated XP accumulation using multiple methods with smart rate-limit handling |
-| 💎 **Gem Farming** | Collect gems continuously and spend them freely in the item shop |
-| 🔥 **Streak Tools** | Restore lost days or extend your current streak automatically |
-| 👑 **Free Max** | Unlocks Duolingo Max on web without a subscription |
-| 📋 **Quest Automation** | Finishes daily, weekly, monthly, and friends quests in seconds |
-| 🛒 **Item Shop** | Claim streak freezes, XP boosts, hearts, and outfits at no cost |
-| 🏆 **League Auto** | Automatically farms enough XP to reach any target leaderboard position |
+| ⚡ **XP Farming** | Accumulates XP using several methods, with rate-limit handling |
+| 💎 **Gem Farming** | Collects gems to spend in the in-app shop |
+| 🔥 **Streak Tools** | Restores missed days or extends the current streak |
+| 👑 **Max Features** | Unlocks Duolingo Max features on the web client |
+| 📋 **Quest Automation** | Completes daily, weekly, monthly and friends quests |
+| 🛒 **Item Shop** | Claims streak freezes, XP boosts, hearts and outfits |
+| 🏆 **League Auto** | Farms the XP needed to reach a target leaderboard position |
 
----
+## Quick Start
 
-## 📁 Repository Structure
+1. Install the [Tampermonkey](https://www.tampermonkey.net/) browser extension.
+2. Install the script from [GreasyFork](https://greasyfork.org/en/scripts/561041-duolingo-duohacker) (recommended, auto-updates) or [directly from GitHub](https://github.com/DuoHacker/DuoHacker/raw/main/userscript/duohacker.user.js).
+3. Open [duolingo.com](https://www.duolingo.com) and sign in.
+4. The DuoHacker panel appears automatically. Pick a mode and start.
+
+## Other Ways to Install
+
+| Method | Platform | Guide |
+|---|---|---|
+| Userscript | Any desktop browser with Tampermonkey | [docs/installation.md](docs/installation.md#userscript) |
+| Browser extension | Chrome, Edge, Brave and other Chromium browsers | [extension/README.md](extension/README.md) |
+| Desktop app | Windows | [desktop/README.md](desktop/README.md) |
+| Mobile | Android (Kiwi / Yandex Browser) | [docs/installation.md](docs/installation.md#android) |
+
+Common questions are answered in the [FAQ](docs/faq.md).
+
+## Repository Structure
 
 ```
 .
 ├── userscript/            # Tampermonkey userscript (main product)
 │   ├── duohacker.user.js  #   current version (V2)
 │   └── legacy/            #   original V1 script
-├── extension/             # Chromium MV3 browser extension
+├── extension/             # Chromium Manifest V3 extension
 │   └── release/           #   packaged .zip build
 ├── desktop/               # Electron desktop app
 ├── tools/generator/       # Account generator (CLI + bots)
-├── images/                # Logos & screenshots (referenced by raw URLs — do not move)
-└── .github/               # Contributing guide & code of conduct
+├── docs/                  # Installation guide and FAQ
+├── images/                # Logos and screenshots (served via raw URLs, do not move)
+└── .github/               # Community health files, issue and PR templates
 ```
 
----
-
-## 📸 Screenshots
+## Screenshots
 
 <table>
   <tr>
     <td align="center"><strong>Item Shop</strong></td>
-    <td align="center"><strong>Free Duolingo Max</strong></td>
+    <td align="center"><strong>Duolingo Max</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="https://assets.twisk.fun/images/TN1_TypePNG.png" alt="Item Shop"></td>
-    <td align="center"><img src="https://assets.twisk.fun/images/TN4_TypePNG.png" alt="Free Duolingo Max"></td>
+    <td align="center"><img src="https://assets.twisk.fun/images/TN4_TypePNG.png" alt="Duolingo Max"></td>
   </tr>
   <tr>
     <td align="center"><strong>Auto League</strong></td>
@@ -106,44 +97,25 @@
   </tr>
 </table>
 
----
+## Disclaimer
 
-## ❓ FAQ
+DuoHacker is an unofficial project and is **not affiliated with, endorsed by, or sponsored by Duolingo, Inc.** "Duolingo" is a trademark of its respective owner.
 
-**Is it safe?**
-> Yes. The script uses human-like delays and adaptive rate limiting. Avoid running overnight or 24/7 — a few hours a day keeps risk minimal.
+Automating your account goes against Duolingo's Terms of Service. Duolingo can restrict, reset or ban accounts at any time. You use this software at your own risk; the maintainers accept no liability for any loss or damage. See [LICENSE](LICENSE).
 
-**Mobile support?**
-> Android works via Kiwi Browser or Yandex Browser with Tampermonkey installed. iOS is not supported.
+## Contributing
 
-**Is it free?**
-> Completely free with no paywalls.
+Contributions are welcome. Please read the [Contributing Guide](.github/CONTRIBUTING.md) and the [Code of Conduct](.github/CODE_OF_CONDUCT.md) before opening an issue or pull request. To report a security problem, follow the [Security Policy](.github/SECURITY.md) instead of opening a public issue.
 
-**Does Free Max work on the Duolingo app?**
-> No — it works on Duolingo web only by modifying API responses in the browser.
+## Community & Support
 
----
+- 💬 [Discord](https://duohacker.io.vn/discord): help, news and announcements
+- 📺 [YouTube](https://www.youtube.com/@duohacker-hack-cheat): setup guides and walkthroughs
+- ⭐ [GreasyFork](https://greasyfork.org/en/scripts/561041-duolingo-duohacker): install and leave a review
+- 🌐 [duohacker.io.vn](https://duohacker.io.vn): project website
 
-## 🤝 Community & Support
+See [SUPPORT.md](.github/SUPPORT.md) for where to ask what.
 
-<p align="center">
-  <a href="https://discord.gg/VjxjT47UFvS">
-    <img src="https://img.shields.io/badge/Discord-Join%20Community-7289DA?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
-  </a>
-  <a href="https://www.youtube.com/@duohacker-hack-cheat">
-    <img src="https://img.shields.io/badge/YouTube-Watch%20Guides-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
-  </a>
-  <a href="https://github.com/not2pixel/DuoHacker">
-    <img src="https://img.shields.io/badge/GitHub-View%20Source-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-  <a href="https://greasyfork.org/en/scripts/561041-duolingo-duohacker">
-    <img src="https://img.shields.io/badge/GreasyFork-Leave%20a%20Review-670000?style=for-the-badge&logo=greasyfork&logoColor=white" alt="GreasyFork">
-  </a>
-</p>
+## License
 
----
-
-<div align="center">
-  <p>Made with ❤️ by the DuoHacker team</p>
-  <p><em>This project is not affiliated with Duolingo, Inc.</em></p>
-</div>
+Licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](LICENSE) (CC BY-NC-ND 4.0).

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Ask a question on Discord
+    url: https://duohacker.io.vn/discord
+    about: Questions, setup help and general chat. Please do not open an issue for these.
+  - name: 🔒 Report a security problem
+    url: https://github.com/DuoHacker/DuoHacker/security/advisories/new
+    about: Report vulnerabilities privately, not in a public issue.
+  - name: 📖 Read the FAQ
+    url: https://github.com/DuoHacker/DuoHacker/blob/main/docs/faq.md
+    about: Answers to common problems.

@@ -1,74 +1,57 @@
 # Code of Conduct
 
-## Our Commitment
+## Our Pledge
 
-We are committed to providing a welcoming and inclusive environment for all contributors and community members, regardless of age, body size, disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We as members, contributors and maintainers pledge to make participation in the DuoHacker community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, caste, color, religion, or sexual identity and orientation.
 
-We believe in building a supportive community around DuoHacker where everyone feels respected and valued.
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive and healthy community.
 
 ## Our Standards
 
-Examples of behavior that contributes to creating a positive environment include:
+Examples of behavior that contributes to a positive environment:
 
-- **Being respectful** - Treat all members with courtesy and respect
-- **Being inclusive** - Welcome people of all backgrounds and experiences
-- **Being constructive** - Provide helpful feedback and suggestions
-- **Being collaborative** - Work together to solve problems and improve the project
-- **Being professional** - Keep discussions focused on the project and technical matters
-- **Helping others** - Share knowledge and help newcomers get started
-- **Assuming good intent** - Approach discussions charitably
+- Being respectful of differing opinions, viewpoints and experiences
+- Giving and gracefully accepting constructive feedback
+- Accepting responsibility for our mistakes, apologizing to those affected, and learning from them
+- Focusing on what is best for the community as a whole
+- Helping newcomers get started
 
-Examples of unacceptable behavior include:
+Examples of unacceptable behavior:
 
-- Harassment, bullying, or discrimination of any kind
-- Offensive comments related to protected characteristics
-- Personal attacks or insults
-- Unwelcome sexual attention or advances
-- Publishing others' private information (doxxing)
-- Spam or promotional content unrelated to the project
-- Attempting to manipulate or deceive other members
-- Other conduct which could reasonably be considered inappropriate in a professional setting
+- Sexualized language or imagery, and sexual attention or advances of any kind
+- Trolling, insulting or derogatory comments, and personal or political attacks
+- Public or private harassment
+- Publishing others' private information, such as a physical address, email address or account credentials, without their explicit permission
+- Spam, scams, or promotion unrelated to the project
+- Sharing or requesting other people's accounts, or using the project to target specific people
+- Other conduct that could reasonably be considered inappropriate in a community setting
 
-## Using DuoHacker Responsibly
+## Scope
 
-While DuoHacker is a fun automation tool, we ask that users:
+This Code of Conduct applies in all community spaces, including this repository (issues, pull requests, discussions), the DuoHacker Discord server, and any place where someone is officially representing the project.
 
-- **Respect Duolingo's Terms of Service** - Use the tool responsibly and ethically
-- **Don't abuse the platform** - Avoid actions that could harm Duolingo or its community
-- **Keep accounts safe** - Use generated accounts responsibly and legally
-- **Report abuse** - If you see someone using DuoHacker maliciously, let us know
+## Enforcement Responsibilities
 
-## Enforcement
+Maintainers are responsible for clarifying and enforcing these standards. They may remove, edit or reject comments, commits, code, issues and other contributions that do not align with this Code of Conduct, and will explain moderation decisions when appropriate.
 
-Project maintainers are responsible for enforcing this code of conduct. They have the right and responsibility to:
+## Reporting
 
-- Remove, edit, or reject comments, commits, code, and other contributions that violate this code
-- Temporarily or permanently ban contributors or community members who engage in inappropriate behavior
-- Take action against accounts used for harassment or abuse
+Report incidents to the maintainers privately:
 
-## Reporting Issues
+- **Discord:** send a direct message to a moderator on the [DuoHacker Discord](https://duohacker.io.vn/discord), or use the server's report channel.
+- **GitHub:** use [GitHub's report abuse feature](https://docs.github.com/en/communities/maintaining-your-safety-on-github/reporting-abuse-or-spam) on the offending content.
 
-If you witness or experience a violation of this code of conduct:
+Please include links, screenshots, usernames and the context of the incident. All reports are reviewed promptly and fairly, and the privacy of the reporter is respected.
 
-1. **Report to maintainers** - Email or DM project maintainer directly
-2. **Report on Discord** - Use #report channel if you're in our Discord community
-3. **Provide details** - Include specific incidents, usernames, and context
-4. **Confidentiality** - Your report will be handled with discretion and care
+## Enforcement Guidelines
 
-We take all reports seriously and will investigate appropriately.
+Maintainers follow these guidelines when deciding on consequences:
 
-## Community Discord
+1. **Correction:** for inappropriate language or other minor unprofessional behavior. A private written warning explaining the problem. A public apology may be requested.
+2. **Warning:** for a single serious incident or a series of minor ones. No interaction with the people involved for a set period. Repeating the behavior may lead to a temporary or permanent ban.
+3. **Temporary ban:** for a serious violation, including sustained inappropriate behavior. No interaction or public communication with the community for a set period.
+4. **Permanent ban:** for a pattern of violations, harassment of an individual, or aggression toward or disparagement of groups of people. Permanent removal from all community spaces.
 
-Join our community: **https://discord.gg/Gvmd7deFtS**
+## Attribution
 
-Same code of conduct applies in our Discord server. We expect all members to be respectful and constructive.
-
-## Questions?
-
-If you have questions about this code of conduct, feel free to ask in issues or join our Discord community.
-
----
-
-**By participating in this project and community, you agree to abide by this Code of Conduct.**
-
-Thank you for helping us build a positive and welcoming community around DuoHacker! ✨
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org), version 2.1, available at <https://www.contributor-covenant.org/version/2/1/code_of_conduct.html>.

@@ -1,0 +1,75 @@
+name: 🐛 Bug report
+description: Something is broken or not working as expected.
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please search [existing issues](https://github.com/DuoHacker/DuoHacker/issues) first.
+        **Never paste your password, JWT token or cookies here.**
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Userscript (V2)
+        - Userscript (V1, legacy)
+        - Browser extension
+        - Desktop app
+        - Account generator
+        - Documentation
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: DuoHacker version
+      description: Shown in the panel, or the `@version` line in Tampermonkey.
+      placeholder: "2026.08.28"
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser, OS and script manager
+      placeholder: "Chrome 140 on Windows 11, Tampermonkey 5.3"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open duolingo.com
+        2. Click ...
+        3. See error
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output
+      description: Open DevTools (F12) → Console and paste any errors. Remove tokens and personal data first.
+      render: text
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or other context
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I am using the latest version.
+          required: true
+        - label: I searched existing issues and this is not a duplicate.
+          required: true
+        - label: I removed any tokens, cookies or personal data from this report.
+          required: true
