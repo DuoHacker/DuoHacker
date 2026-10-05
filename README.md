@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/DuoHacker/DuoHacker/refs/heads/main/images/DuoHacker_Logo_NoBG_PNG.png" width="150" height="150" alt="DuoHacker logo">
+  <img src="images/DuoHacker_Logo_NoBG_PNG.png" width="150" height="150" alt="DuoHacker logo">
 </p>
 
 <h1 align="center">DuoHacker</h1>
@@ -84,16 +84,16 @@ Common questions are answered in the [FAQ](docs/faq.md).
     <td align="center"><strong>Duolingo Max</strong></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://assets.twisk.fun/images/TN1_TypePNG.png" alt="Item Shop"></td>
-    <td align="center"><img src="https://assets.twisk.fun/images/TN4_TypePNG.png" alt="Duolingo Max"></td>
+    <td align="center"><img src="images/TN1_TypePNG.png" alt="Item Shop"></td>
+    <td align="center"><img src="images/TN4_TypePNG.png" alt="Duolingo Max"></td>
   </tr>
   <tr>
     <td align="center"><strong>Auto League</strong></td>
     <td align="center"><strong>Auto Solver</strong></td>
   </tr>
   <tr>
-    <td align="center"><img src="https://assets.twisk.fun/images/TN2_TypePNG.png" alt="Auto League"></td>
-    <td align="center"><img src="https://assets.twisk.fun/images/TN3_TypePNG.png" alt="Auto Solver"></td>
+    <td align="center"><img src="images/TN2_TypePNG.png" alt="Auto League"></td>
+    <td align="center"><img src="images/TN3_TypePNG.png" alt="Auto Solver"></td>
   </tr>
 </table>
 
